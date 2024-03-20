@@ -14,11 +14,22 @@
                     primaryKey: true
                     nullable: false
               - column:
+                  name: applicant_id
+                  type: INT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_applicant_id
+                    references: users(id)
+              - column:
                   name: name
                   type: VARCHAR(45)
               - column:
                   name: category_id
                   type: INTEGER
+                  constraints:
+                    nullable: false
+                    foreignKeyName: for_key_category_id
+                    references: categories(id)
               - column:
                   name: salary
                   type: DECIMAL(10, 2)
