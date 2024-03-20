@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: add_avatar_column_to_moderators
+      author: Mari
+      changes:
+        - addColumn:
+            tableName: moderators
+            columns:
+              - column:
+                  name: avatar
+                  type: VARCHAR(255)

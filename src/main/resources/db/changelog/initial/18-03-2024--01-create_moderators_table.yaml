@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_table_for_moderators
+      author: Mari
+      changes:
+        - createTable:
+            tableName: moderators
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: email
+                  type: VARCHAR(100)
+                  constraints:
+                    unique: true
+              - column:
+                  name: password
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
