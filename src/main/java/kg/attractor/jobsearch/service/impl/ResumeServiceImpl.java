@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -38,6 +40,7 @@ public class ResumeServiceImpl implements ResumeService {
         try {
             Resume resume = resumeDao.getResumeById(id)
                     .orElseThrow(() -> new Exception("Can't find resume with id " + id));
+            log.info("found resume with id " + id);
             return ResumeDto.builder()
                     .applicantId(resume.getApplicantId())
                     .name(resume.getName())
@@ -51,5 +54,54 @@ public class ResumeServiceImpl implements ResumeService {
             log.error("Can't find resume with id " + id);
         }
         return null;
+    }
+
+    @Override
+    public ResumeDto getResumeByCategoryId(Integer categoryId) {
+        try {
+            Resume resume = resumeDao.getResumeByCategoryId(categoryId)
+                    .orElseThrow(() -> new Exception("Can't find resume with categoryId " + categoryId));
+            log.info("found resume with categoryId " + categoryId);
+            return ResumeDto.builder()
+                    .applicantId(resume.getApplicantId())
+                    .name(resume.getName())
+                    .categoryId(resume.getCategoryId())
+
+                    .salary(resume.getSalary())
+                    .isActive(resume.getIsActive())
+                    .createdDate(resume.getCreatedDate())
+                    .updateTime(resume.getUpdateTime())
+                    .build();
+        } catch (Exception e) {
+            log.error("Can't find resume with categoryId" + categoryId);
+        }
+        return null;
+    }
+
+    @Override
+    public void addResume(ResumeDto resumeDto) {
+        Resume resume = new Resume();
+        resume.setApplicantId(resumeDto.getApplicantId());
+        resume.setName(resumeDto.getName());
+        resume.setCategoryId(resumeDto.getCategoryId());
+        resume.setSalary(resumeDto.getSalary());
+        resume.setIsActive(resumeDto.getIsActive());
+        resume.setCreatedDate(resumeDto.getCreatedDate());
+        resume.setUpdateTime(resumeDto.getUpdateTime());
+
+        resumeDao.addResume(resume);
+        log.info("added resume " + resume.getName());
+    }
+
+    @Override
+    public boolean deleteResume(Integer id) {
+        Optional<Resume> resume = resumeDao.getResumeById(id);
+        if (resume.isPresent()) {
+            resumeDao.delete(id);
+            log.info("resume deleted: " + resume.get().getName());
+            return true;
+        }
+        log.info(String.format(" resume with id %d not found", id));
+        return false;
     }
 }

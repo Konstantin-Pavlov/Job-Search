@@ -8,4 +8,10 @@ public interface ResumeService {
     List<ResumeDto> getResumes();
 
     ResumeDto getResumeById(long id);
+
+    ResumeDto getResumeByCategoryId(Integer categoryId);
+
+    void addResume(ResumeDto resumeDto);
+
+    boolean deleteResume(Integer id);
 }

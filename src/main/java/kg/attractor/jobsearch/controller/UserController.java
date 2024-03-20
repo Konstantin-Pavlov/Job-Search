@@ -6,25 +6,23 @@ import kg.attractor.jobsearch.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("users")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("users")
+    @GetMapping
     public ResponseEntity<List<UserDto>> getUsers() {
         return ResponseEntity.ok(userService.getUsers());
     }
 
     //http://localhost:8089/users/name?name=John
-    @GetMapping("users/name")
+    @GetMapping("name")
     private ResponseEntity<?> getUserByName(
             @RequestParam(name = "name")
             String name) {
@@ -35,8 +33,9 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
- //   http://localhost:8089/users/phone?phone=1234567890
-    @GetMapping("users/phone")
+
+    //   http://localhost:8089/users/phone?phone=1234567890
+    @GetMapping("phone")
     private ResponseEntity<?> getUserByPhone(
             @RequestParam("phone")
             String phone) {
@@ -47,8 +46,9 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
-//http://localhost:8089/users/email?email=jane@example.com
-    @GetMapping("users/email")
+
+    //http://localhost:8089/users/email?email=jane@example.com
+    @GetMapping("email")
     private ResponseEntity<?> getUserByEmail(
             @RequestParam("email") String email) {
         try {
@@ -58,4 +58,12 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+
+    @PostMapping("add")
+    public HttpStatus add(@RequestBody UserDto userDto) {
+        userService.addUser(userDto);
+        return HttpStatus.OK;
+    }
+
+
 }

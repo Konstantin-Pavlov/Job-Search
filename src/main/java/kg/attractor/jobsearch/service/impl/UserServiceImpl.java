@@ -6,11 +6,13 @@ import kg.attractor.jobsearch.exception.UserNotFoundException;
 import kg.attractor.jobsearch.model.User;
 import kg.attractor.jobsearch.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -65,13 +67,43 @@ public class UserServiceImpl implements UserService {
         return UserDto.builder().
                 id(user.getId())
                 .name(user.getName())
-                .age(user.getAge())
-                .email(user.getEmail())
                 .password(user.getPassword())
-                .phoneNumber(user.getPhoneNumber())
-                .avatar(user.getAvatar())
-                .accountType(user.getAccountType())
                 .build();
+    }
+
+
+    @Override
+    public UserDto getUserById(int id) throws UserNotFoundException {
+        User user = userDao.getUserById(id).orElseThrow(
+                () -> new UserNotFoundException("Can't find user with ID: " + id)
+        );
+        return UserDto.builder().
+                id(user.getId())
+                .name(user.getName())
+                .password(user.getPassword())
+                .build();
+    }
+
+    @Override
+    public void addUser(UserDto userDto) {
+        User user = new User();
+//        User.setId(userDto.getId());
+        user.setName(userDto.getName());
+        user.setAge(userDto.getAge());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(userDto.getPassword());
+        user.setPhoneNumber(userDto.getPhoneNumber());
+        user.setAvatar(userDto.getAvatar());
+        user.setAccountType(userDto.getAccountType());
+
+        userDao.addUser(user);
+        if (user.getAccountType().equals("applicant")) {
+            log.info("added applicant with email " + user.getEmail());
+        } else {
+            log.info("added employer with email " + user.getEmail());
+        }
+
+
     }
 
 }
