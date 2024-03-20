@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: create_table_for_education_info
-      author: YourName
+      author: Mari
       changes:
         - createTable:
             tableName: education_info
