@@ -18,7 +18,7 @@ databaseChangeLog:
                   type: INT
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_applicant_id
+                    foreignKeyName: for_key_applicant_id
                     references: users(id)
               - column:
                   name: name
