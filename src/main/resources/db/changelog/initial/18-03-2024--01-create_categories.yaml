@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: create table for category
+      author: Mari
+      changes:
+        - createTable:
+            tableName: categories
+            columns:
+              - column:
+                  name: id
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: parentId
+                  type: INT

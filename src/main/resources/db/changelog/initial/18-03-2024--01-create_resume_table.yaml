@@ -1,0 +1,33 @@
+﻿databaseChangeLog:
+  - changeSet:
+      id: create table for resumes
+      author: Mari
+      changes:
+        - createTable:
+            tableName: resumes
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(45)
+              - column:
+                  name: category_id
+                  type: INTEGER
+              - column:
+                  name: salary
+                  type: DECIMAL(10, 2)
+              - column:
+                  name: isActive
+                  type: BOOLEAN
+              - column:
+                  name: createdDate
+                  type: DATE
+              - column:
+                  name: updateTime
+                  type: DATE

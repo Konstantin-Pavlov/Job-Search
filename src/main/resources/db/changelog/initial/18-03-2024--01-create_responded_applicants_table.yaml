@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_responded_applicants_table
+      author: Mari
+      changes:
+        - createTable:
+            tableName: responded_applicants
+            columns:
+              - column:
+                  name: id
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: resumeId
+                  type: INT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_resumeId
+                    references: resumes(id)
+              - column:
+                  name: vacancyId
+                  type: INT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_vacancy_id
+                    references: vacancies(id)
+              - column:
+                  name: confirmation
+                  type: BOOLEAN

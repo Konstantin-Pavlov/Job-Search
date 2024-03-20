@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - changeSet:
+      id: create table for contact type
+      author: Mari
+      changes:
+        - createTable:
+            tableName: contact_type
+            columns:
+              - column:
+                  name: id
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: type
+                  type: VARCHAR(255)

@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - changeSet:
+      id: create table for vacancies
+      author: Mari
+      changes:
+        - createTable:
+            tableName: vacancies
+            columns:
+              - column:
+                  name: id
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(45)
+              - column:
+                  name: description
+                  type: VARCHAR(250)
+              - column:
+                  name: category_id
+                  type: INT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_category_id
+                    references: categories(id)
+              - column:
+                  name: salary
+                  type: DOUBLE
+              - column:
+                  name: expFrom
+                  type: DATE
+              - column:
+                  name: expTo
+                  type: DATE
+              - column:
+                  name: is_active
+                  type: BOOLEAN
+              - column:
+                  name: author_id
+                  type: INT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_author_id
+                    references: users(id)
+              - column:
+                  name: created_date
+                  type: DATE
+              - column:
+                  name: update_time
+                  type: DATE
