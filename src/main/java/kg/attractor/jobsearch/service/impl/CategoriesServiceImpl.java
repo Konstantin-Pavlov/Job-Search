@@ -21,12 +21,15 @@ public class CategoriesServiceImpl implements CategoriesService {
     public List<CategoryDto> getCategories() {
         List<Category> categories = categoryDao.getCategories();
         List<CategoryDto> dtos = new ArrayList<>();
-        categories.forEach(category -> dtos.add(CategoryDto.builder()
-                .name(category.getName())
-                .parentId(category.getParentId())
+        categories.forEach(e -> dtos.add(CategoryDto.builder()
+                .name(e.getName())
+                .parentId(e.getParentId())
                 .build()
         ));
         return dtos;
     }
+
 }
+
+
 
