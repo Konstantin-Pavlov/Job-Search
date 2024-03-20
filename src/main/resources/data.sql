@@ -1,0 +1,57 @@
+-- CREATE TABLE IF NOT EXISTS users
+-- (
+--     id          INT AUTO_INCREMENT PRIMARY KEY,
+--     name        VARCHAR(45),
+--     age         INT,
+--     email       VARCHAR(45) UNIQUE,
+--     password    VARCHAR(45),
+--     phoneNumber VARCHAR(20),
+--     avatar      VARCHAR(45),
+--     accountType VARCHAR(45)
+-- );
+--
+-- INSERT INTO users (name, age, email, password, phoneNumber, avatar, accountType)
+-- VALUES ('John Doe', 35, 'john@example.com', 'employer_password', '1234567890', 'employer_avatar.jpg', 'employer');
+--
+-- INSERT INTO users (name, age, email, password, phoneNumber, avatar, accountType)
+-- VALUES ('Jane Smith', 28, 'jane@example.com', 'applicant_password', '9876543210', 'applicant_avatar.jpg', 'applicant');
+--
+--
+-- CREATE TABLE IF NOT EXISTS resumes
+-- (
+--     id          INT AUTO_INCREMENT PRIMARY KEY,
+--     name        VARCHAR(45),
+--     category_id int,
+--     salary      DECIMAL(10, 2),
+--     isActive    BOOLEAN,
+--     createdDate DATE,
+--     updateTime  DATE
+-- );
+--
+-- INSERT INTO resumes (name, category_id, salary, isActive, createdDate, updateTime)
+-- VALUES ('Software Engineer', 3, 80000.00, true, '2024-03-12', '2024-03-12'),
+--        ('Marketing Specialist', 4, 60000.00, true, '2024-03-12', '2024-03-12');
+--
+--
+--
+-- CREATE TABLE IF NOT EXISTS vacancies
+-- (
+--     id           INT PRIMARY KEY,
+--     name         VARCHAR(45),
+--     description  VARCHAR(250),
+--     category_id  INT,
+--     salary       DOUBLE,
+--     expFrom      DATE,
+--     expTo        DATE,
+--     is_active    BOOLEAN,
+--     author_id    INT,
+--     created_date DATE,
+--     update_time  DATE
+-- );
+--
+-- INSERT INTO vacancies(id, name, description, category_id, salary, expFrom, expTo, is_active, author_id, created_date, update_time)
+-- VALUES (1, 'Software Developer', 'Exciting opportunity for a skilled software developer', 3, 90000.00, '2024-03-12', '2024-03-12', true, 101, '2024-03-12', '2024-03-12'),
+--        (2, 'Marketing Manager', 'Seeking an experienced marketing professional to lead our team', 4, 100000.00, '2024-03-12', '2024-03-12', true, 102, '2024-03-12', '2024-03-12');
+--
+--
+--
