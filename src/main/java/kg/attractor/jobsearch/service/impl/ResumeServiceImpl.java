@@ -97,7 +97,7 @@ public class ResumeServiceImpl implements ResumeService {
         if (dtos.isEmpty()) {
             log.error("Can't find resumes with user id " + userId);
         } else {
-            log.error("found resumes with user id " + userId);
+            log.info("found resumes with user id " + userId);
         }
         return dtos;
     }
