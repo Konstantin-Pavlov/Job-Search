@@ -14,4 +14,6 @@ public interface ResumeService {
     void addResume(ResumeDto resumeDto);
 
     boolean deleteResume(Integer id);
+
+    List<ResumeDto> getResumeByUserId(Integer userId);
 }

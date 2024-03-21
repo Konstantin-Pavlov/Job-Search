@@ -46,6 +46,14 @@ public class ResumeDao {
         ));
     }
 
+    public List<Resume> getResumesByUserId(Integer userId) {
+        String sql = """
+                select * from RESUMES
+                where APPLICANT_ID = ?
+                """;
+        return template.query(sql, new BeanPropertyRowMapper<>(Resume.class), userId);
+    }
+
     public void addResume(Resume resume) {
         String sql = """
                 insert into RESUMES(APPLICANT_ID, NAME, CATEGORY_ID, SALARY, ISACTIVE, CREATEDDATE, UPDATETIME)
@@ -70,4 +78,5 @@ public class ResumeDao {
                 """;
         template.update(sql, id);
     }
+
 }

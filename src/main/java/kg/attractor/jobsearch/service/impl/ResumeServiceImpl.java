@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -79,6 +80,29 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
+    public List<ResumeDto> getResumeByUserId(Integer userId) {
+        List<Resume> resumes = resumeDao.getResumesByUserId(userId);
+        List<ResumeDto> dtos = resumes.stream()
+                .map(e -> ResumeDto.builder()
+                        .applicantId(e.getApplicantId())
+                        .name(e.getName())
+                        .categoryId(e.getCategoryId())
+                        .salary(e.getSalary())
+                        .isActive(e.getIsActive())
+                        .createdDate(e.getCreatedDate())
+                        .updateTime(e.getUpdateTime())
+                        .build())
+                .collect(Collectors.toList());
+
+        if (dtos.isEmpty()) {
+            log.error("Can't find resumes with user id " + userId);
+        } else {
+            log.error("found resumes with user id " + userId);
+        }
+        return dtos;
+    }
+
+    @Override
     public void addResume(ResumeDto resumeDto) {
         Resume resume = new Resume();
         resume.setApplicantId(resumeDto.getApplicantId());
@@ -93,6 +117,7 @@ public class ResumeServiceImpl implements ResumeService {
         log.info("added resume " + resume.getName());
     }
 
+
     @Override
     public boolean deleteResume(Integer id) {
         Optional<Resume> resume = resumeDao.getResumeById(id);
@@ -104,4 +129,5 @@ public class ResumeServiceImpl implements ResumeService {
         log.info(String.format(" resume with id %d not found", id));
         return false;
     }
+
 }
