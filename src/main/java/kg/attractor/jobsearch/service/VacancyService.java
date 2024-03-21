@@ -12,4 +12,6 @@ public interface VacancyService {
     void addVacancy(VacancyDto vacancyDto);
 
     boolean deleteVacancy(Integer id);
+
+    List<VacancyDto> getVacanciesUserResponded(Integer userId);
 }

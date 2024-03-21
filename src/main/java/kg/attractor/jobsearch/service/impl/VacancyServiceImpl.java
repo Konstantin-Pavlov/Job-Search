@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -89,6 +90,32 @@ public class VacancyServiceImpl implements VacancyService {
         }
         log.info(String.format(" vacancy with id %d not found", id));
         return false;
+    }
+
+    @Override
+    public List<VacancyDto> getVacanciesUserResponded(Integer userId) {
+        List<Vacancy> vacancies = vacancyDao.getVacanciesUserResponded(userId);
+        List<VacancyDto> dtos = vacancies.stream()
+                .map(vacancy -> VacancyDto.builder()
+                        .name(vacancy.getName())
+                        .description(vacancy.getDescription())
+                        .categoryId(vacancy.getCategoryId())
+                        .salary(vacancy.getSalary())
+                        .expFrom(vacancy.getExpFrom())
+                        .expTo(vacancy.getExpTo())
+                        .isActive(vacancy.getIsActive())
+                        .authorId(vacancy.getAuthorId())
+                        .createdDate(vacancy.getCreatedDate())
+                        .updateTime(vacancy.getUpdateTime())
+                        .build())
+                .collect(Collectors.toList());
+
+        if (dtos.isEmpty()) {
+            log.error("Can't find vacancies with user id " + userId);
+        } else {
+            log.info("found vacancies with user id " + userId);
+        }
+        return dtos;
     }
 
 }
