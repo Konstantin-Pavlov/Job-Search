@@ -1,7 +1,6 @@
 package kg.attractor.jobsearch.dao;
 
 
-import kg.attractor.jobsearch.model.Resume;
 import kg.attractor.jobsearch.model.Vacancy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.support.DataAccessUtils;
@@ -67,25 +66,25 @@ public class VacancyDao {
 
     public List<Vacancy> getVacanciesUserResponded(Integer userId) {
         String sql = """
-                SELECT   v.id,
-                         v.NAME,
-//                         v.NAME AS position,
-//                         u.name AS applicant_name,
-                         v.description,
-                         v.category_id,
-                         v.salary,
-                         v.expFrom,
-                         v.expTo,
-                         v.is_active,
-                         v.author_id,
-                         v.created_date,
-                         v.update_time
-                FROM responded_applicants ra
-                           JOIN vacancies v ON ra.vacancyId = v.id
-                           JOIN resumes r ON ra.resumeId = r.id
-                           JOIN users u ON r.applicant_id = u.id
-                WHERE u.id = ?
-                                """;
+                                SELECT   v.id,
+                                         v.NAME,
+                //                         v.NAME AS position,
+                //                         u.name AS applicant_name,
+                                         v.description,
+                                         v.category_id,
+                                         v.salary,
+                                         v.expFrom,
+                                         v.expTo,
+                                         v.is_active,
+                                         v.author_id,
+                                         v.created_date,
+                                         v.update_time
+                                FROM responded_applicants ra
+                                           JOIN vacancies v ON ra.vacancyId = v.id
+                                           JOIN resumes r ON ra.resumeId = r.id
+                                           JOIN users u ON r.applicant_id = u.id
+                                WHERE u.id = ?
+                                                """;
 
         return template.query(sql, new BeanPropertyRowMapper<>(Vacancy.class), userId);
     }

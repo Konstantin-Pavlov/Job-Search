@@ -1,6 +1,5 @@
 package kg.attractor.jobsearch.controller;
 
-import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.VacancyDto;
 import kg.attractor.jobsearch.service.VacancyService;
 import lombok.RequiredArgsConstructor;
@@ -30,9 +29,10 @@ public class VacancyController {
         }
         return ResponseEntity.ok(vacancy);
     }
+
     // http://localhost:8089/vacancies/get-user-vacancies/2
     @GetMapping("get-user-vacancies/{user_id}")
-    public ResponseEntity<?> getVacanciesUserResponded(@PathVariable Integer user_id){
+    public ResponseEntity<?> getVacanciesUserResponded(@PathVariable Integer user_id) {
         List<VacancyDto> vacancies = vacancyService.getVacanciesUserResponded(user_id);
         if (vacancies.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
