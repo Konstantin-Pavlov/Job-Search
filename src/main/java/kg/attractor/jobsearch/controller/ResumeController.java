@@ -43,6 +43,17 @@ public class ResumeController {
         return ResponseEntity.ok(resume);
     }
 
+    //    http://localhost:8089/resumes/search-by-user/2
+    @GetMapping("search-by-user/{user_id}")
+    public ResponseEntity<?> getResumeByUserId(@PathVariable Integer user_id) {
+        List<ResumeDto> resumes = resumeService.getResumeByUserId(user_id);
+        if (resumes.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("resumes with user_id %d not found", user_id));
+        }
+        return ResponseEntity.ok(resumes);
+    }
+
     @PostMapping("add")
     public HttpStatus add(@RequestBody ResumeDto resumeDto) {
         resumeService.addResume(resumeDto);
