@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_table_for_work_experience_info
+      author: Mari
+      changes:
+        - createTable:
+            tableName: work_experience_info
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: resumeId
+                  type: INT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: for_key_resume_id
+                    references: resumes(id)
+              - column:
+                  name: years
+                  type: INT
+              - column:
+                  name: company_name
+                  type: VARCHAR(255)
+              - column:
+                  name: position
+                  type: VARCHAR(255)
+              - column:
+                  name: responsibilities
+                  type: VARCHAR(255)
