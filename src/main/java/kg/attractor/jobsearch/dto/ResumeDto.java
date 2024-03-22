@@ -27,7 +27,7 @@ public class ResumeDto {
     Integer categoryId;
     @Positive
     double salary;
-    @Pattern(regexp = "^(true|false)$", message = "should only contain \"true\" or \"false\"")
+//    @Pattern(regexp = "^(true|false)$", message = "should only contain \"true\" or \"false\"")
     Boolean isActive;
     LocalDateTime createdDate;
     LocalDateTime updateTime;

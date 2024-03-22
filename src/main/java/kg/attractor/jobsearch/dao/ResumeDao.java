@@ -67,8 +67,6 @@ public class ResumeDao {
                 .addValue("isActive", resume.getIsActive())
                 .addValue("createdDate", resume.getCreatedDate())
                 .addValue("updateTime", resume.getUpdateTime()));
-
-
     }
 
     public void delete(Integer id) {

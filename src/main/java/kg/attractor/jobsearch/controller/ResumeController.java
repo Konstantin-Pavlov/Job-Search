@@ -1,5 +1,6 @@
 package kg.attractor.jobsearch.controller;
 
+import jakarta.validation.Valid;
 import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.service.ResumeService;
 import lombok.RequiredArgsConstructor;
@@ -55,9 +56,9 @@ public class ResumeController {
     }
 
     @PostMapping("add")
-    public HttpStatus add(@RequestBody ResumeDto resumeDto) {
+    public ResponseEntity<?> add(@Valid @RequestBody ResumeDto resumeDto) {
         resumeService.addResume(resumeDto);
-        return HttpStatus.OK;
+        return ResponseEntity.ok("resume is valid");
     }
 
     @DeleteMapping("{id}")
