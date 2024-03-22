@@ -1,9 +1,15 @@
 package kg.attractor.jobsearch.dto;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
 
@@ -11,12 +17,18 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE) // all fields are private
 public class ResumeDto {
-    private Integer applicantId;
-    private String name;
-    private Integer categoryId;
-    private double salary;
-    private Boolean isActive;
-    private LocalDateTime createdDate;
-    private LocalDateTime updateTime;
+    @Min(1)
+    Integer applicantId;
+    @NotBlank
+    String name;
+    @Min(1)
+    Integer categoryId;
+    @Positive
+    double salary;
+    @Pattern(regexp = "^(true|false)$", message = "should only contain \"true\" or \"false\"")
+    Boolean isActive;
+    LocalDateTime createdDate;
+    LocalDateTime updateTime;
 }
