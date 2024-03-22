@@ -2,7 +2,6 @@ package kg.attractor.jobsearch.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -27,7 +26,6 @@ public class ResumeDto {
     Integer categoryId;
     @Positive
     double salary;
-//    @Pattern(regexp = "^(true|false)$", message = "should only contain \"true\" or \"false\"")
     Boolean isActive;
     LocalDateTime createdDate;
     LocalDateTime updateTime;
