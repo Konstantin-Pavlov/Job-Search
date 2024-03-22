@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Slf4j
@@ -74,14 +75,23 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public UserDto getUserById(int id) throws UserNotFoundException {
+    public UserDto getUserById(long id) {//throws UserNotFoundException {
         User user = userDao.getUserById(id).orElseThrow(
-                () -> new UserNotFoundException("Can't find user with ID: " + id)
+                () -> {
+                    log.error("Can't find user with ID: " + id);
+                    return new NoSuchElementException("Can't find user with ID: " + id);
+                }
         );
+        log.info("User found with ID: " + id);
         return UserDto.builder().
                 id(user.getId())
                 .name(user.getName())
+                .age(user.getAge())
+                .email(user.getEmail())
                 .password(user.getPassword())
+                .phoneNumber(user.getPhoneNumber())
+                .avatar(user.getAvatar())
+                .accountType(user.getAccountType())
                 .build();
     }
 

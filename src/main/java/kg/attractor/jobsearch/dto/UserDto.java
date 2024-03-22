@@ -23,18 +23,22 @@ import lombok.experimental.FieldDefaults;
 public class UserDto {
     private Integer id;
     @NotBlank
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "should only contain letters")
+    @Pattern(regexp = "^(?=.*[a-zA-Z])[a-zA-Z]+(?: [a-zA-Z]+)?$", message = "should only contain letters")
     private String name;
     @Positive
-    @Min(18)
-    @Max(70)
+    @Min(value = 18, message = "Age must be at least {value}")
+    @Max(value = 70, message = "Age must be at most {value}")
     private Integer age;
     @NotBlank
     @Email
     private String email;
     @NotBlank
     @Size(min = 4, max = 24, message = "Length must be >= 4 and <= 24")
-    @Pattern(regexp = "^(?=.\\d)(?=.[a-z])(?=.[A-Z])(?=.[a-zA-Z]).+$", message = "Should contain at least one uppercase letter, one number")
+
+//    @Pattern(regexp = "^(?=.\\d)(?=.[a-z])(?=.[A-Z])(?=.[a-zA-Z]).+$", message = "Should contain at least one uppercase letter, one number")
+    @NotBlank(message = "Password must not be blank")
+    @Size(min = 8, max = 20, message = "Password length must be between {min} and {max} characters")
+    @NotBlank
     private String password;
     @Pattern(regexp = "^\\+996\\d{7}$", message = "phone number is invalid")
     private String phoneNumber;
