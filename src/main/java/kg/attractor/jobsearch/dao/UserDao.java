@@ -57,7 +57,7 @@ public class UserDao {
     }
 
 
-    public Optional<User> getUserById(int id) {
+    public Optional<User> getUserById(long id) {
         String sql = """
                 select * from users
                 where id = ?;
@@ -81,6 +81,13 @@ public class UserDao {
                 .addValue("phoneNumber", user.getPhoneNumber())
                 .addValue("avatar", user.getAvatar())
                 .addValue("accountType", user.getAccountType()));
+    }
 
+    public void delete(Long id) {
+        String sql = """
+                delete from USERS
+                where ID=?
+                """;
+        template.update(sql, id);
     }
 }

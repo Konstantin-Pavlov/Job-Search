@@ -17,5 +17,7 @@ public interface UserService {
     UserDto getUserById(int id) throws UserNotFoundException;
 
     void addUser(UserDto userDto);
+
+    boolean deleteUser(Long id);
 }
 

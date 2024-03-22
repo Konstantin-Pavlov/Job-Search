@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -102,8 +103,18 @@ public class UserServiceImpl implements UserService {
         } else {
             log.info("added employer with email " + user.getEmail());
         }
+    }
 
-
+    @Override
+    public boolean deleteUser(Long id) {
+        Optional<User> user = userDao.getUserById(id);
+        if (user.isPresent()) {
+            userDao.delete(id);
+            log.info("user deleted: " + user.get().getName());
+            return true;
+        }
+        log.info(String.format("user with id %d not found", id));
+        return false;
     }
 
 }

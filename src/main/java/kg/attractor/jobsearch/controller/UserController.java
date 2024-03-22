@@ -1,5 +1,6 @@
 package kg.attractor.jobsearch.controller;
 
+import jakarta.validation.Valid;
 import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.exception.UserNotFoundException;
 import kg.attractor.jobsearch.service.UserService;
@@ -60,10 +61,17 @@ public class UserController {
     }
 
     @PostMapping("add")
-    public HttpStatus add(@RequestBody UserDto userDto) {
+    public HttpStatus add(@RequestBody @Valid UserDto userDto) {
         userService.addUser(userDto);
         return HttpStatus.OK;
     }
 
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteMovie(@PathVariable Long id) {
+        if (userService.deleteUser(id)) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
 
 }
