@@ -1,5 +1,6 @@
 package kg.attractor.jobsearch.controller;
 
+import jakarta.validation.Valid;
 import kg.attractor.jobsearch.dto.VacancyDto;
 import kg.attractor.jobsearch.service.VacancyService;
 import lombok.RequiredArgsConstructor;
@@ -43,9 +44,9 @@ public class VacancyController {
 
     //    http://localhost:8089/vacancies/add
     @PostMapping("add")
-    public HttpStatus add(@RequestBody VacancyDto vacancyDto) {
+    public ResponseEntity<?> add(@Valid @RequestBody VacancyDto vacancyDto) {
         vacancyService.addVacancy(vacancyDto);
-        return HttpStatus.OK;
+        return ResponseEntity.ok("vacancy is valid");
     }
 
     @DeleteMapping("{id}")
