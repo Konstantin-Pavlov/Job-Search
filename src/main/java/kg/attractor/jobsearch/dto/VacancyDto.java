@@ -23,13 +23,12 @@ public class VacancyDto {
     String name;
     @NotBlank
     String description;
-    @Min(1)
+    @Min(value = 1, message = "categoryId must be at least 1")
     Integer categoryId;
     @Positive
     Integer salary;
     LocalDateTime expFrom;
     LocalDateTime expTo;
-    @Pattern(regexp = "^(true|false)$", message = "should only contain \"true\" or \"false\"")
     Boolean isActive;
     @Min(1)
     Integer authorId;
