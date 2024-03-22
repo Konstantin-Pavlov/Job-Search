@@ -22,7 +22,7 @@ public class ResumeDto {
     Integer applicantId;
     @NotBlank
     String name;
-    @Min(1)
+    @Min(value = 1, message = "categoryId must be at least 1")
     Integer categoryId;
     @Positive
     double salary;
