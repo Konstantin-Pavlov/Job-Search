@@ -39,6 +39,17 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserById(id));
     }
 
+    // http://localhost:8089/users/get-users-by-vacancy/2
+    @GetMapping("get-users-by-vacancy/{vacancy_id}")
+    public ResponseEntity<?> getUsersRespondedToVacancy(@PathVariable Integer vacancy_id) {
+        List<UserDto> users = userService.getUsersRespondedToVacancy(vacancy_id);
+        if (users.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("users with vacancy id %d not found", vacancy_id));
+        }
+        return ResponseEntity.ok(users);
+    }
+
     //http://localhost:8089/users/name?name=John
     @GetMapping("name")
     private ResponseEntity<?> getUserByName(

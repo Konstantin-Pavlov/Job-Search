@@ -90,4 +90,15 @@ public class UserDao {
                 """;
         template.update(sql, id);
     }
+
+    public List<User> getUsersRespondedToVacancy(Integer vacancyId) {
+        String sql = """
+                 SELECT u.*
+                 FROM users u
+                          INNER JOIN responded_applicants ra ON u.id = ra.resumeId
+                 WHERE ra.vacancyId = ?;
+                """;
+        return template.query(sql, new BeanPropertyRowMapper<>(User.class), vacancyId);
+
+    }
 }

@@ -19,5 +19,7 @@ public interface UserService {
     void addUser(UserDto userDto);
 
     boolean deleteUser(Long id);
+
+    List<UserDto> getUsersRespondedToVacancy(Integer vacancyId);
 }
 

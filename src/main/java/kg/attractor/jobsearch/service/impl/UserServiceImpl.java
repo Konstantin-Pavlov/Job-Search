@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -125,6 +126,29 @@ public class UserServiceImpl implements UserService {
         }
         log.info(String.format("user with id %d not found", id));
         return false;
+    }
+
+    @Override
+    public List<UserDto> getUsersRespondedToVacancy(Integer vacancyId) {
+        List<User> users = userDao.getUsersRespondedToVacancy(vacancyId);
+        List<UserDto> dtos = users.stream()
+                .map(user -> UserDto.builder()
+                        .id(user.getId())
+                        .name(user.getName())
+                        .age(user.getAge())
+                        .email(user.getEmail())
+                        .password(user.getPassword())
+                        .phoneNumber(user.getPhoneNumber())
+                        .avatar(user.getAvatar())
+                        .accountType(user.getAccountType())
+                        .build())
+                .collect(Collectors.toList());
+        if (dtos.isEmpty()) {
+            log.error("Can't find users with vacancy id " + vacancyId);
+        } else {
+            log.info("found users with vacancy id " + vacancyId);
+        }
+        return dtos;
     }
 
 }
