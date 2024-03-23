@@ -48,6 +48,17 @@ public class VacancyController {
         return ResponseEntity.ok(vacancies);
     }
 
+    // http://localhost:8089/vacancies/get-vacancies-by-category/1
+    @GetMapping("get-vacancies-by-category/{category_id}")
+    public ResponseEntity<?> getVacanciesByCategoryId(@PathVariable Integer category_id) {
+        List<VacancyDto> vacancies = vacancyService.getVacanciesByCategoryId(category_id);
+        if (vacancies.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("vacancies with category id %d not found", category_id));
+        }
+        return ResponseEntity.ok(vacancies);
+    }
+
     //    http://localhost:8089/vacancies/add
     @PostMapping("add")
     public ResponseEntity<?> add(@Valid @RequestBody VacancyDto vacancyDto) {

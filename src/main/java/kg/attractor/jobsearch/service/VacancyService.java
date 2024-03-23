@@ -14,4 +14,6 @@ public interface VacancyService {
     boolean deleteVacancy(Integer id);
 
     List<VacancyDto> getVacanciesUserResponded(Integer userId);
+
+    List<VacancyDto> getVacanciesByCategoryId(Integer categoryId);
 }

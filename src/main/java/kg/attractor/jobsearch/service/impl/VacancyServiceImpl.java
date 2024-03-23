@@ -118,5 +118,31 @@ public class VacancyServiceImpl implements VacancyService {
         return dtos;
     }
 
+    @Override
+    public List<VacancyDto> getVacanciesByCategoryId(Integer categoryId) {
+        List<Vacancy> vacancies = vacancyDao.getVacanciesByCategoryId(categoryId);
+        List<VacancyDto> dtos = vacancies.stream()
+                .map(vacancy -> VacancyDto.builder()
+                        .name(vacancy.getName())
+                        .description(vacancy.getDescription())
+                        .categoryId(vacancy.getCategoryId())
+                        .salary(vacancy.getSalary())
+                        .expFrom(vacancy.getExpFrom())
+                        .expTo(vacancy.getExpTo())
+                        .isActive(vacancy.getIsActive())
+                        .authorId(vacancy.getAuthorId())
+                        .createdDate(vacancy.getCreatedDate())
+                        .updateTime(vacancy.getUpdateTime())
+                        .build())
+                .collect(Collectors.toList());
+
+        if (dtos.isEmpty()) {
+            log.error("Can't find vacancies with category id " + categoryId);
+        } else {
+            log.info("found vacancies with category id " + categoryId);
+        }
+        return dtos;
+    }
+
 }
 

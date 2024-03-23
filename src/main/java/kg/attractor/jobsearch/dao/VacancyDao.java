@@ -1,6 +1,7 @@
 package kg.attractor.jobsearch.dao;
 
 
+import kg.attractor.jobsearch.model.Category;
 import kg.attractor.jobsearch.model.Vacancy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.support.DataAccessUtils;
@@ -87,5 +88,14 @@ public class VacancyDao {
                                                 """;
 
         return template.query(sql, new BeanPropertyRowMapper<>(Vacancy.class), userId);
+    }
+
+    public List<Vacancy> getVacanciesByCategoryId(Integer categoryId) {
+        String sql = """
+                SELECT * FROM VACANCIES
+                WHERE CATEGORY_ID = ?;
+                """;
+
+        return template.query(sql, new BeanPropertyRowMapper<>(Vacancy.class), categoryId);
     }
 }
