@@ -8,26 +8,25 @@ databaseChangeLog:
   - include:
       file: /db/changelog/initial/18-03-2024--01-create_categories.yaml
   - include:
+      file: /db/changelog/initial/18-03-2024--01-create_contact_type_table.yaml
+  - include:
       file: /db/changelog/initial/18-03-2024--01-create_resume_table.yaml
+  - include:
+      file: /db/changelog/initial/18-03-2024--02-create_contact_info_table.yaml
   - include:
       file: /db/changelog/initial/18-03-2024--01-create_vacancies_table.yaml
   - include:
       file: /db/changelog/initial/18-03-2024--01-create_responded_applicants_table.yaml
   - include:
-      file: /db/changelog/initial/18-03-2024--01-create_contact_type_table.yaml
-  - include:
-      file: /db/changelog/initial/18-03-2024--01-create_contact_info_table.yaml
+      file: /db/changelog/initial/18-03-2024--01-create_message_table.yaml
   - include:
       file: /db/changelog/initial/18-03-2024--02-create_education_info_table.yaml
   - include:
-      file: /db/changelog/initial/18-03-2024--01-create_message_table.yaml
-  - include:
       file: /db/changelog/initial/18-03-2024--03-create_work_experience_info_table.yaml
-
-  - include:
-      file: /db/changelog/initial/18-03-2024--01-create_moderators_table.yaml
-  - include:
-      file: /db/changelog/initial/18-03-2024--01-update_moderators_table.yaml
+#  - include:
+#      file: /db/changelog/initial/18-03-2024--01-create_moderators_table.yaml
+#  - include:
+#      file: /db/changelog/initial/18-03-2024--01-update_moderators_table.yaml
 
 #  - includeAll:
 #      path: /db/changelog/initial/data/
@@ -35,26 +34,26 @@ databaseChangeLog:
   - include:
       file: /db/changelog/initial/data/18-03-2024--02-insert_users.sql
   - include:
-      file: /db/changelog/initial/data/18-03-2024--01-insert_contact_type.sql
-  - include:
       file: /db/changelog/initial/data/18-03-2024--01-insert_categories.sql
+  - include:
+      file: /db/changelog/initial/data/18-03-2024--01-insert_contact_type.sql
   - include:
       file: /db/changelog/initial/data/18-03-2024--01-insert_resumes.sql
   - include:
-      file: /db/changelog/initial/data/18-03-2024--02-insert_vacancies.sql
+      file: /db/changelog/initial/data/18-03-2024--01-insert_contact_info.sql
   - include:
-      file: /db/changelog/initial/data/18-03-2024--02-insert_work_experience_info.sql
+      file: /db/changelog/initial/data/18-03-2024--02-insert_vacancies.sql
   - include:
       file: /db/changelog/initial/data/18-03-2024--01-insert_responded_applicants.sql
   - include:
+      file: /db/changelog/initial/data/18-03-2024--01-insert_messages.sql
+  - include:
       file: /db/changelog/initial/data/18-03-2024--01-insert_education_info.sql
   - include:
-      file: /db/changelog/initial/data/18-03-2024--01-insert_contact_info.sql
-  - include:
-      file: /db/changelog/initial/data/18-03-2024--01-insert_messages.sql
-
-  - include:
-      file: /db/changelog/initial/data/18-03-2024--01-insert_moderators.sql
+      file: /db/changelog/initial/data/18-03-2024--02-insert_work_experience_info.sql
+#
+#  - include:
+#      file: /db/changelog/initial/data/18-03-2024--01-insert_moderators.sql
 
 #  - include:
 #      file: /db/changelog/initial/data/18-03-2024--01-update_resume_table.yaml
