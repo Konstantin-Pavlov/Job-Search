@@ -2,6 +2,11 @@ databaseChangeLog:
   - changeSet:
       id: create table for contact type
       author: Mari
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: contact_type
       changes:
         - createTable:
             tableName: contact_type

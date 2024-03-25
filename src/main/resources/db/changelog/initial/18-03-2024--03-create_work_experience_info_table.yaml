@@ -2,6 +2,11 @@ databaseChangeLog:
   - changeSet:
       id: create_table_for_work_experience_info
       author: Mari
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: work_experience_info
       changes:
         - createTable:
             tableName: work_experience_info
@@ -14,12 +19,10 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: resumeId
+                  name: resume_id
                   type: INT
                   constraints:
                     nullable: false
-                    foreignKeyName: for_key_resume_id
-                    references: resumes(id)
               - column:
                   name: years
                   type: INT
@@ -32,3 +35,10 @@ databaseChangeLog:
               - column:
                   name: responsibilities
                   type: VARCHAR(255)
+        - addForeignKeyConstraint:
+            baseTableName: work_experience_info
+            baseColumnNames: resume_id
+            constraintName: foreign_key_resume_id
+            referencedTableName: resumes
+            referencedColumnNames: id
+            onDelete: CASCADE

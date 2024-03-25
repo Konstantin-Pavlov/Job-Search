@@ -2,6 +2,11 @@ databaseChangeLog:
   - changeSet:
       id: create table for users
       author: Mari
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: users
       changes:
         - createTable:
             tableName: users
@@ -28,12 +33,12 @@ databaseChangeLog:
                   name: password
                   type: VARCHAR(45)
               - column:
-                  name: phoneNumber
+                  name: phone_number
                   type: VARCHAR(20)
               - column:
                   name: avatar
                   type: VARCHAR(45)
               - column:
-                  name: accountType
+                  name: account_type
                   type: VARCHAR(45)
 

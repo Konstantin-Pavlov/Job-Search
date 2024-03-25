@@ -1,15 +1,15 @@
 databaseChangeLog:
   - changeSet:
-      id: create_responded_applicants_table
+      id: create table for contact info
       author: Mari
       preConditions:
         - onFail: MARK_RAN
           not:
             tableExists:
-              tableName: responded_applicants
+              tableName: contact_info
       changes:
         - createTable:
-            tableName: responded_applicants
+            tableName: contact_info
             columns:
               - column:
                   name: id
@@ -19,29 +19,29 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: type_id
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
                   name: resume_id
                   type: INT
                   constraints:
                     nullable: false
               - column:
-                  name: vacancy_id
-                  type: INT
-                  constraints:
-                    nullable: false
-              - column:
-                  name: confirmation
-                  type: BOOLEAN
+                  name: content
+                  type: VARCHAR(255)
         - addForeignKeyConstraint:
-            baseTableName: responded_applicants
-            baseColumnNames: resume_id
-            constraintName: for_key_resume_id
-            referencedTableName: resumes
+            baseTableName: contact_info
+            baseColumnNames: type_id
+            constraintName: fk_type_id
+            referencedTableName: contact_type
             referencedColumnNames: id
             onDelete: CASCADE
         - addForeignKeyConstraint:
-            baseTableName: responded_applicants
-            baseColumnNames: vacancy_id
-            constraintName: fk_vacancy_id
-            referencedTableName: vacancies
+            baseTableName: contact_info
+            baseColumnNames: resume_id
+            constraintName: fk_resume_id
+            referencedTableName: resumes
             referencedColumnNames: id
             onDelete: CASCADE

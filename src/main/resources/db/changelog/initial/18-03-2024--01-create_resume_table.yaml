@@ -2,6 +2,11 @@
   - changeSet:
       id: create table for resumes
       author: Mari
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: resumes
       changes:
         - createTable:
             tableName: resumes
@@ -18,8 +23,6 @@
                   type: INT
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_applicant_id
-                    references: users(id)
               - column:
                   name: name
                   type: VARCHAR(45)
@@ -28,17 +31,30 @@
                   type: INTEGER
                   constraints:
                     nullable: false
-                    foreignKeyName: for_key_category_id
-                    references: categories(id)
               - column:
                   name: salary
                   type: DECIMAL(10, 2)
               - column:
-                  name: isActive
+                  name: is_active
                   type: BOOLEAN
               - column:
-                  name: createdDate
+                  name: created_date
                   type: DATE
               - column:
-                  name: updateTime
+                  name: update_time
                   type: DATE
+        - addForeignKeyConstraint:
+            baseTableName: resumes
+            baseColumnNames: applicant_id
+            constraintName: fk_applicant_id
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: CASCADE
+        - addForeignKeyConstraint:
+            baseTableName: resumes
+            baseColumnNames: category_id
+            constraintName: fk_category_id
+            referencedTableName: categories
+            referencedColumnNames: id
+            onDelete: CASCADE
+

@@ -2,6 +2,11 @@ databaseChangeLog:
   - changeSet:
       id: create_table_for_education_info
       author: Mari
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: education_info
       changes:
         - createTable:
             tableName: education_info
@@ -18,8 +23,6 @@ databaseChangeLog:
                   type: INT
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_resume_id
-                    referencedColumnNames: resumes(id)
               - column:
                   name: institution
                   type: VARCHAR(255)
@@ -35,3 +38,10 @@ databaseChangeLog:
               - column:
                   name: degree
                   type: VARCHAR(255)
+        - addForeignKeyConstraint:
+            baseTableName: education_info
+            baseColumnNames: resume_id
+            constraintName: f_key_resume_id
+            referencedTableName: resumes
+            referencedColumnNames: id
+            onDelete: CASCADE
