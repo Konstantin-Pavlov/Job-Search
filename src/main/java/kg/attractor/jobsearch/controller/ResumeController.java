@@ -24,13 +24,13 @@ public class ResumeController {
 
     //    http://localhost:8089/resumes/id/4
     @GetMapping("id/{id}")
-    public ResponseEntity<?> getDirectorById(@PathVariable long id) {
-        ResumeDto director = resumeService.getResumeById(id);
-        if (director == null) {
+    public ResponseEntity<?> getResumeById(@PathVariable long id) {
+        ResumeDto resume = resumeService.getResumeById(id);
+        if (resume == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(String.format("resume with id %d not found", id));
         }
-        return ResponseEntity.ok(director);
+        return ResponseEntity.ok(resume);
     }
 
     //    http://localhost:8089/resumes/category/2

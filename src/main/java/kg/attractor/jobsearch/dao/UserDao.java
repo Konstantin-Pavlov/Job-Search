@@ -39,7 +39,7 @@ public class UserDao {
     public Optional<User> getUserByPhone(String phoneNumber) {
         String sql = """
                 select * from users
-                where phoneNumber = ?;
+                where PHONE_NUMBER = ?;
                 """;
         return Optional.ofNullable(DataAccessUtils.singleResult(
                 template.query(sql, new BeanPropertyRowMapper<>(User.class), phoneNumber)
@@ -70,7 +70,7 @@ public class UserDao {
 
     public void addUser(User user) {
         String sql = """
-                insert into users(name, age, email, password, phoneNumber, avatar, accountType)
+                insert into users(NAME, AGE, EMAIL, PASSWORD, PHONE_NUMBER, AVATAR, ACCOUNT_TYPE)
                 values (:name, :age, :email, :password, :phoneNumber, :avatar, :accountType);
                 """;
         namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource()
@@ -95,8 +95,8 @@ public class UserDao {
         String sql = """
                  SELECT u.*
                  FROM users u
-                          INNER JOIN responded_applicants ra ON u.id = ra.resumeId
-                 WHERE ra.vacancyId = ?;
+                          INNER JOIN responded_applicants ra ON u.id = ra.RESUME_ID
+                 WHERE ra.VACANCY_ID = ?;
                 """;
         return template.query(sql, new BeanPropertyRowMapper<>(User.class), vacancyId);
 

@@ -56,7 +56,7 @@ public class ResumeDao {
 
     public void addResume(Resume resume) {
         String sql = """
-                insert into RESUMES(APPLICANT_ID, NAME, CATEGORY_ID, SALARY, ISACTIVE, CREATEDDATE, UPDATETIME)
+                insert into RESUMES(APPLICANT_ID, NAME, CATEGORY_ID, SALARY, IS_ACTIVE, CREATED_DATE, UPDATE_TIME)
                 values (:applicantId, :name, :categoryId, :salary, :isActive,  :createdDate, :updateTime);
                 """;
         namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource()

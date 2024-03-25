@@ -99,7 +99,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addUser(UserDto userDto) {
         User user = new User();
-//        User.setId(userDto.getId());
         user.setName(userDto.getName());
         user.setAge(userDto.getAge());
         user.setEmail(userDto.getEmail());

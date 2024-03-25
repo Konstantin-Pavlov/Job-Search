@@ -52,8 +52,6 @@ public class VacancyDao {
                 .addValue("authorId", vacancy.getAuthorId())
                 .addValue("createdDate", vacancy.getCreatedDate())
                 .addValue("updateTime", vacancy.getUpdateTime()));
-
-
     }
 
     public void delete(Integer id) {
@@ -80,8 +78,8 @@ public class VacancyDao {
                                          v.created_date,
                                          v.update_time
                                 FROM responded_applicants ra
-                                           JOIN vacancies v ON ra.vacancyId = v.id
-                                           JOIN resumes r ON ra.resumeId = r.id
+                                           JOIN vacancies v ON ra.VACANCY_ID = v.id
+                                           JOIN resumes r ON ra.RESUME_ID = r.id
                                            JOIN users u ON r.applicant_id = u.id
                                 WHERE u.id = ?
                                                 """;
