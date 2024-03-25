@@ -1,4 +1,21 @@
-﻿INSERT INTO users (name, age, email, password, phoneNumber, avatar, accountType)
-VALUES ('John Smith', 35, 'john@example.com', 'employer_password', '1234567890', 'employer_avatar.jpg', 'employer'),
-       ('Jane Dou', 28, 'jane@example.com', 'applicant_password', '9876543210', 'applicant_avatar.jpg', 'applicant'),
-       ('Rob', 42, 'Rob@yahoo.com', 'sdf89s8', '3326488456', 'applicant_avatar.jpg', 'applicant');
+﻿INSERT INTO users (NAME, AGE, EMAIL, PASSWORD, PHONE_NUMBER, AVATAR, ACCOUNT_TYPE)
+VALUES ('Alice Johnson', 29, 'alice@example.com', 'alice123', '1234567890', 'avatar1.jpg', 'applicant'),
+       ('Bob Smith', 35, 'bob@example.com', 'bob123', '9876543210', 'avatar2.jpg', 'applicant'),
+       ('Charlie Brown', 40, 'charlie@example.com', 'charlie123', '5555555555', 'avatar3.jpg', 'employer'),
+       ('David Lee', 28, 'david@example.com', 'david123', '6666666666', 'avatar4.jpg', 'applicant'),
+       ('Emma Watson', 33, 'emma@example.com', 'emma123', '4444444444', 'avatar5.jpg', 'applicant'),
+       ('Frank Miller', 45, 'frank@example.com', 'frank123', '7777777777', 'avatar6.jpg', 'employer'),
+       ('Grace Williams', 27, 'grace@example.com', 'grace123', '8888888888', 'avatar7.jpg', 'applicant'),
+       ('Henry Davis', 39, 'henry@example.com', 'henry123', '9999999999', 'avatar8.jpg', 'applicant'),
+       ('Isabella Martinez', 31, 'isabella@example.com', 'isabella123', '2222222222', 'avatar9.jpg', 'employer'),
+       ('Jack Anderson', 36, 'jack@example.com', 'jack123', '3333333333', 'avatar10.jpg', 'applicant'),
+       ('Katherine Clark', 32, 'katherine@example.com', 'katherine123', '1111111111', 'avatar11.jpg', 'employer'),
+       ('Liam Taylor', 26, 'liam@example.com', 'liam123', '0000000000', 'avatar12.jpg', 'applicant'),
+       ('Mia Brown', 41, 'mia@example.com', 'mia123', '7777777777', 'avatar13.jpg', 'applicant'),
+       ('Noah Wilson', 30, 'noah@example.com', 'noah123', '6666666666', 'avatar14.jpg', 'employer'),
+       ('Olivia Johnson', 34, 'olivia@example.com', 'olivia123', '5555555555', 'avatar15.jpg', 'applicant'),
+       ('Peter Smith', 37, 'peter@example.com', 'peter123', '4444444444', 'avatar16.jpg', 'employer'),
+       ('Quinn Davis', 29, 'quinn@example.com', 'quinn123', '3333333333', 'avatar17.jpg', 'applicant'),
+       ('Rachel Martinez', 38, 'rachel@example.com', 'rachel123', '2222222222', 'avatar18.jpg', 'employer'),
+       ('Samuel Clark', 31, 'samuel@example.com', 'samuel123', '1111111111', 'avatar19.jpg', 'applicant'),
+       ('Taylor Wilson', 35, 'taylor@example.com', 'taylor123', '9999999999', 'avatar20.jpg', 'employer');

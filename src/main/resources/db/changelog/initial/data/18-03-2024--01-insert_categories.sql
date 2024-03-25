@@ -1,6 +1,21 @@
-INSERT INTO categories(name, parentId)
-VALUES ('Category 1', NULL),
-       ('Category 2', NULL),
-       ('Subcategory 1', 1),
-       ('Subcategory 2', 1),
-       ('Subcategory 3', 2);
+INSERT INTO categories (NAME, PARENT_ID)
+VALUES ('Engineering', 2),
+       ('Software Development', 1),
+       ('Mechanical Engineering', 1),
+       ('Electrical Engineering', 1),
+       ('Civil Engineering', 1),
+       ('Web Development', 2),
+       ('Mobile App Development', 2),
+       ('Data Science', 2),
+       ('Product Design', 1),
+       ('Architecture', 1),
+       ('Graphic Design', 9),
+       ('UX/UI Design', 9),
+       ('Interior Design', 10),
+       ('Structural Engineering', 10),
+       ('Industrial Design', 9),
+       ('Game Development', 2),
+       ('Network Engineering', 1),
+       ('Machine Learning', 2),
+       ('Automotive Engineering', 1),
+       ('Construction Management', 2);
