@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: modify user table
+      author: Mari
+#      preConditions:
+#        - onFail: MARK_RAN
+#          not:
+#            tableExists:
+#              tableName: users
+      changes:
+        - addColumn:
+              tableName: users
+              columns:
+                - column:
+                    name: enabled
+                    type: boolean
+                    constraints:
+                      nullable: false
+                - column:
+                    name: role_id
+                    type: long
+                    constraints:
+                      foreignKeyName: fk_role_id
+                      nullable: false
+                      references: roles(id)

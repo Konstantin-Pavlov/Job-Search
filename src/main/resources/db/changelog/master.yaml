@@ -4,7 +4,11 @@
 
 databaseChangeLog:
   - include:
-      file: /db/changelog/initial/18-03-2024--01-create_user_table.yaml
+      file: /db/changelog/initial/26-03-2024--03-create_authorities_table.yaml
+  - include:
+      file: /db/changelog/initial/26-03-2024--01-create_role-user_table.yaml
+  - include:
+      file: /db/changelog/initial/18-03-2024--02-create_user_table.yaml
   - include:
       file: /db/changelog/initial/18-03-2024--01-create_categories.yaml
   - include:
@@ -23,6 +27,10 @@ databaseChangeLog:
       file: /db/changelog/initial/18-03-2024--02-create_education_info_table.yaml
   - include:
       file: /db/changelog/initial/18-03-2024--03-create_work_experience_info_table.yaml
+
+
+#  - include:
+#      file: /db/changelog/initial/26-03-2024--04-update_user_table.yaml
 #  - include:
 #      file: /db/changelog/initial/18-03-2024--01-create_moderators_table.yaml
 #  - include:
@@ -31,6 +39,10 @@ databaseChangeLog:
 #  - includeAll:
 #      path: /db/changelog/initial/data/
 
+  - include:
+      file: /db/changelog/initial/data/26-03-2024--01-insert_authorities.sql
+  - include:
+      file: /db/changelog/initial/data/26-03-2024--01-insert_roles.sql
   - include:
       file: /db/changelog/initial/data/18-03-2024--02-insert_users.sql
   - include:
