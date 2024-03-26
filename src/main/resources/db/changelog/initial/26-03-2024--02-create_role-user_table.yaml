@@ -19,8 +19,10 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: role
-                  type: varchar(50)
+                  name: user_id
+                  type: long
+                  constraints:
+                    nullable: false
               - column:
                   name: authority_id
                   type: long
@@ -31,5 +33,12 @@ databaseChangeLog:
             baseColumnNames: authority_id
             constraintName: fk_authority_id
             referencedTableName: authorities
+            referencedColumnNames: id
+            onDelete: CASCADE
+        - addForeignKeyConstraint:
+            baseTableName: roles
+            baseColumnNames: user_id
+            constraintName: fk_user_id
+            referencedTableName: users
             referencedColumnNames: id
             onDelete: CASCADE
