@@ -1,7 +1,7 @@
 ﻿INSERT INTO users (NAME, AGE, EMAIL, PASSWORD, PHONE_NUMBER, AVATAR, ACCOUNT_TYPE, ENABLED, ROLE_ID)
 VALUES
-    ('Alice Johnson', 29, 'alice@example.com', 'alice123', '1234567890', 'avatar1.jpg', 'applicant', true, 1),
-    ('Charlie Brown', 40, 'charlie@example.com', 'charlie123', '5555555555', 'avatar3.jpg', 'employer', true, 2),
+    ('Alice Johnson', 29, 'alice@example.com', '$2a$10$ESXS5rMP5nfdkFqP5RC8vuUK1v4jWUIrLPxz9dIdWQi2NRzF0Y8AW', '1234567890', 'avatar1.jpg', 'applicant', true, 1), -- alice123
+    ('Charlie Brown', 40, 'charlie@example.com', '$2a$10$7/0uDHO8ctEwxaVvukRcWeDkDhIQkrHfSSP8zvPiOVBCH3YGO61v2', '5555555555', 'avatar3.jpg', 'employer', true, 2), -- charlie123
     ('John Doe', 35, 'john.doe@example.com', 'john123', '9876543210', 'avatar2.jpg', 'applicant', true, 3),
     ('Emma Smith', 28, 'emma@example.com', 'emma123', '4444444444', 'avatar4.jpg', 'employer', true, 4),
     ('Michael Johnson', 45, 'michael@example.com', 'michael123', '3333333333', 'avatar5.jpg', 'applicant', true, 5),
@@ -9,7 +9,7 @@ VALUES
     ('David Brown', 38, 'david@example.com', 'david123', '7777777777', 'avatar7.jpg', 'applicant', true, 2),
     ('Emily Wilson', 31, 'emily@example.com', 'emily123', '8888888888', 'avatar8.jpg', 'employer', true, 3),
     ('Ryan Miller', 42, 'ryan@example.com', 'ryan123', '9999999999', 'avatar9.jpg', 'applicant', true, 4),
-    ('Olivia Taylor', 27, 'olivia@example.com', 'olivia123', '2222222222', 'avatar10.jpg', 'employer', true, 5),
+    ('Olivia Taylor', 27, 'olivia@example.com', '$2a$12$WB2YUbFcCN0tm44SBcKUjua9yiFBsfB3vW02IjuwzY7HGtlQIKzy2', '2222222222', 'avatar10.jpg', 'employer', true, 5), -- qwe
     ('Daniel Martinez', 36, 'daniel@example.com', 'daniel123', '1111111111', 'avatar11.jpg', 'applicant', true, 1),
     ('Sophia Anderson', 30, 'sophia@example.com', 'sophia123', '1010101010', 'avatar12.jpg', 'employer', true, 2),
     ('James Clark', 39, 'james@example.com', 'james123', '1212121212', 'avatar13.jpg', 'applicant', true, 3),
