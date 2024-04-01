@@ -70,8 +70,8 @@ public class UserDao {
 
     public void addUser(User user) {
         String sql = """
-                insert into users(NAME, AGE, EMAIL, PASSWORD, PHONE_NUMBER, AVATAR, ACCOUNT_TYPE)
-                values (:name, :age, :email, :password, :phoneNumber, :avatar, :accountType);
+                insert into users(NAME, AGE, EMAIL, PASSWORD, PHONE_NUMBER, AVATAR, ACCOUNT_TYPE, ENABLED)
+                values (:name, :age, :email, :password, :phoneNumber, :avatar, :accountType, :enabled);
                 """;
         namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource()
                 .addValue("name", user.getName())
@@ -80,7 +80,8 @@ public class UserDao {
                 .addValue("password", user.getPassword())
                 .addValue("phoneNumber", user.getPhoneNumber())
                 .addValue("avatar", user.getAvatar())
-                .addValue("accountType", user.getAccountType()));
+                .addValue("accountType", user.getAccountType())
+                .addValue("enabled", user.isEnabled()));
     }
 
     public void delete(Long id) {

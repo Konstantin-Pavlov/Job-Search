@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService {
                 .phoneNumber(e.getPhoneNumber())
                 .avatar(e.getAvatar())
                 .accountType(e.getAccountType())
+                .enabled(e.isEnabled())
                 .build()));
         return dtos;
     }
