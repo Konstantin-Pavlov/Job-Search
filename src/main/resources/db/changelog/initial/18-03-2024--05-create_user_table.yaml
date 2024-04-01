@@ -46,16 +46,3 @@ databaseChangeLog:
                   type: boolean
                   constraints:
                     nullable: false
-              - column:
-                  name: role_id
-                  type: long
-                  constraints:
-                    nullable: false
-        - addForeignKeyConstraint:
-            baseTableName: users
-            baseColumnNames: role_id
-            constraintName: fk_role_id
-            referencedTableName: roles
-            referencedColumnNames: id
-            onDelete: CASCADE
-
