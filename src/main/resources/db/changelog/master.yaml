@@ -6,9 +6,9 @@ databaseChangeLog:
   - include:
       file: /db/changelog/initial/26-03-2024--03-create_authorities_table.yaml
   - include:
-      file: /db/changelog/initial/26-03-2024--02-create_role-user_table.yaml
+      file: /db/changelog/initial/26-03-2024--03-create_role-user_table.yaml
   - include:
-      file: /db/changelog/initial/18-03-2024--02-create_user_table.yaml
+      file: /db/changelog/initial/18-03-2024--05-create_user_table.yaml
   - include:
       file: /db/changelog/initial/18-03-2024--01-create_categories.yaml
   - include:
@@ -42,9 +42,9 @@ databaseChangeLog:
   - include:
       file: /db/changelog/initial/data/26-03-2024--01-insert_authorities.sql
   - include:
-      file: /db/changelog/initial/data/26-03-2024--02-insert_roles.sql
+      file: /db/changelog/initial/data/26-03-2024--03-insert_roles.sql
   - include:
-      file: /db/changelog/initial/data/18-03-2024--02-insert_users.sql
+      file: /db/changelog/initial/data/18-03-2024--6-insert_users.sql
   - include:
       file: /db/changelog/initial/data/18-03-2024--01-insert_categories.sql
   - include:
