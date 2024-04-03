@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class UserDao {
 
     private final JdbcTemplate template;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final PasswordEncoder encoder;
 
     public List<User> getUser() {
         String sql = """
@@ -77,7 +79,7 @@ public class UserDao {
                 .addValue("name", user.getName())
                 .addValue("age", user.getAge())
                 .addValue("email", user.getEmail())
-                .addValue("password", user.getPassword())
+                .addValue("password", encoder.encode(user.getPassword()))
                 .addValue("phoneNumber", user.getPhoneNumber())
                 .addValue("avatar", user.getAvatar())
                 .addValue("accountType", user.getAccountType())
