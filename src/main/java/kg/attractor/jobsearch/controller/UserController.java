@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<?> getUserById(@PathVariable long id) {
+    public ResponseEntity<?> getUserById(@PathVariable long id) throws UserNotFoundException {
 //        try {
 //            return ResponseEntity.ok(userService.getUserById(id));
 //        } catch (UserNotFoundException e) {
