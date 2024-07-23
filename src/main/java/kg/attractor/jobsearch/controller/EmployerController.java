@@ -7,6 +7,7 @@ import kg.attractor.jobsearch.dto.VacancyDto;
 import kg.attractor.jobsearch.service.ResumeService;
 import kg.attractor.jobsearch.service.UserService;
 import kg.attractor.jobsearch.service.VacancyService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,15 +16,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/employer")
+@RequestMapping("employer")
+@RequiredArgsConstructor
 public class EmployerController {
-
     @Autowired
     private UserService employerService;
     @Autowired
     private VacancyService vacancyService;
     @Autowired
-    private  ResumeService resumeService;
+    private ResumeService resumeService;
 
     @PostMapping("/vacancy")
     public ResponseEntity<String> createVacancy(@Valid @RequestBody VacancyDto vacancyDto) {
