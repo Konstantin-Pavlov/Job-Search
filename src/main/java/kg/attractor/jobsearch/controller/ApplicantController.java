@@ -6,7 +6,7 @@ import kg.attractor.jobsearch.dto.VacancyDto;
 import kg.attractor.jobsearch.service.ResumeService;
 import kg.attractor.jobsearch.service.UserService;
 import kg.attractor.jobsearch.service.VacancyService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +15,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/applicant")
+@RequiredArgsConstructor
 public class ApplicantController {
-    @Autowired
-    private UserService applicantService;
-    @Autowired
-    private VacancyService vacancyService;
-    @Autowired
-    private ResumeService resumeService;
+    //    @Autowired - no need if field is final and @RequiredArgsConstructor annotation is used
+    private final UserService applicantService;
+
+    private final VacancyService vacancyService;
+
+    private final ResumeService resumeService;
 
     @PostMapping("/resume")
     public ResponseEntity<String> createResume(@Valid @RequestBody ResumeDto resumeDto) {
