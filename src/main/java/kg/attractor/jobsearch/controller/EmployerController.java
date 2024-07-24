@@ -7,7 +7,9 @@ import kg.attractor.jobsearch.dto.VacancyDto;
 import kg.attractor.jobsearch.service.ResumeService;
 import kg.attractor.jobsearch.service.UserService;
 import kg.attractor.jobsearch.service.VacancyService;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +19,12 @@ import java.util.List;
 @RestController
 @RequestMapping("employer")
 @RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class EmployerController {
     //    @Autowired - no need if field is final and @RequiredArgsConstructor annotation is used
-    private final UserService employerService;
-
-    private final VacancyService vacancyService;
-
-    private final ResumeService resumeService;
+    final UserService employerService;
+    final VacancyService vacancyService;
+    final ResumeService resumeService;
 
     @PostMapping("/vacancy")
     public ResponseEntity<String> createVacancy(@Valid @RequestBody VacancyDto vacancyDto) {
