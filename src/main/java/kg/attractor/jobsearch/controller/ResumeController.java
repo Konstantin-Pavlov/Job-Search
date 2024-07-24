@@ -3,7 +3,9 @@ package kg.attractor.jobsearch.controller;
 import jakarta.validation.Valid;
 import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.service.ResumeService;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +15,10 @@ import java.util.List;
 @RestController
 @RequestMapping("resumes")
 @RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class ResumeController {
 
-    private final ResumeService resumeService;
+    ResumeService resumeService;
 
     @GetMapping
     public ResponseEntity<List<ResumeDto>> getResumes() {
@@ -27,8 +30,7 @@ public class ResumeController {
     public ResponseEntity<?> getResumeById(@PathVariable long id) {
         ResumeDto resume = resumeService.getResumeById(id);
         if (resume == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(String.format("resume with id %d not found", id));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("resume with id %d not found", id));
         }
         return ResponseEntity.ok(resume);
     }
@@ -38,8 +40,7 @@ public class ResumeController {
     public ResponseEntity<?> getResumeByCategoryId(@PathVariable Integer category_id) {
         ResumeDto resume = resumeService.getResumeByCategoryId(category_id);
         if (resume == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(String.format("resume with category_id %d not found", category_id));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("resume with category_id %d not found", category_id));
         }
         return ResponseEntity.ok(resume);
     }
@@ -49,8 +50,7 @@ public class ResumeController {
     public ResponseEntity<?> getResumeByUserId(@PathVariable Integer user_id) {
         List<ResumeDto> resumes = resumeService.getResumeByUserId(user_id);
         if (resumes.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(String.format("resumes with user_id %d not found", user_id));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("resumes with user_id %d not found", user_id));
         }
         return ResponseEntity.ok(resumes);
     }

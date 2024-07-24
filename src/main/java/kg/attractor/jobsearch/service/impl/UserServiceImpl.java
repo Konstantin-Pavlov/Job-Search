@@ -151,4 +151,9 @@ public class UserServiceImpl implements UserService {
         return dtos;
     }
 
+    @Override
+    public void applyForVacancy(Long vacancyId) {
+
+    }
+
 }

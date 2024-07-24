@@ -16,4 +16,8 @@ public interface ResumeService {
     boolean deleteResume(Integer id);
 
     List<ResumeDto> getResumeByUserId(Integer userId);
+
+    List<ResumeDto> getResumeByCategory(String category);
+
+    void editResume(Long id, ResumeDto resumeDto);
 }

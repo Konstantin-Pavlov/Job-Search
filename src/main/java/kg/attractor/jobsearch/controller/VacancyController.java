@@ -62,7 +62,7 @@ public class VacancyController {
     //    http://localhost:8089/vacancies/add
     @PostMapping("add")
     public ResponseEntity<?> add(@Valid @RequestBody VacancyDto vacancyDto) {
-        vacancyService.addVacancy(vacancyDto);
+        vacancyService.createVacancy(vacancyDto);
         return ResponseEntity.ok("vacancy is valid");
     }
 

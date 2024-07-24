@@ -21,5 +21,7 @@ public interface UserService {
     boolean deleteUser(Long id);
 
     List<UserDto> getUsersRespondedToVacancy(Integer vacancyId);
+
+    void applyForVacancy(Long vacancyId);
 }
 

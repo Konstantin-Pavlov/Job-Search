@@ -62,7 +62,7 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public void addVacancy(VacancyDto vacancyDto) {
+    public void createVacancy(VacancyDto vacancyDto) {
         Vacancy vacancy = new Vacancy();
 //        User.setId(userDto.getId());
         vacancy.setName(vacancyDto.getName());
@@ -142,6 +142,17 @@ public class VacancyServiceImpl implements VacancyService {
             log.info("found vacancies with category id " + categoryId);
         }
         return dtos;
+    }
+
+    @Override
+    public void editVacancy(Long id, VacancyDto vacancyDto) {
+        // todo - implement vacancy editing
+    }
+
+    @Override
+    public List<VacancyDto> getVacanciesByCategory(String category) {
+        // todo - implement
+        return List.of();
     }
 
 }

@@ -9,11 +9,15 @@ public interface VacancyService {
 
     VacancyDto getVacancyById(long id);
 
-    void addVacancy(VacancyDto vacancyDto);
+    void createVacancy(VacancyDto vacancyDto);
 
     boolean deleteVacancy(Integer id);
 
     List<VacancyDto> getVacanciesUserResponded(Integer userId);
 
     List<VacancyDto> getVacanciesByCategoryId(Integer categoryId);
+
+    void editVacancy(Long id, VacancyDto vacancyDto);
+
+    List<VacancyDto> getVacanciesByCategory(String category);
 }

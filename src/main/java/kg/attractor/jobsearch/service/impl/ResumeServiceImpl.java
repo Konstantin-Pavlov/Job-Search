@@ -103,6 +103,17 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
+    public List<ResumeDto> getResumeByCategory(String category) {
+        // todo - implement
+        return List.of();
+    }
+
+    @Override
+    public void editResume(Long id, ResumeDto resumeDto) {
+        // todo - implement
+    }
+
+    @Override
     public void addResume(ResumeDto resumeDto) {
         Resume resume = new Resume();
         resume.setApplicantId(resumeDto.getApplicantId());
@@ -114,7 +125,7 @@ public class ResumeServiceImpl implements ResumeService {
         resume.setUpdateTime(resumeDto.getUpdateTime());
 
         resumeDao.addResume(resume);
-        log.info("added resume " + resume.getName());
+        log.info("added resume {}", resume.getName());
     }
 
 
