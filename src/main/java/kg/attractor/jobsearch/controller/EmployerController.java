@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.dto.VacancyDto;
+import kg.attractor.jobsearch.exception.UserNotFoundException;
 import kg.attractor.jobsearch.service.ResumeService;
 import kg.attractor.jobsearch.service.UserService;
 import kg.attractor.jobsearch.service.VacancyService;
@@ -22,28 +23,9 @@ import java.util.List;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class EmployerController {
     //    @Autowired - no need if field is final and @RequiredArgsConstructor annotation is used
-    final UserService employerService;
-    final VacancyService vacancyService;
-    final ResumeService resumeService;
-
-    @PostMapping("/vacancy")
-    public ResponseEntity<String> createVacancy(@Valid @RequestBody VacancyDto vacancyDto) {
-        vacancyService.createVacancy(vacancyDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Vacancy created successfully");
-        //  return ResponseEntity.ok("vacancy is valid");
-    }
-
-    @PutMapping("/vacancy/{id}")
-    public ResponseEntity<String> editVacancy(@PathVariable Long id, @RequestBody VacancyDto vacancyDto) {
-        vacancyService.editVacancy(id, vacancyDto);
-        return ResponseEntity.ok("Vacancy edited successfully");
-    }
-
-    @DeleteMapping("/vacancy/{id}")
-    public ResponseEntity<String> deleteVacancy(@PathVariable Integer id) {
-        vacancyService.deleteVacancy(id);
-        return ResponseEntity.ok("Vacancy deleted successfully");
-    }
+    UserService employerService;
+    VacancyService vacancyService;
+    ResumeService resumeService;
 
     @GetMapping("/resumes")
     public ResponseEntity<List<ResumeDto>> getAllResumes() {
@@ -71,8 +53,28 @@ public class EmployerController {
     }
 
     @GetMapping("/applicant/{id}")
-    public ResponseEntity<?> getApplicantById(@PathVariable Long id) {
+    public ResponseEntity<?> getApplicantById(@PathVariable Integer id) throws UserNotFoundException {
         return ResponseEntity.ok(employerService.getUserById(id));
     }
+
+    @PostMapping("/vacancy")
+    public ResponseEntity<String> createVacancy(@Valid @RequestBody VacancyDto vacancyDto) {
+        vacancyService.createVacancy(vacancyDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Vacancy created successfully");
+        //  return ResponseEntity.ok("vacancy is valid");
+    }
+
+    @PutMapping("/vacancy/{id}")
+    public ResponseEntity<String> editVacancy(@PathVariable Integer id, @RequestBody VacancyDto vacancyDto) {
+        vacancyService.editVacancy(id, vacancyDto);
+        return ResponseEntity.ok("Vacancy edited successfully");
+    }
+
+    @DeleteMapping("/vacancy/{id}")
+    public ResponseEntity<String> deleteVacancy(@PathVariable Integer id) {
+        vacancyService.deleteVacancy(id);
+        return ResponseEntity.ok("Vacancy deleted successfully");
+    }
+
 }
 

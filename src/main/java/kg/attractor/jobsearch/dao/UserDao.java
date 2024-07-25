@@ -21,12 +21,12 @@ public class UserDao {
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private final PasswordEncoder encoder;
 
-    public List<User> getUser() {
-        String sql = """
-                select * from users
-                """;
-        return template.query(sql, new BeanPropertyRowMapper<>(User.class));
-    }
+//    public List<User> getUser() {
+//        String sql = """
+//                select * from users
+//                """;
+//        return template.query(sql, new BeanPropertyRowMapper<>(User.class));
+//    }
 
     public Optional<User> getUserByName(String name) {
         String sql = """
@@ -102,6 +102,5 @@ public class UserDao {
                  WHERE ra.VACANCY_ID = ?;
                 """;
         return template.query(sql, new BeanPropertyRowMapper<>(User.class), vacancyId);
-
     }
 }

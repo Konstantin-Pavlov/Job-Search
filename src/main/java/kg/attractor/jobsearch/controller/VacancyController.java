@@ -28,7 +28,7 @@ public class VacancyController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<?> getVacancyById(@PathVariable long id) {
+    public ResponseEntity<?> getVacancyById(@PathVariable Integer id) {
         VacancyDto vacancy = vacancyService.getVacancyById(id);
         if (vacancy == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)

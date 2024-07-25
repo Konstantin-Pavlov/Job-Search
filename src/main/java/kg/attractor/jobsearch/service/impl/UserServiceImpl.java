@@ -3,9 +3,13 @@ package kg.attractor.jobsearch.service.impl;
 import kg.attractor.jobsearch.dao.UserDao;
 import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.exception.UserNotFoundException;
+import kg.attractor.jobsearch.mapper.UserMapper;
 import kg.attractor.jobsearch.model.User;
+import kg.attractor.jobsearch.repository.UserRepository;
 import kg.attractor.jobsearch.service.UserService;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -18,142 +22,95 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class UserServiceImpl implements UserService {
-    private final UserDao userDao;
+    UserRepository userRepository;
+    UserMapper userMapper = UserMapper.INSTANCE;
 
     @Override
     public List<UserDto> getUsers() {
-        List<User> users = userDao.getUser();
-        List<UserDto> dtos = new ArrayList<>();
-        users.forEach(e -> dtos.add(UserDto.builder()
-                .id(e.getId())
-                .name(e.getName())
-                .age(e.getAge())
-                .email(e.getEmail())
-                .password(e.getPassword())
-                .phoneNumber(e.getPhoneNumber())
-                .avatar(e.getAvatar())
-                .accountType(e.getAccountType())
-                .enabled(e.isEnabled())
-                .build()));
-        return dtos;
+        return userRepository.findAll().stream().map(userMapper::toUserDto).toList();
     }
 
     @Override
-    public UserDto getUserByName(String name) throws UserNotFoundException {
-        User user = userDao.getUserByName(name).orElseThrow(
-                () -> new UserNotFoundException("Can't find user with name: " + name)
-        );
-        return UserDto.builder().
-                id(user.getId())
-                .name(user.getName())
-                .password(user.getPassword())
-                .build();
+    public UserDto getUserById(Integer id) {
+        Optional<User> user = Optional.ofNullable(userRepository.findById(id).orElseThrow(() -> {
+            log.error("Can't find user with ID: {}", id);
+            return new NoSuchElementException("Can't find user with ID: " + id);
+        }));
+        log.info("User found with ID: {}", id);
+        return userMapper.toUserDto(user.get());
+    }
+
+    @Override
+    public List<UserDto> getUsersByName(String name) throws UserNotFoundException {
+        List<User> users = userRepository.findByName(name);
+        if (users.isEmpty()) {
+            log.error("Can't find user with name: {}", name);
+            throw new UserNotFoundException("Users with name " + name + " not found");
+        }
+        log.info("User found with name: {}", name);
+        return users.stream().map(userMapper::toUserDto).toList();
     }
 
     @Override
     public UserDto getUserByPhone(String phoneNumber) throws UserNotFoundException {
-        User user = userDao.getUserByPhone(phoneNumber).orElseThrow(
-                () -> new UserNotFoundException("Can't find user with phone: " + phoneNumber)
-        );
-        return UserDto.builder().
-                id(user.getId())
-                .name(user.getName())
-                .password(user.getPassword())
-                .build();
+        Optional<User> user = userRepository.findByPhoneNumber(phoneNumber);
+        if (user.isEmpty()) {
+            log.error("Can't find user with phone number: {}", phoneNumber);
+            throw new UserNotFoundException("Users with phone number " + phoneNumber + " not found");
+        }
+        log.info("User found with phone number: {}", phoneNumber);
+        return userMapper.toUserDto(user.get());
     }
 
     @Override
     public UserDto getUserByEmail(String email) throws UserNotFoundException {
-        User user = userDao.getUserByEmail(email).orElseThrow(
-                () -> new UserNotFoundException("Can't find user with email: " + email)
-        );
-        return UserDto.builder().
-                id(user.getId())
-                .name(user.getName())
-                .password(user.getPassword())
-                .build();
-    }
-
-
-    @Override
-    public UserDto getUserById(long id) {//throws UserNotFoundException {
-        User user = userDao.getUserById(id).orElseThrow(
-                () -> {
-                    log.error("Can't find user with ID: " + id);
-                    return new NoSuchElementException("Can't find user with ID: " + id);
-                }
-        );
-        log.info("User found with ID: " + id);
-        return UserDto.builder().
-                id(user.getId())
-                .name(user.getName())
-                .age(user.getAge())
-                .email(user.getEmail())
-                .password(user.getPassword())
-                .phoneNumber(user.getPhoneNumber())
-                .avatar(user.getAvatar())
-                .accountType(user.getAccountType())
-                .build();
-    }
-
-    @Override
-    public void addUser(UserDto userDto) {
-        User user = new User();
-        user.setName(userDto.getName());
-        user.setAge(userDto.getAge());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
-        user.setPhoneNumber(userDto.getPhoneNumber());
-        user.setAvatar(userDto.getAvatar());
-        user.setAccountType(userDto.getAccountType());
-
-        userDao.addUser(user);
-        if (user.getAccountType().equals("applicant")) {
-            log.info("added applicant with email " + user.getEmail());
-        } else {
-            log.info("added employer with email " + user.getEmail());
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isEmpty()) {
+            log.error("Can't find user with email: {}", email);
+            throw new UserNotFoundException("Users with email " + email + " not found");
         }
-    }
-
-    @Override
-    public boolean deleteUser(Long id) {
-        Optional<User> user = userDao.getUserById(id);
-        if (user.isPresent()) {
-            userDao.delete(id);
-            log.info("user deleted: " + user.get().getName());
-            return true;
-        }
-        log.info(String.format("user with id %d not found", id));
-        return false;
+        log.info("User found with email: {}", email);
+        return userMapper.toUserDto(user.get());
     }
 
     @Override
     public List<UserDto> getUsersRespondedToVacancy(Integer vacancyId) {
-        List<User> users = userDao.getUsersRespondedToVacancy(vacancyId);
-        List<UserDto> dtos = users.stream()
-                .map(user -> UserDto.builder()
-                        .id(user.getId())
-                        .name(user.getName())
-                        .age(user.getAge())
-                        .email(user.getEmail())
-                        .password(user.getPassword())
-                        .phoneNumber(user.getPhoneNumber())
-                        .avatar(user.getAvatar())
-                        .accountType(user.getAccountType())
-                        .build())
-                .collect(Collectors.toList());
-        if (dtos.isEmpty()) {
-            log.error("Can't find users with vacancy id " + vacancyId);
+        List<User> users = userRepository.findUsersRespondedToVacancy(vacancyId);
+        if (users.isEmpty()) {
+            log.error("Can't find users with vacancy id {}", vacancyId);
         } else {
-            log.info("found users with vacancy id " + vacancyId);
+            log.info("found users with vacancy id {}", vacancyId);
         }
-        return dtos;
+        return users.stream().map(userMapper::toUserDto).toList();
+    }
+
+    @Override
+    public void addUser(UserDto userDto) {
+        User user = userMapper.toUser(userDto);
+        userRepository.save(user);
+        if (user.getAccountType().equals("applicant")) {
+            log.info("added applicant with email {}", user.getEmail());
+        } else {
+            log.info("added employer with email {}", user.getEmail());
+        }
+    }
+
+    @Override
+    public boolean deleteUser(Integer id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            log.error("not possible to delete user because user with ID: {} nor found", id);
+            return false;
+        }
+        userRepository.delete(user.get());
+        return true;
     }
 
     @Override
     public void applyForVacancy(Long vacancyId) {
-
+// todo - implement
     }
 
 }

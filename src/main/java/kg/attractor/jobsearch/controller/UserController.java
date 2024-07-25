@@ -30,13 +30,13 @@ public class UserController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<?> getUserById(@PathVariable long id) throws UserNotFoundException {
-//        try {
-//            return ResponseEntity.ok(userService.getUserById(id));
-//        } catch (UserNotFoundException e) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-//        }
-        return ResponseEntity.ok(userService.getUserById(id));
+    public ResponseEntity<?> getUserById(@PathVariable Integer id) {
+        try {
+            return ResponseEntity.ok(userService.getUserById(id));
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+//        return ResponseEntity.ok(userService.getUserById(id));
     }
 
     // http://localhost:8089/users/get-users-by-vacancy/2
@@ -56,8 +56,8 @@ public class UserController {
             @RequestParam(name = "name")
             String name) {
         try {
-            UserDto user = userService.getUserByName(name);
-            return ResponseEntity.ok(user);
+            List<UserDto> users = userService.getUsersByName(name);
+            return ResponseEntity.ok(users);
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
@@ -95,7 +95,7 @@ public class UserController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Integer id) {
         if (userService.deleteUser(id)) {
             return ResponseEntity.noContent().build();
         }

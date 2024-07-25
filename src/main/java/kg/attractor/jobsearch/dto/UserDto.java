@@ -1,5 +1,6 @@
 package kg.attractor.jobsearch.dto;
 
+import io.swagger.annotations.ApiModel;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -20,29 +21,30 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@ApiModel(value = "User dto")
 public class UserDto {
-    private Integer id;
+    Integer id;
     @NotBlank
     @Pattern(regexp = "^(?=.*[a-zA-Z])[a-zA-Z]+(?: [a-zA-Z]+)?$", message = "should only contain letters")
-    private String name;
+    String name;
     @Positive
     @Min(value = 18, message = "Age must be at least {value}")
     @Max(value = 70, message = "Age must be at most {value}")
-    private Integer age;
+    Integer age;
     @NotBlank
     @Email
-    private String email;
+    String email;
     @NotBlank
 
 //    @Pattern(regexp = "^(?=.\\d)(?=.[a-z])(?=.[A-Z])(?=.[a-zA-Z]).+$", message = "Should contain at least one uppercase letter, one number")
     @NotBlank(message = "Password must not be blank")
     @Size(min = 4, max = 60, message = "Password length must be from {min} to {max} characters")
     @NotBlank
-    private String password;
+    String password;
     @Pattern(regexp = "^\\+996\\d{7}$", message = "phone number is invalid")
-    private String phoneNumber;
-    private String avatar;
+    String phoneNumber;
+    String avatar;
     @Pattern(regexp = "^(employer|applicant)$", message = "should only contain \"employer\" or \"applicant\"")
-    private String accountType;
-    private boolean enabled;
+    String accountType;
+    boolean enabled;
 }

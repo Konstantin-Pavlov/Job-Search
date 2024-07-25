@@ -1,5 +1,6 @@
 package kg.attractor.jobsearch.dto;
 
+import io.swagger.annotations.ApiModel;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE) // all fields are private
+@ApiModel(value = "Vacancy dto")
 public class VacancyDto {
     @NotBlank
     String name;

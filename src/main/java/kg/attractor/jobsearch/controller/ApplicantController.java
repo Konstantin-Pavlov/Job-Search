@@ -25,6 +25,27 @@ public class ApplicantController {
     VacancyService vacancyService;
     ResumeService resumeService;
 
+    @GetMapping("/vacancies")
+    public ResponseEntity<List<VacancyDto>> getAllActiveVacancies() {
+        return ResponseEntity.ok(vacancyService.getVacancies());
+    }
+
+    @GetMapping("/vacancies/category/{category}")
+    public ResponseEntity<List<?>> getVacanciesByCategory(@PathVariable String category) {
+        return ResponseEntity.ok(vacancyService.getVacanciesByCategory(category));
+    }
+
+    // http://localhost:8089/applicant/get-vacancies-by-category/1
+    @GetMapping("get-vacancies-by-category/{category_id}")
+    public ResponseEntity<?> getVacanciesByCategoryId(@PathVariable Integer category_id) {
+        List<VacancyDto> vacancies = vacancyService.getVacanciesByCategoryId(category_id);
+        if (vacancies.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(String.format("vacancies with category id %d not found", category_id));
+        }
+        return ResponseEntity.ok(vacancies);
+    }
+
     @PostMapping("/resume")
     public ResponseEntity<String> createResume(@Valid @RequestBody ResumeDto resumeDto) {
         resumeService.addResume(resumeDto);
@@ -32,7 +53,7 @@ public class ApplicantController {
     }
 
     @PutMapping("/resume/{id}")
-    public ResponseEntity<String> editResume(@PathVariable Long id, @RequestBody ResumeDto resumeDto) {
+    public ResponseEntity<String> editResume(@PathVariable Integer id, @RequestBody ResumeDto resumeDto) {
         resumeService.editResume(id, resumeDto);
         return ResponseEntity.ok("Resume edited successfully");
     }
@@ -43,16 +64,6 @@ public class ApplicantController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok("Resume deleted successfully");
-    }
-
-    @GetMapping("/vacancies")
-    public ResponseEntity<List<VacancyDto>> getAllActiveVacancies() {
-        return ResponseEntity.ok(vacancyService.getVacancies());
-    }
-
-    @GetMapping("/vacancies/category/{category}")
-    public ResponseEntity<List<?>> getVacanciesByCategory(@PathVariable String category) {
-        return ResponseEntity.ok(vacancyService.getVacanciesByCategory(category));
     }
 
     @PostMapping("/vacancy/{vacancyId}/apply")
