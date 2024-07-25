@@ -1,6 +1,5 @@
 package kg.attractor.jobsearch.repository;
 
-import io.swagger.models.auth.In;
 import kg.attractor.jobsearch.model.Vacancy;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
