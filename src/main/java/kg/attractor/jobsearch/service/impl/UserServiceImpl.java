@@ -10,11 +10,21 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -23,6 +33,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     UserRepository userRepository;
     UserMapper userMapper = UserMapper.INSTANCE;
+    String UPLOAD_DIR = "avatars/";
 
     @Override
     public List<UserDto> getUsers() {
@@ -108,6 +119,51 @@ public class UserServiceImpl implements UserService {
     @Override
     public void applyForVacancy(Long vacancyId) {
 // todo - implement
+    }
+
+    @Override
+    public void uploadAvatar(Integer userId, MultipartFile file) throws IOException {
+        // Create the directory if it doesn't exist
+        File directory = new File(UPLOAD_DIR);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        // Save the file to the directory, add unique name using UUID class
+        String fileName = UUID.randomUUID() + "_" +  file.getOriginalFilename();
+        Path filePath = Paths.get(UPLOAD_DIR, fileName);
+        Files.write(filePath, file.getBytes());
+
+        // Update the user's avatar field in the database
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setAvatar(fileName);
+        userRepository.save(user);
+
+        log.info("avatar {} uploaded successfully", fileName);
+    }
+
+    public Resource getAvatarFileResource(Integer userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        Path filePath = Paths.get(UPLOAD_DIR, user.getAvatar()).normalize();
+        try {
+            Resource resource = new UrlResource(filePath.toUri());
+            if (resource.exists() && resource.isReadable()) {
+                return resource;
+            } else {
+                throw new RuntimeException("Could not read the file!");
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Error: " + e.getMessage());
+        }
+    }
+
+    public String getContentType(Resource resource) {
+        try {
+
+            return Files.probeContentType(resource.getFile().toPath());
+        } catch (IOException e) {
+            throw new RuntimeException("Error: " + e.getMessage());
+        }
     }
 
 }

@@ -2,7 +2,10 @@ package kg.attractor.jobsearch.service;
 
 import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.exception.UserNotFoundException;
+import org.springframework.core.io.Resource;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface UserService {
@@ -23,5 +26,11 @@ public interface UserService {
     List<UserDto> getUsersRespondedToVacancy(Integer vacancyId);
 
     void applyForVacancy(Long vacancyId);
+
+    void uploadAvatar(Integer userId, MultipartFile file) throws IOException;
+
+    Resource getAvatarFileResource(Integer userId);
+
+    String getContentType(Resource resource);
 }
 
