@@ -42,12 +42,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserById(Integer id) {
-        Optional<User> user = Optional.ofNullable(userRepository.findById(id).orElseThrow(() -> {
-            log.error("Can't find user with ID: {}", id);
-            return new NoSuchElementException("Can't find user with ID: " + id);
-        }));
-        log.info("User found with ID: {}", id);
-        return userMapper.toUserDto(user.get());
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            log.info("User found with ID: {}", id);
+            return userMapper.toUserDto(user.get());
+        }
+        log.error("Can't find user with ID: {}", id);
+        throw new NoSuchElementException("Can't find user with ID: " + id);
     }
 
     @Override
@@ -130,7 +131,7 @@ public class UserServiceImpl implements UserService {
         }
 
         // Save the file to the directory, add unique name using UUID class
-        String fileName = UUID.randomUUID() + "_" +  file.getOriginalFilename();
+        String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
         Path filePath = Paths.get(UPLOAD_DIR, fileName);
         Files.write(filePath, file.getBytes());
 
