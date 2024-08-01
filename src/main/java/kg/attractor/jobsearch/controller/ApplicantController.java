@@ -27,6 +27,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
+// todo - add user method
+
 @RestController
 @RequestMapping("/applicant")
 @RequiredArgsConstructor
@@ -147,11 +149,32 @@ public class ApplicantController {
         return applicantService.getAvatar(userId);
     }
 
-    @PostMapping("/avatar")
-    public ResponseEntity<String> saveAvatar(@RequestParam Integer userId, @RequestBody MultipartFile image) throws UserNotFoundException, IOException {
+    @PostMapping("add")
+    public ResponseEntity<?> add(@Valid @RequestBody UserDto userDto) {
+        userDto.setAccountType("applicant");
+        applicantService.addUser(userDto);
+        return ResponseEntity.ok("user is valid");
+    }
+
+    @PostMapping("/{userId}/upload-avatar")
+    public ResponseEntity<String> saveAvatar(@PathVariable Integer userId, @RequestParam("file") MultipartFile image) throws UserNotFoundException, IOException {
         applicantService.saveAvatar(userId, image);
         return new ResponseEntity<>("Avatar uploaded successfully", HttpStatus.OK);
     }
+
+//    @PostMapping("/{userId}/upload-avatar")
+//    public ResponseEntity<String> uploadAvatar(@PathVariable Integer userId, @RequestParam("file") MultipartFile file) {
+//        try {
+//            applicantService.uploadAvatar(userId, file);
+//            return ResponseEntity.ok("Avatar uploaded successfully");
+//        } catch (IOException e) {
+//            return ResponseEntity.status(500).body("Failed to upload avatar");
+//        }
+//    }
+
+
+
+
 
 
     @PostMapping("/resume")

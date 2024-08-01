@@ -36,13 +36,13 @@ public class UserDto {
 
 //    @Pattern(regexp = "^(?=.\\d)(?=.[a-z])(?=.[A-Z])(?=.[a-zA-Z]).+$", message = "Should contain at least one uppercase letter, one number")
     @NotBlank(message = "Password must not be blank")
-    @Size(min = 4, max = 60, message = "Password length must be from {min} to {max} characters")
+    @Size(min = 3, max = 60, message = "Password length must be from {min} to {max} characters")
     @NotBlank
     private String password;
     @Pattern(regexp = "^\\+996\\d{7}$", message = "phone number is invalid")
     private String phoneNumber;
     private String avatar;
-    @Pattern(regexp = "^(employer|applicant)$", message = "should only contain \"employer\" or \"applicant\"")
+//    @Pattern(regexp = "^(employer|applicant)$", message = "should only contain \"employer\" or \"applicant\"")
     private String accountType;
     private boolean enabled;
 }

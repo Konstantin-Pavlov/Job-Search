@@ -123,6 +123,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addUser(UserDto userDto) {
+        if (userDto.getAvatar() == null) {
+            userDto.setAvatar("ava.png");
+        }
         User user = new User();
         user.setName(userDto.getName());
         user.setAge(userDto.getAge());
@@ -134,9 +137,9 @@ public class UserServiceImpl implements UserService {
 
         userDao.addUser(user);
         if (user.getAccountType().equals("applicant")) {
-            log.info("added applicant with email " + user.getEmail());
+            log.info("added applicant with email {}", user.getEmail());
         } else {
-            log.info("added employer with email " + user.getEmail());
+            log.info("added employer with email {}", user.getEmail());
         }
     }
 
