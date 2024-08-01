@@ -1,4 +1,4 @@
-package kg.attractor.jobsearch.controller;
+package kg.attractor.jobsearch.controller.controllers_to_delete;
 
 import kg.attractor.jobsearch.dto.CategoryDto;
 import kg.attractor.jobsearch.service.impl.CategoriesServiceImpl;

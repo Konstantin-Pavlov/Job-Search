@@ -1,8 +1,12 @@
 package kg.attractor.jobsearch.service;
 
+import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.exception.UserNotFoundException;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface UserService {
@@ -22,6 +26,10 @@ public interface UserService {
 
     List<UserDto> getUsersRespondedToVacancy(Integer vacancyId);
 
-    void applyForVacancy(Long vacancyId);
+    void applyForVacancy(Long vacancyId, ResumeDto resumeDto);
+
+    void saveAvatar(Integer userId, MultipartFile avatar) throws IOException, UserNotFoundException;
+
+    ResponseEntity<?> getAvatar(Integer userId);
 }
 

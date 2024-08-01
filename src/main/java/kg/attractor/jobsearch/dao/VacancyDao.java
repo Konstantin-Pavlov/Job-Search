@@ -95,4 +95,16 @@ public class VacancyDao {
 
         return template.query(sql, new BeanPropertyRowMapper<>(Vacancy.class), categoryId);
     }
+
+    public void applyForVacancy(Integer resumeId, Integer vacancyId) {
+        String sql = """
+                INSERT INTO responded_applicants (RESUME_ID, VACANCY_ID, CONFIRMATION)
+                VALUES(:resumeId, :vacancyId, :confirmation);
+                """;
+        namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource()
+                .addValue("resumeId", resumeId)
+                .addValue("vacancyId", vacancyId)
+                .addValue("confirmation", true)
+        );
+    }
 }

@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.dto.VacancyDto;
+import kg.attractor.jobsearch.exception.UserNotFoundException;
 import kg.attractor.jobsearch.service.ResumeService;
 import kg.attractor.jobsearch.service.UserService;
 import kg.attractor.jobsearch.service.VacancyService;
@@ -26,23 +27,13 @@ public class EmployerController {
     final VacancyService vacancyService;
     final ResumeService resumeService;
 
-    @PostMapping("/vacancy")
-    public ResponseEntity<String> createVacancy(@Valid @RequestBody VacancyDto vacancyDto) {
-        vacancyService.createVacancy(vacancyDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Vacancy created successfully");
-        //  return ResponseEntity.ok("vacancy is valid");
-    }
-
-    @PutMapping("/vacancy/{id}")
-    public ResponseEntity<String> editVacancy(@PathVariable Long id, @RequestBody VacancyDto vacancyDto) {
-        vacancyService.editVacancy(id, vacancyDto);
-        return ResponseEntity.ok("Vacancy edited successfully");
-    }
-
-    @DeleteMapping("/vacancy/{id}")
-    public ResponseEntity<String> deleteVacancy(@PathVariable Integer id) {
-        vacancyService.deleteVacancy(id);
-        return ResponseEntity.ok("Vacancy deleted successfully");
+    @GetMapping("/applicant/{id}")
+    public ResponseEntity<?> getApplicantById(@PathVariable Integer id) {
+        try {
+            return ResponseEntity.ok(employerService.getUserById(id));
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     @GetMapping("/resumes")
@@ -70,9 +61,24 @@ public class EmployerController {
         return ResponseEntity.ok(users);
     }
 
-    @GetMapping("/applicant/{id}")
-    public ResponseEntity<?> getApplicantById(@PathVariable Long id) {
-        return ResponseEntity.ok(employerService.getUserById(id));
+    @PostMapping("/vacancy")
+    public ResponseEntity<String> createVacancy(@Valid @RequestBody VacancyDto vacancyDto) {
+        vacancyService.createVacancy(vacancyDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Vacancy created successfully");
+        //  return ResponseEntity.ok("vacancy is valid");
     }
+
+    @PutMapping("/vacancy/{id}")
+    public ResponseEntity<String> editVacancy(@PathVariable Long id, @RequestBody VacancyDto vacancyDto) {
+        vacancyService.editVacancy(id, vacancyDto);
+        return ResponseEntity.ok("Vacancy edited successfully");
+    }
+
+    @DeleteMapping("/vacancy/{id}")
+    public ResponseEntity<String> deleteVacancy(@PathVariable Integer id) {
+        vacancyService.deleteVacancy(id);
+        return ResponseEntity.ok("Vacancy deleted successfully");
+    }
+
 }
 

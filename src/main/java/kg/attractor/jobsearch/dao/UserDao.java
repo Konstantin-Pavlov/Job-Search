@@ -104,4 +104,9 @@ public class UserDao {
         return template.query(sql, new BeanPropertyRowMapper<>(User.class), vacancyId);
 
     }
+
+    public void updateAvatar(Integer id, String fileName) {
+        String sql = "UPDATE users SET avatar = ? WHERE id = ?";
+        template.update(sql, fileName, id);
+    }
 }

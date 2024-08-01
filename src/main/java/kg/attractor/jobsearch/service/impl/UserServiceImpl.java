@@ -1,18 +1,37 @@
 package kg.attractor.jobsearch.service.impl;
 
+import kg.attractor.jobsearch.dao.ResumeDao;
 import kg.attractor.jobsearch.dao.UserDao;
+import kg.attractor.jobsearch.dao.VacancyDao;
+import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.exception.UserNotFoundException;
+import kg.attractor.jobsearch.model.Resume;
 import kg.attractor.jobsearch.model.User;
+import kg.attractor.jobsearch.model.Vacancy;
+import kg.attractor.jobsearch.service.ResumeService;
 import kg.attractor.jobsearch.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -20,6 +39,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserDao userDao;
+    private final VacancyDao vacancyDao;
+    private final ResumeDao resumeDao;
+    private final ResumeService resumeService;
+    private final String UPLOAD_DIR = "avatars/";
+
 
     @Override
     public List<UserDto> getUsers() {
@@ -144,16 +168,61 @@ public class UserServiceImpl implements UserService {
                         .build())
                 .collect(Collectors.toList());
         if (dtos.isEmpty()) {
-            log.error("Can't find users with vacancy id " + vacancyId);
+            log.error("Can't find users with vacancy id {}", vacancyId);
         } else {
-            log.info("found users with vacancy id " + vacancyId);
+            log.info("found users with vacancy id {}", vacancyId);
         }
         return dtos;
     }
 
     @Override
-    public void applyForVacancy(Long vacancyId) {
+    public void applyForVacancy(Long vacancyId, ResumeDto resumeDto) {
+        Resume resume = resumeDao.getResumeById(resumeDto.getApplicantId()).orElseThrow(
+                () -> new UsernameNotFoundException(
+                        "Can't find resume with applicant id: " + resumeDto.getApplicantId()
+                )
+        );
+        Vacancy vacancy = vacancyDao.getVacancyById(vacancyId).orElseThrow(
+                () -> new NoSuchElementException("Can't find vacancy with ID: " + vacancyId)
+        );
+        vacancyDao.applyForVacancy(resume.getId(), vacancy.getId());
+        log.info("apply for vacancy {} successfully", vacancy.getName());
+    }
 
+    @Override
+    public void saveAvatar(Integer userId, MultipartFile avatar) throws IOException, UserNotFoundException {
+        if (!avatar.isEmpty()) {
+            String fileName = UUID.randomUUID() + "_" + avatar.getOriginalFilename();
+            Path filePath = Paths.get(UPLOAD_DIR, fileName);
+            Files.createDirectories(filePath.getParent());
+            Files.write(filePath, avatar.getBytes());
+
+            User user = userDao.getUserById(userId).orElseThrow(
+                    () -> new UserNotFoundException("can't find user with id: " + userId));
+
+            userDao.updateAvatar(user.getId(), fileName);
+        } else {
+            throw new IOException("File is empty");
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> getAvatar(Integer userId) {
+        Optional<User> user = userDao.getUserById(userId);
+        if (user.isPresent()) {
+            try {
+                byte[] image = Files.readAllBytes(Paths.get(UPLOAD_DIR + user.get().getAvatar()));
+                Resource resource = new ByteArrayResource(image);
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + user.get().getAvatar() + "\"")
+                        .contentLength(resource.contentLength())
+                        .contentType(MediaType.IMAGE_JPEG)
+                        .body(resource);
+            } catch (IOException e) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("avatar not found");
+            }
+        }
+        return null;
     }
 
 }
