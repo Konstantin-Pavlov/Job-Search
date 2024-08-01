@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: modify user table - the number of characters for the avatar field has been increased
+      author: Mari
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: users
+      changes:
+        - modifyDataType:
+            tableName: users
+            columnName: avatar
+            newDataType: VARCHAR(100)
+
