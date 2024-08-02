@@ -5,7 +5,9 @@ import kg.attractor.jobsearch.dao.UserDao;
 import kg.attractor.jobsearch.dao.VacancyDao;
 import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.UserDto;
+import kg.attractor.jobsearch.dto.UserDtoWithAvatarUploading;
 import kg.attractor.jobsearch.exception.UserNotFoundException;
+import kg.attractor.jobsearch.mapper.CustomUserMapper;
 import kg.attractor.jobsearch.model.Resume;
 import kg.attractor.jobsearch.model.User;
 import kg.attractor.jobsearch.model.Vacancy;
@@ -43,6 +45,7 @@ public class UserServiceImpl implements UserService {
     private final ResumeDao resumeDao;
     private final ResumeService resumeService;
     private final String UPLOAD_DIR = "avatars/";
+//    private final UserMapper userMapper = UserMapper.INSTANCE;
 
 
     @Override
@@ -123,7 +126,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addUser(UserDto userDto) {
-        if (userDto.getAvatar() == null) {
+        if (userDto.getAvatar() == null || userDto.getAvatar().isEmpty()) {
             userDto.setAvatar("ava.png");
         }
         User user = new User();
@@ -140,6 +143,25 @@ public class UserServiceImpl implements UserService {
             log.info("added applicant with email {}", user.getEmail());
         } else {
             log.info("added employer with email {}", user.getEmail());
+        }
+    }
+
+    @Override
+    public void addUserWithAvatar(UserDtoWithAvatarUploading userDtoWithAvatarUploading) throws UserNotFoundException, IOException {
+        if (userDtoWithAvatarUploading.getAvatar().isEmpty()) {
+            addUser(CustomUserMapper.toUserDto(userDtoWithAvatarUploading));
+        } else {
+            addUser(CustomUserMapper.toUserDto(userDtoWithAvatarUploading));
+            Optional<User> user = userDao.getUserByEmail(userDtoWithAvatarUploading.getEmail());
+            if (user.isPresent()) {
+                saveAvatar(
+                        user.get().getId(),
+                        userDtoWithAvatarUploading.getAvatar()
+                );
+            } else {
+                log.error("Can't find user with email: {}", userDtoWithAvatarUploading.getEmail());
+                throw new UserNotFoundException("Can't find user with email: " + userDtoWithAvatarUploading.getEmail());
+            }
         }
     }
 
@@ -198,7 +220,7 @@ public class UserServiceImpl implements UserService {
             String fileName = UUID.randomUUID() + "_" + avatar.getOriginalFilename();
             // in users table avatar field length is only 45
             // if it's more - we get sql exception
-            if(fileName.length() > 45){
+            if (fileName.length() > 45) {
                 fileName = fileName.substring(fileName.length() - 45);
             }
             Path filePath = Paths.get(UPLOAD_DIR, fileName);
@@ -231,6 +253,9 @@ public class UserServiceImpl implements UserService {
             }
         }
         return null;
+    }
+
+    private void saveDataToUserDto(UserDto userDto, UserDtoWithAvatarUploading userDtoWithAvatarUploading) {
     }
 
 }

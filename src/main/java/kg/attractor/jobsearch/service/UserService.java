@@ -2,6 +2,7 @@ package kg.attractor.jobsearch.service;
 
 import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.UserDto;
+import kg.attractor.jobsearch.dto.UserDtoWithAvatarUploading;
 import kg.attractor.jobsearch.exception.UserNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +22,7 @@ public interface UserService {
     UserDto getUserById(long id) throws UserNotFoundException;
 
     void addUser(UserDto userDto);
+    void addUserWithAvatar(UserDtoWithAvatarUploading userDtoWithAvatarUploading) throws UserNotFoundException, IOException;
 
     boolean deleteUser(Long id);
 
