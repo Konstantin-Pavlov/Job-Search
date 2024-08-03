@@ -137,6 +137,7 @@ public class UserServiceImpl implements UserService {
         user.setPhoneNumber(userDto.getPhoneNumber());
         user.setAvatar(userDto.getAvatar());
         user.setAccountType(userDto.getAccountType());
+        user.setEnabled(userDto.isEnabled());
 
         userDao.addUser(user);
         if (user.getAccountType().equals("applicant")) {
