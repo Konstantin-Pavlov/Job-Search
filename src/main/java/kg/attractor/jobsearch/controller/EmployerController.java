@@ -61,6 +61,13 @@ public class EmployerController {
         return ResponseEntity.ok(users);
     }
 
+    @PostMapping("/add")
+    public ResponseEntity<?> add(@Valid @RequestBody UserDto userDto) {
+        userDto.setAccountType("employer");
+        employerService.addUser(userDto);
+        return ResponseEntity.ok("user is valid");
+    }
+
     @PostMapping("/vacancy")
     public ResponseEntity<String> createVacancy(@Valid @RequestBody VacancyDto vacancyDto) {
         vacancyService.createVacancy(vacancyDto);
