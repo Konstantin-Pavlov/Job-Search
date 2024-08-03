@@ -21,7 +21,7 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final PasswordEncoder encoder;
+    //    private final PasswordEncoder encoder;
     private final DataSource dataSource;
 
     private static final String USER_QUERY =
@@ -37,7 +37,7 @@ public class SecurityConfig {
                              inner join ROLES UA on USERS.ID = UA.USER_ID
                              inner join AUTHORITIES A on A.ID = UA.AUTHORITY_ID
                     where EMAIL=?;
-                                """;
+                    """;
 
 //    @Bean
 //    public InMemoryUserDetailsManager userDetailsManager() {
@@ -76,12 +76,33 @@ public class SecurityConfig {
                 .logout(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.GET, "/users").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/users/{id}").hasAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/users/add").hasAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/users/**").hasAnyAuthority("ADMIN", "USER")
-//                        .requestMatchers("/quizzes/**").hasAuthority("ADMIN")
                                 .requestMatchers("/swagger-ui/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/applicant/vacancies").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/applicant/get-user-vacancies/{user_id}").hasAnyAuthority("USER", "ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/applicant/avatar/{userId}").hasAnyAuthority("USER", "ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/users/{id}").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/users/**").hasAuthority("ADMIN")
+//                        .requestMatchers("/quizzes/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/users").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/applicant/add").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/applicant/add-with-avatar").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/applicant/{userId}/upload-avatar").hasAnyAuthority("ADMIN", "USER")
+                                .requestMatchers(HttpMethod.POST, "/applicant/resume").hasAnyAuthority("ADMIN", "USER")
+                                .requestMatchers(HttpMethod.POST, "/applicant/vacancy/{vacancyId}/apply").hasAnyAuthority("ADMIN", "USER")
+                                .requestMatchers(HttpMethod.PUT, "/applicant/resume/{id}").hasAnyAuthority("ADMIN", "USER")
+                                .requestMatchers(HttpMethod.DELETE, "/applicant/resume/{id}").hasAnyAuthority("ADMIN", "USER")
+
+                                .requestMatchers(HttpMethod.GET, "/employer/resumes").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/employer/resumes/category/{category}").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/employer/{vacancyId}/applicants").hasAnyAuthority("ADMIN", "USER")
+                                .requestMatchers(HttpMethod.POST, "/employer/add").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/employer/vacancy").hasAnyAuthority("ADMIN", "USER")
+                                .requestMatchers(HttpMethod.PUT, "/employer/vacancy/{id}").hasAnyAuthority("ADMIN", "USER")
+                                .requestMatchers(HttpMethod.DELETE, "/employer/vacancy/{id}").hasAnyAuthority("ADMIN", "USER")
+
+
+
+
                                 .anyRequest().authenticated()
                 );
         return http.build();
