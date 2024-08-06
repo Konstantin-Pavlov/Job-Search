@@ -21,7 +21,7 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public List<ResumeDto> getResumes() {
-        List<Resume> resumes = resumeDao.getResume();
+        List<Resume> resumes = resumeDao.getResumes();
         List<ResumeDto> dtos = new ArrayList<>();
         resumes.forEach(e -> dtos.add(ResumeDto.builder()
                 .applicantId(e.getApplicantId())
@@ -62,7 +62,7 @@ public class ResumeServiceImpl implements ResumeService {
         try {
             Resume resume = resumeDao.getResumeByCategoryId(categoryId)
                     .orElseThrow(() -> new Exception("Can't find resume with categoryId " + categoryId));
-            log.info("found resume with categoryId " + categoryId);
+            log.info("found resume with categoryId {}", categoryId);
             return ResumeDto.builder()
                     .applicantId(resume.getApplicantId())
                     .name(resume.getName())
@@ -74,7 +74,7 @@ public class ResumeServiceImpl implements ResumeService {
                     .updateTime(resume.getUpdateTime())
                     .build();
         } catch (Exception e) {
-            log.error("Can't find resume with categoryId" + categoryId);
+            log.error("Can't find resume with categoryId{}", categoryId);
         }
         return null;
     }
@@ -95,22 +95,27 @@ public class ResumeServiceImpl implements ResumeService {
                 .collect(Collectors.toList());
 
         if (dtos.isEmpty()) {
-            log.error("Can't find resumes with user id " + userId);
+            log.error("Can't find resumes with user id {}", userId);
         } else {
-            log.info("found resumes with user id " + userId);
+            log.info("found resumes with user id {}", userId);
         }
         return dtos;
     }
 
     @Override
     public List<ResumeDto> getResumeByCategory(String category) {
-        // todo - implement
-        return List.of();
+        return resumeDao.getResumeByCategory(category);
     }
 
     @Override
-    public void editResume(Long id, ResumeDto resumeDto) {
-        // todo - implement
+    public void editResume(Integer id, ResumeDto resumeDto) {
+        ResumeDto resumeDto1 = getResumeById(id);
+        if (resumeDto1 == null) {
+            log.error("Can't find resume with id " + id);
+        } else {
+            deleteResume(id);
+            addResume(resumeDto);
+        }
     }
 
     @Override
