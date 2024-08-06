@@ -19,5 +19,5 @@ public interface ResumeService {
 
     List<ResumeDto> getResumeByCategory(String category);
 
-    void editResume(Long id, ResumeDto resumeDto);
+    void editResume(Integer id, ResumeDto resumeDto);
 }

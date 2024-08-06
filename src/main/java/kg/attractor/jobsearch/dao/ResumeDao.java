@@ -1,5 +1,6 @@
 package kg.attractor.jobsearch.dao;
 
+import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.model.Resume;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.support.DataAccessUtils;
@@ -18,7 +19,7 @@ public class ResumeDao {
     private final JdbcTemplate template;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public List<Resume> getResume() {
+    public List<Resume> getResumes() {
         String sql = """
                 select * from resumes
                 """;
@@ -69,6 +70,16 @@ public class ResumeDao {
                 .addValue("updateTime", resume.getUpdateTime()));
     }
 
+
+    public List<ResumeDto> getResumeByCategory(String category) {
+        String sql = """
+                select * from RESUMES
+                inner join CATEGORIES C on C.ID = RESUMES.CATEGORY_ID
+                where c.NAME = ?
+                """;
+        return template.query(sql, new BeanPropertyRowMapper<>(ResumeDto.class), category);
+    }
+
     public void delete(Integer id) {
         String sql = """
                 delete from RESUMES
@@ -76,5 +87,4 @@ public class ResumeDao {
                 """;
         template.update(sql, id);
     }
-
 }

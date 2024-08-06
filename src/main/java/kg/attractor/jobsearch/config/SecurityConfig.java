@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,6 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 
 import javax.sql.DataSource;
 
@@ -75,6 +77,7 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
+//                .exceptionHandling(exception -> exception.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .authorizeHttpRequests(authorize -> authorize
                                 .requestMatchers("/swagger-ui/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/applicant/vacancies").permitAll()
@@ -94,14 +97,11 @@ public class SecurityConfig {
 
                                 .requestMatchers(HttpMethod.GET, "/employer/resumes").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/employer/resumes/category/{category}").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/employer/{vacancyId}/applicants").hasAnyAuthority("ADMIN", "USER")
+                                .requestMatchers(HttpMethod.GET, "/employer/vacancy/{vacancyId}/applicants").hasAnyAuthority("ADMIN", "USER")
                                 .requestMatchers(HttpMethod.POST, "/employer/add").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/employer/vacancy").hasAnyAuthority("ADMIN", "USER")
                                 .requestMatchers(HttpMethod.PUT, "/employer/vacancy/{id}").hasAnyAuthority("ADMIN", "USER")
                                 .requestMatchers(HttpMethod.DELETE, "/employer/vacancy/{id}").hasAnyAuthority("ADMIN", "USER")
-
-
-
 
                                 .anyRequest().authenticated()
                 );

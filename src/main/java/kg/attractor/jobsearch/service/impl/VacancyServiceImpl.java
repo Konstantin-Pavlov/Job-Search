@@ -77,7 +77,7 @@ public class VacancyServiceImpl implements VacancyService {
         vacancy.setUpdateTime(vacancyDto.getUpdateTime());
 
         vacancyDao.addVacancy(vacancy);
-        log.info("added vacancy " + vacancy.getName());
+        log.info("added vacancy {}", vacancy.getName());
     }
 
     @Override
@@ -85,7 +85,7 @@ public class VacancyServiceImpl implements VacancyService {
         Optional<Vacancy> vacancy = vacancyDao.getVacancyById(id);
         if (vacancy.isPresent()) {
             vacancyDao.delete(id);
-            log.info("vacancy deleted: " + vacancy.get().getName());
+            log.info("vacancy deleted: {}", vacancy.get().getName());
             return true;
         }
         log.info(String.format(" vacancy with id %d not found", id));

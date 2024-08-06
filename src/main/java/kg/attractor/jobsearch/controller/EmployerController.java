@@ -23,9 +23,9 @@ import java.util.List;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class EmployerController {
     //    @Autowired - no need if field is final and @RequiredArgsConstructor annotation is used
-    final UserService employerService;
-    final VacancyService vacancyService;
-    final ResumeService resumeService;
+    UserService employerService;
+    VacancyService vacancyService;
+    ResumeService resumeService;
 
     @GetMapping("/applicant/{id}")
     public ResponseEntity<?> getApplicantById(@PathVariable Integer id) {
