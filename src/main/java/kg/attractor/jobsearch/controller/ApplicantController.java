@@ -28,8 +28,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-// todo - add user method
-
 @RestController
 @RequestMapping("/applicant")
 @RequiredArgsConstructor
@@ -146,7 +144,7 @@ public class ApplicantController {
     }
 
     @GetMapping("/avatar/{userId}")
-    public ResponseEntity<?> getAvatar(@PathVariable Integer userId) {
+    public ResponseEntity<?> getAvatar(@PathVariable Integer userId) throws UserNotFoundException {
         return applicantService.getAvatar(userId);
     }
 
@@ -198,10 +196,6 @@ public class ApplicantController {
 //    }
 
 
-
-
-
-
     @PostMapping("/resume")
     public ResponseEntity<String> createResume(@Valid @RequestBody ResumeDto resumeDto) {
         resumeService.addResume(resumeDto);
@@ -215,7 +209,7 @@ public class ApplicantController {
     }
 
     @PutMapping("/resume/{id}")
-    public ResponseEntity<String> editResume(@PathVariable Long id, @RequestBody ResumeDto resumeDto) {
+    public ResponseEntity<String> editResume(@PathVariable Integer id, @RequestBody ResumeDto resumeDto) {
         resumeService.editResume(id, resumeDto);
         return ResponseEntity.ok("Resume edited successfully");
     }
