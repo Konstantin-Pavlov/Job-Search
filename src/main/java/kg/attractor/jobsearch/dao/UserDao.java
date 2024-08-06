@@ -21,8 +21,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserDao {
 
-    // todo - exception handling
-
     private static final Logger log = LoggerFactory.getLogger(UserDao.class);
     private final JdbcTemplate template;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
