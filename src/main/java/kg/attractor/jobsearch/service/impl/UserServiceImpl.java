@@ -238,7 +238,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<?> getAvatar(Integer userId) {
+    public ResponseEntity<?> getAvatar(Integer userId) throws UserNotFoundException {
         Optional<User> user = userDao.getUserById(userId);
         if (user.isPresent()) {
             try {
@@ -252,11 +252,10 @@ public class UserServiceImpl implements UserService {
             } catch (IOException e) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body("avatar not found");
             }
+        } else {
+            log.error("Can't find user with id {}", userId);
+            throw new UserNotFoundException(String.format("user with id %d not found", userId));
         }
-        return null;
-    }
-
-    private void saveDataToUserDto(UserDto userDto, UserDtoWithAvatarUploading userDtoWithAvatarUploading) {
     }
 
 }
