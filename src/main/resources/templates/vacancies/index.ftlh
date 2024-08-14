@@ -1,18 +1,22 @@
 <#import "../layout.ftlh" as main>
 <@main.layout>
-    <div class="row d-flex justify-content-between">
-        <#list vacancies as vacancie>
-            <div class="card col-6 m-2" style="width: 18rem;">
-                <img src="/static/images/vacancy_default_image.jpg" class="card-img-top" alt="No image available">
-                <div class="card-body">
-                    <h5 class="card-title">${vacancie.name}</h5>
-                    <p class="card-text">description: ${vacancie.description}</p>
-                    <p class="card-text">salary: ${vacancie.salary}</p>
-                    <p class="card-text">work experience from ${vacancie.expFrom} to ${vacancie.expTo} years</p>
-                    <p class="card-text">active: ${vacancie.isActive?string('yes', 'no')}</p>
-                    <a href="#" class="btn btn-primary">More Info</a>
+    <div class="container mt-4">
+        <div class="row d-flex justify-content-between">
+            <#list vacancies as vacancie>
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="/static/images/vacancy_default_image.jpg" class="card-img-top" alt="No image available">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">${vacancie.name}</h5>
+                            <p class="card-text text-muted mb-2">Description: ${vacancie.description}</p>
+                            <p class="card-text mb-2"><strong>Salary:</strong> ${vacancie.salary}</p>
+                            <p class="card-text mb-2"><strong>Work experience:</strong> from ${vacancie.expFrom} to ${vacancie.expTo} years</p>
+                            <p class="card-text mb-2"><strong>Active:</strong> ${vacancie.isActive?string('yes', 'no')}</p>
+                            <a href="#" class="btn btn-primary mt-auto">More Info</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </#list>
+            </#list>
+        </div>
     </div>
 </@main.layout>
