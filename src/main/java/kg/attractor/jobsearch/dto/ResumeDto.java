@@ -1,5 +1,6 @@
 package kg.attractor.jobsearch.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -19,14 +20,25 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ResumeDto {
     @Min(1)
+    @JsonProperty("applicant_id")
     Integer applicantId;
+
     @NotBlank
     String name;
+
     @Min(value = 1, message = "categoryId must be at least 1")
+    @JsonProperty("category_id")
     Integer categoryId;
+
     @Positive
     double salary;
+
+    @JsonProperty("is_active")
     Boolean isActive;
+
+    @JsonProperty("created_date")
     LocalDateTime createdDate;
+
+    @JsonProperty("update_time")
     LocalDateTime updateTime;
 }

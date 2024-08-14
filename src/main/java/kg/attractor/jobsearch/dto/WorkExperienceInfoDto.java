@@ -1,5 +1,6 @@
 package kg.attractor.jobsearch.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,11 +16,23 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class WorkExperienceInfoDto {
+    @JsonProperty("applicant_id")
     Integer applicantId;
+
+
     String name;
+
+    @JsonProperty("category_id")
     Integer categoryId;
+
     Integer salary;
+
+    @JsonProperty("is_active")
     Boolean isActive;
+
+    @JsonProperty("created_date")
     LocalDateTime createdDate;
+
+    @JsonProperty("update_time")
     LocalDateTime updateTime;
 }

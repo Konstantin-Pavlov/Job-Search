@@ -1,5 +1,6 @@
 package kg.attractor.jobsearch.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +18,9 @@ import java.time.LocalDateTime;
 public class EducationInfoDto {
     String institution;
     String program;
+    @JsonProperty("start_date")
     LocalDateTime startDate;
+    @JsonProperty("end_date")
     LocalDateTime endDate;
     String degree;
 }

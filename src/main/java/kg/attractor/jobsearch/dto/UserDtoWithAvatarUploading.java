@@ -1,5 +1,6 @@
 package kg.attractor.jobsearch.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -40,10 +41,14 @@ public class UserDtoWithAvatarUploading {
     @Size(min = 3, max = 60, message = "Password length must be from {min} to {max} characters")
     @NotBlank
     String password;
+
     @Pattern(regexp = "^\\+996\\d{7}$", message = "phone number is invalid")
+    @JsonProperty("phone_number")
     String phoneNumber;
     MultipartFile avatar;
+
     //    @Pattern(regexp = "^(employer|applicant)$", message = "should only contain \"employer\" or \"applicant\"")
+    @JsonProperty("account_type")
     String accountType;
     boolean enabled;
 }
