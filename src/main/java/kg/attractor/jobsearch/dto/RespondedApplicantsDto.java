@@ -1,16 +1,19 @@
 package kg.attractor.jobsearch.dto;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class RespondedApplicantsDto {
-    private Integer resumeId;
-    private Integer vacancyId;
-    private boolean confirmation;
+    Integer resumeId;
+    Integer vacancyId;
+    boolean confirmation;
 }

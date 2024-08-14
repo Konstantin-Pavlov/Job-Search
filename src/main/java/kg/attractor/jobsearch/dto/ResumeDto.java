@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE) // all fields are private
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ResumeDto {
     @Min(1)
     Integer applicantId;

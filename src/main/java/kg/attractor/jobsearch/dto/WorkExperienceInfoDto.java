@@ -1,9 +1,11 @@
 package kg.attractor.jobsearch.dto;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
 
@@ -11,12 +13,13 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class WorkExperienceInfoDto {
-    private Integer applicantId;
-    private String name;
-    private Integer categoryId;
-    private Integer salary;
-    private Boolean isActive;
-    private LocalDateTime createdDate;
-    private LocalDateTime updateTime;
+    Integer applicantId;
+    String name;
+    Integer categoryId;
+    Integer salary;
+    Boolean isActive;
+    LocalDateTime createdDate;
+    LocalDateTime updateTime;
 }
