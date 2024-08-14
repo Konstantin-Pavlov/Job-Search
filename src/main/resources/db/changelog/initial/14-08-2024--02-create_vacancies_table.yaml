@@ -33,11 +33,11 @@ databaseChangeLog:
                   name: salary
                   type: DOUBLE
               - column:
-                  name: expFrom
-                  type: DATE
+                  name: exp_from
+                  type: INT
               - column:
-                  name: expTo
-                  type: DATE
+                  name: exp_to
+                  type: INT
               - column:
                   name: is_active
                   type: BOOLEAN

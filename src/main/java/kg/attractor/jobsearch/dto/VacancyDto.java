@@ -33,10 +33,10 @@ public class VacancyDto {
     Integer salary;
 
     @JsonProperty("exp_from")
-    LocalDateTime expFrom;
+    Integer expFrom;
 
     @JsonProperty("exp_to")
-    LocalDateTime expTo;
+    Integer expTo;
 
     @JsonProperty("is_active")
     Boolean isActive;

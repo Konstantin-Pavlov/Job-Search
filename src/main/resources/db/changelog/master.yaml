@@ -18,7 +18,7 @@ databaseChangeLog:
   - include:
       file: /db/changelog/initial/18-03-2024--02-create_contact_info_table.yaml
   - include:
-      file: /db/changelog/initial/18-03-2024--01-create_vacancies_table.yaml
+      file: /db/changelog/initial/14-08-2024--02-create_vacancies_table.yaml
   - include:
       file: /db/changelog/initial/18-03-2024--01-create_responded_applicants_table.yaml
   - include:
@@ -29,6 +29,8 @@ databaseChangeLog:
       file: /db/changelog/initial/18-03-2024--03-create_work_experience_info_table.yaml
   - include:
       file: /db/changelog/initial/01-08-2024--01-update_user_table.yaml
+  - include:
+      file: /db/changelog/initial/14-08-2024--01-update_vacancies_table.yaml
 
 
   #  - include:
@@ -56,7 +58,7 @@ databaseChangeLog:
   - include:
       file: /db/changelog/initial/data/18-03-2024--01-insert_contact_info.sql
   - include:
-      file: /db/changelog/initial/data/18-03-2024--02-insert_vacancies.sql
+      file: /db/changelog/initial/data/14-08-2024--03-insert_vacancies.sql
   - include:
       file: /db/changelog/initial/data/18-03-2024--01-insert_responded_applicants.sql
   - include:

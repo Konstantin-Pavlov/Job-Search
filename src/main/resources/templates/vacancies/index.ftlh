@@ -8,8 +8,7 @@
                     <h5 class="card-title">${vacancie.name}</h5>
                     <p class="card-text">description: ${vacancie.description}</p>
                     <p class="card-text">salary: ${vacancie.salary}</p>
-<#--                    <p class="card-text">${vacancie.expFrom}</p>-->
-<#--                    <p class="card-text">${vacancie.expTo}</p>-->
+                    <p class="card-text">work experience from ${vacancie.expFrom} to ${vacancie.expTo} years</p>
                     <p class="card-text">active: ${vacancie.isActive?string('yes', 'no')}</p>
                     <a href="#" class="btn btn-primary">More Info</a>
                 </div>
