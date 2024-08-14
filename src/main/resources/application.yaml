@@ -3,15 +3,21 @@
 server:
   port: 8089
 spring:
+  application:
+    name: job_search
+  mvc:
+    static-path-pattern: /static/**
+
+  # ------------- DataBases
   datasource:
     url: jdbc:h2:./db/JobSearch;AUTO_SERVER=true
     username: root
     password: 2565
     driver-class-name: org.h2.Driver
 
-#  sql:
-#    init:
-#      mode: always
+  #  sql:
+  #    init:
+  #      mode: always
 
   liquibase:
     change-log: classpath:/db/changelog/master.yaml

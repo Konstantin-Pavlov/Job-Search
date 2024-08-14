@@ -1,4 +1,4 @@
-package kg.attractor.jobsearch.controller.controllers_to_delete;
+package kg.attractor.jobsearch.controller.api;
 
 import jakarta.validation.Valid;
 import kg.attractor.jobsearch.dto.UserDto;

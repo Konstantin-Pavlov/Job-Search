@@ -80,6 +80,7 @@ public class SecurityConfig {
 //                .exceptionHandling(exception -> exception.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .authorizeHttpRequests(authorize -> authorize
                                 .requestMatchers("/swagger-ui/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "vacancies").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/applicant/vacancies").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/applicant/get-user-vacancies/{user_id}").hasAnyAuthority("USER", "ADMIN")
                                 .requestMatchers(HttpMethod.GET, "/applicant/avatar/{userId}").hasAnyAuthority("USER", "ADMIN")

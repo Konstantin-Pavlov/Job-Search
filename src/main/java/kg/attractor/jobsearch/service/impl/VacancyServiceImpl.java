@@ -21,7 +21,7 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public List<VacancyDto> getVacancies() {
-        List<Vacancy> vacancies = vacancyDao.getVacancy();
+        List<Vacancy> vacancies = vacancyDao.getVacancies();
         List<VacancyDto> dtos = new ArrayList<>();
         vacancies.forEach(e -> dtos.add(VacancyDto.builder()
                 .name(e.getName())

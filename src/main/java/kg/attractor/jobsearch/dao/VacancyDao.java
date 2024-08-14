@@ -19,7 +19,7 @@ public class VacancyDao {
     private final JdbcTemplate template;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public List<Vacancy> getVacancy() {
+    public List<Vacancy> getVacancies() {
         String sql = """
                 select * from VACANCIES
                 """;
