@@ -3,7 +3,7 @@
     <div class="row d-flex justify-content-between">
         <#list vacancies as vacancie>
             <div class="card col-6 m-2" style="width: 18rem;">
-<#--                <img src="static.images/default_avatar.jpg" class="card-img-top" alt="No image available">-->
+                <img src="/static/images/No_Image_Available.jpg" class="card-img-top" alt="No image available">
                 <div class="card-body">
                     <h5 class="card-title">${vacancie.name}</h5>
                     <p class="card-text">description: ${vacancie.description}</p>
