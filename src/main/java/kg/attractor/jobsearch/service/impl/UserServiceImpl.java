@@ -5,13 +5,12 @@ import kg.attractor.jobsearch.dao.UserDao;
 import kg.attractor.jobsearch.dao.VacancyDao;
 import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.UserDto;
-import kg.attractor.jobsearch.dto.UserDtoWithAvatarUploading;
+import kg.attractor.jobsearch.dto.UserDtoWithAvatarUploadingDto;
 import kg.attractor.jobsearch.exception.UserNotFoundException;
 import kg.attractor.jobsearch.mapper.CustomUserMapper;
 import kg.attractor.jobsearch.model.Resume;
 import kg.attractor.jobsearch.model.User;
 import kg.attractor.jobsearch.model.Vacancy;
-import kg.attractor.jobsearch.service.ResumeService;
 import kg.attractor.jobsearch.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,10 +42,7 @@ public class UserServiceImpl implements UserService {
     private final UserDao userDao;
     private final VacancyDao vacancyDao;
     private final ResumeDao resumeDao;
-    private final ResumeService resumeService;
     private final String UPLOAD_DIR = "avatars/";
-//    private final UserMapper userMapper = UserMapper.INSTANCE;
-
 
     @Override
     public List<UserDto> getUsers() {
@@ -107,11 +103,11 @@ public class UserServiceImpl implements UserService {
     public UserDto getUserById(long id) {//throws UserNotFoundException {
         User user = userDao.getUserById(id).orElseThrow(
                 () -> {
-                    log.error("Can't find user with ID: " + id);
+                    log.error("Can't find user with ID: {}", id);
                     return new NoSuchElementException("Can't find user with ID: " + id);
                 }
         );
-        log.info("User found with ID: " + id);
+        log.info("User found with ID: {}", id);
         return UserDto.builder().
                 id(user.getId())
                 .name(user.getName())
@@ -148,20 +144,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUserWithAvatar(UserDtoWithAvatarUploading userDtoWithAvatarUploading) throws UserNotFoundException, IOException {
-        if (userDtoWithAvatarUploading.getAvatar().isEmpty()) {
-            addUser(CustomUserMapper.toUserDto(userDtoWithAvatarUploading));
+    public void addUserWithAvatar(UserDtoWithAvatarUploadingDto userDtoWithAvatarUploadingDto) throws UserNotFoundException, IOException {
+        if (userDtoWithAvatarUploadingDto.getAvatar().isEmpty()) {
+            addUser(CustomUserMapper.toUserDto(userDtoWithAvatarUploadingDto));
         } else {
-            addUser(CustomUserMapper.toUserDto(userDtoWithAvatarUploading));
-            Optional<User> user = userDao.getUserByEmail(userDtoWithAvatarUploading.getEmail());
+            addUser(CustomUserMapper.toUserDto(userDtoWithAvatarUploadingDto));
+            Optional<User> user = userDao.getUserByEmail(userDtoWithAvatarUploadingDto.getEmail());
             if (user.isPresent()) {
                 saveAvatar(
                         user.get().getId(),
-                        userDtoWithAvatarUploading.getAvatar()
+                        userDtoWithAvatarUploadingDto.getAvatar()
                 );
+                log.info("saved avatar {}", user.get().getAvatar());
             } else {
-                log.error("Can't find user with email: {}", userDtoWithAvatarUploading.getEmail());
-                throw new UserNotFoundException("Can't find user with email: " + userDtoWithAvatarUploading.getEmail());
+                log.error("Can't find user with email: {}", userDtoWithAvatarUploadingDto.getEmail());
+                throw new UserNotFoundException("Can't find user with email: " + userDtoWithAvatarUploadingDto.getEmail());
             }
         }
     }
@@ -171,7 +168,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> user = userDao.getUserById(id);
         if (user.isPresent()) {
             userDao.delete(id);
-            log.info("user deleted: " + user.get().getName());
+            log.info("user deleted: {}", user.get().getName());
             return true;
         }
         log.info(String.format("user with id %d not found", id));

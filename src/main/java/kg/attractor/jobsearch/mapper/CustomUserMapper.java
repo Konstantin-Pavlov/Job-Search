@@ -1,19 +1,19 @@
 package kg.attractor.jobsearch.mapper;
 
 import kg.attractor.jobsearch.dto.UserDto;
-import kg.attractor.jobsearch.dto.UserDtoWithAvatarUploading;
+import kg.attractor.jobsearch.dto.UserDtoWithAvatarUploadingDto;
 
 public class CustomUserMapper {
-    public static UserDto toUserDto(UserDtoWithAvatarUploading userDtoWithAvatarUploading){
+    public static UserDto toUserDto(UserDtoWithAvatarUploadingDto userDtoWithAvatarUploadingDto){
         return UserDto.builder()
-                .name(userDtoWithAvatarUploading.getName())
-                .age(userDtoWithAvatarUploading.getAge())
-                .email(userDtoWithAvatarUploading.getEmail())
-                .password(userDtoWithAvatarUploading.getPassword())
-                .phoneNumber(userDtoWithAvatarUploading.getPhoneNumber())
-                .avatar(userDtoWithAvatarUploading.getAvatar().getOriginalFilename())
-                .accountType(userDtoWithAvatarUploading.getAccountType())
-                .enabled(userDtoWithAvatarUploading.isEnabled())
+                .name(userDtoWithAvatarUploadingDto.getName())
+                .age(userDtoWithAvatarUploadingDto.getAge())
+                .email(userDtoWithAvatarUploadingDto.getEmail())
+                .password(userDtoWithAvatarUploadingDto.getPassword())
+                .phoneNumber(userDtoWithAvatarUploadingDto.getPhoneNumber())
+                .avatar(userDtoWithAvatarUploadingDto.getAvatar().getOriginalFilename())
+                .accountType(userDtoWithAvatarUploadingDto.getAccountType())
+                .enabled(userDtoWithAvatarUploadingDto.isEnabled())
                 .build();
     }
 }

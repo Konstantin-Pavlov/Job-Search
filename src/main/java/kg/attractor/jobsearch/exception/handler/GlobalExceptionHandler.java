@@ -26,16 +26,6 @@ public class GlobalExceptionHandler {
 
     private final ErrorService errorService;
 
-//    @ExceptionHandler(NoSuchElementException.class)
-//    public ErrorResponse noSuchElement(NoSuchElementException exception) {
-//        return ErrorResponse.builder(exception, HttpStatus.NOT_FOUND, exception.getMessage()).build();
-//    }
-
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public ErrorResponse validationHandler(MethodArgumentNotValidException exception){
-//        return ErrorResponse.builder(exception, HttpStatus.BAD_REQUEST, exception.getMessage()).build();
-//    }
-
     @ExceptionHandler(IOException.class)
     public ResponseEntity<CustomErrorResponse> handleIOException(IOException exception) {
         CustomErrorResponse errorResponse = CustomErrorResponse.builder()
@@ -47,7 +37,6 @@ public class GlobalExceptionHandler {
                 .build();
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException exception) {

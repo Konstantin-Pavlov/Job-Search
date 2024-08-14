@@ -1,9 +1,9 @@
-package kg.attractor.jobsearch.controller;
+package kg.attractor.jobsearch.controller.api;
 
 import jakarta.validation.Valid;
 import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.UserDto;
-import kg.attractor.jobsearch.dto.UserDtoWithAvatarUploading;
+import kg.attractor.jobsearch.dto.UserDtoWithAvatarUploadingDto;
 import kg.attractor.jobsearch.dto.VacancyDto;
 import kg.attractor.jobsearch.exception.UserNotFoundException;
 import kg.attractor.jobsearch.service.ResumeService;
@@ -164,7 +164,7 @@ public class ApplicantController {
             @RequestParam("phoneNumber") String phoneNumber,
             @RequestParam(value = "avatar", required = false) MultipartFile avatar) throws UserNotFoundException, IOException {
 
-        UserDtoWithAvatarUploading userDtoWithAvatarUploading = UserDtoWithAvatarUploading.builder()
+        UserDtoWithAvatarUploadingDto userDtoWithAvatarUploadingDto = UserDtoWithAvatarUploadingDto.builder()
                 .name(name)
                 .age(age)
                 .email(email)
@@ -175,7 +175,7 @@ public class ApplicantController {
                 .enabled(true)
                 .build();
 
-        applicantService.addUserWithAvatar(userDtoWithAvatarUploading);
+        applicantService.addUserWithAvatar(userDtoWithAvatarUploadingDto);
         return ResponseEntity.ok("User is valid");
     }
 

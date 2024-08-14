@@ -46,6 +46,10 @@
                 color: #333;
             }
 
+            .error-message {
+                color: yellow;
+            }
+
             .btn-primary {
                 background-color: #28a745; /* Green */
                 border-color: #28a745; /* Green */
