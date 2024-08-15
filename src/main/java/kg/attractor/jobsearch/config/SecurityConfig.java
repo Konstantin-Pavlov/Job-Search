@@ -1,11 +1,11 @@
 package kg.attractor.jobsearch.config;
 
+import kg.attractor.jobsearch.service.impl.CustomUserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,9 +13,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 
@@ -25,6 +24,7 @@ import javax.sql.DataSource;
 public class SecurityConfig {
     //    private final PasswordEncoder encoder;
     private final DataSource dataSource;
+    private final CustomUserDetailsServiceImpl customUserDetailsServiceImpl;
 
     private static final String USER_QUERY =
             """
@@ -62,7 +62,8 @@ public class SecurityConfig {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication()
+        auth
+                .jdbcAuthentication()
                 .dataSource(dataSource)
                 .usersByUsernameQuery(USER_QUERY)
                 .authoritiesByUsernameQuery(AUTHORITIES_QUERY)
@@ -72,17 +73,25 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 .httpBasic(Customizer.withDefaults())
-                .formLogin(AbstractHttpConfigurer::disable)
-                .logout(AbstractHttpConfigurer::disable)
+                .formLogin(form -> form
+                        .loginPage("/auth/login")
+                        .loginProcessingUrl("/auth/login")
+                        .defaultSuccessUrl("/")
+                        .failureUrl("/auth/login?error=true")
+                        .permitAll())
+                .logout(logout -> logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .permitAll())
                 .csrf(AbstractHttpConfigurer::disable)
-//                .exceptionHandling(exception -> exception.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .authorizeHttpRequests(authorize -> authorize
                                 .requestMatchers("/swagger-ui/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "vacancies").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/vacancies").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/auth/register").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/auth/profile").fullyAuthenticated()
 //                                .requestMatchers(HttpMethod.GET, "/applicant/vacancies").permitAll()
 //                                .requestMatchers(HttpMethod.GET, "/applicant/get-user-vacancies/{user_id}").hasAnyAuthority("USER", "ADMIN")
 //                                .requestMatchers(HttpMethod.GET, "/applicant/avatar/{userId}").hasAnyAuthority("USER", "ADMIN")
