@@ -1,5 +1,5 @@
-<#import "spring.ftl" as spring>
-<#macro layout>
+<#--<#import "spring.ftl" as spring>-->
+<#macro layout isAuthenticated=false>
 
     <!doctype html>
     <html lang="en">
