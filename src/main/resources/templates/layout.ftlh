@@ -16,6 +16,21 @@
                 crossorigin="anonymous"></script>
         <style>
             /* Custom Styles */
+            .rounded-t-5 {
+                border-top-left-radius: 0.5rem;
+                border-top-right-radius: 0.5rem;
+            }
+
+            @media (min-width: 992px) {
+                .rounded-tr-lg-0 {
+                    border-top-right-radius: 0;
+                }
+
+                .rounded-bl-lg-5 {
+                    border-bottom-left-radius: 0.5rem;
+                }
+            }
+
             body {
                 background-color: rgba(57, 181, 205, 0.5); /* Light grey background */
             }
