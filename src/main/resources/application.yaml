@@ -7,6 +7,9 @@ spring:
     name: job_search
   mvc:
     static-path-pattern: /static/**
+  web:
+    resources:
+      static-locations: classpath:/static/,file:./avatars/
 
   # ------------- DataBases
   datasource:
