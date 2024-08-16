@@ -27,3 +27,46 @@
         </div>
     </div>
 </@layout.layout>
+
+
+***
+
+//  how it supposed to be
+<#--<div class="profile-container">-->
+<#--    <h1 class="profile-header">Личный кабинет Соискателя</h1>-->
+
+<#--    <div class="profile-section">-->
+<#--        <div class="profile-info">-->
+<#--            <img src="${user.avatarUrl}" alt="User Avatar" class="profile-avatar">-->
+<#--            <p class="profile-name">${user.fullName}</p>-->
+<#--            <p class="profile-age">Возраст: ${user.age}</p>-->
+<#--            <button class="edit-profile-btn">Редактировать</button>-->
+<#--        </div>-->
+
+<#--        <div class="profile-actions">-->
+<#--            <div class="create-resume">-->
+<#--                <button class="create-resume-btn">Создать резюме</button>-->
+<#--            </div>-->
+<#--            <div class="responses">-->
+<#--                <span class="responses-count">${user.responsesCount}</span>-->
+<#--                <p>Отклики</p>-->
+<#--            </div>-->
+<#--        </div>-->
+<#--    </div>-->
+
+<#--    <div class="resume-section">-->
+<#--        <h2>Резюме:</h2>-->
+<#--        <div class="resume-list">-->
+<#--            <#list user.resumes as resume>-->
+<#--                <div class="resume-card">-->
+<#--                    <p class="resume-title">${resume.title}</p>-->
+<#--                    <p class="resume-date">Дата обновления: ${resume.updateDate?string("dd/MM/yyyy")}</p>-->
+<#--                    <div class="resume-actions">-->
+<#--                        <button class="update-resume-btn">Обновить</button>-->
+<#--                        <button class="edit-resume-btn">Ред.</button>-->
+<#--                    </div>-->
+<#--                </div>-->
+<#--            </#list>-->
+<#--        </div>-->
+<#--    </div>-->
+<#--</div>-->
