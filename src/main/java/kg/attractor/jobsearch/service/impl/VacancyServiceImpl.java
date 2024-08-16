@@ -113,9 +113,9 @@ public class VacancyServiceImpl implements VacancyService {
                 .collect(Collectors.toList());
 
         if (dtos.isEmpty()) {
-            log.error("Can't find vacancies with user id " + userId);
+            log.error("Can't find vacancies with user id {}", userId);
         } else {
-            log.info("found vacancies with user id " + userId);
+            log.info("found vacancies with user id {}", userId);
         }
         return dtos;
     }
