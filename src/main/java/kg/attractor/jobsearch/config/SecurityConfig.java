@@ -52,13 +52,14 @@ public class SecurityConfig {
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/").permitAll() // Allow access to the root URL
                         .requestMatchers("/static/**").permitAll() // Allow access to static resources
+                        .requestMatchers("/avatars/**").permitAll()
                         .requestMatchers("/username").permitAll()
                         .requestMatchers(HttpMethod.GET, "/vacancies").permitAll()
                         .requestMatchers(HttpMethod.GET, "/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+//                        .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "/auth/profile").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/auth/profile").authenticated()
+//                        .requestMatchers(HttpMethod.GET, "/auth/profile").hasAuthority("USER")
                         .requestMatchers("/error").permitAll() // Allow access to error page
                         .anyRequest().permitAll()
                 );
