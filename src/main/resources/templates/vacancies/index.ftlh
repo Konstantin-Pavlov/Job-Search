@@ -5,7 +5,7 @@
             <#list vacancies as vacancie>
                 <div class="col-md-6 col-lg-4 mb-4">
                     <div class="card h-100 shadow-sm">
-                        <img src="/static/images/vacancy_default_image.jpg" class="card-img-top" alt="No image available">
+                        <img src="/static/images/avatars/ava.png" class="card-img-top" alt="No image available">
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">${vacancie.name}</h5>
                             <p class="card-text text-muted mb-2">Description: ${vacancie.description}</p>

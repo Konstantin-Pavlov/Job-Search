@@ -1,0 +1,114 @@
+.profile-container {
+    width: 80%;
+    margin: 0 auto;
+}
+.profile-header {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+.profile-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.profile-info {
+    display: flex;
+    align-items: center;
+}
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+.profile-details {
+    display: flex;
+    align-items: center;
+}
+.profile-name, .profile-age {
+    margin: 0 10px 0 0;
+    font-size: 1.5em;
+}
+.edit-profile-btn {
+    font-size: 1em;
+    padding: 10px 20px;
+}
+.profile-actions {
+    display: flex;
+    align-items: center;
+}
+.create-resume, .responses {
+    margin-left: 20px;
+}
+.create-resume-btn, .responses-count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 150px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-left: 20px;
+    font-size: 1.2em;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+.create-resume-btn {
+    white-space: normal; /* Allow text wrapping */
+    text-align: center;
+}
+.responses-count {
+    background-color: #f8f9fa;
+}
+.resume-section {
+    margin-top: 20px;
+}
+.resume-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+.resume-card {
+    width: 30%;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+    font-size: 1.2em;
+}
+.resume-title, .resume-date {
+    margin: 0;
+}
+.resume-actions {
+    margin-top: 10px;
+}
+.update-resume-btn, .edit-resume-btn {
+    margin-right: 10px;
+    font-size: 1em;
+    padding: 10px 20px;
+}
+.no-resumes {
+    text-align: center;
+    font-size: 1.5em;
+    color: #888;
+}
+.home-btn-container {
+    text-align: center;
+    margin-top: 30px;
+}
+.home-btn {
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 1.5em;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.home-btn:hover {
+    background-color: #0056b3;
+}

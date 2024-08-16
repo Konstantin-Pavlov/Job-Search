@@ -1,9 +1,11 @@
 package kg.attractor.jobsearch.controller;
 
 import jakarta.validation.Valid;
+import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.dto.UserWithAvatarFileDto;
 import kg.attractor.jobsearch.exception.UserNotFoundException;
+import kg.attractor.jobsearch.service.ResumeService;
 import kg.attractor.jobsearch.service.UserService;
 import kg.attractor.jobsearch.service.impl.CustomUserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -33,6 +36,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class AuthController {
     private final UserService userService;
+    private final ResumeService resumeService;
     private final AuthenticationManager authenticationManager;
     private final CustomUserDetailsServiceImpl customUserDetails;
 
@@ -109,34 +113,23 @@ public class AuthController {
     }
 
     @GetMapping("profile")
-    public String profile(Model model, Principal principal) throws IOException, UserNotFoundException {
-        // Get the authentication object
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        // Check if the user is authenticated
-//        if (authentication != null && authentication.isAuthenticated()) {
-        // Get the user details
-//            CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
-//
-//            // Map User to UserDto
-//            UserWithAvatarFileDto userDto = CustomUserMapper.toUserWithAvatarFileDto(user);
-
-
-//            Object principal = authentication.getPrincipal();
-//            if (principal instanceof UserDetails ) {
-//                // Add user details to the model
-//                UserDetails userDetails = (UserDetails) principal;
-//                // Add user details to the model
-//                model.addAttribute("userDto", userDetails);
-//            }
-
-//        }
+    public String profile(Model model, Principal principal, Authentication authentication) throws IOException, UserNotFoundException {
         if (principal == null) {
             log.error("Principal is null. User is not authenticated.");
             return "redirect:/auth/login";
         }
+        boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
+        model.addAttribute("isAuthenticated", isAuthenticated);
+        if (isAuthenticated && authentication.getPrincipal() instanceof UserDetails) {
+            String username = ((UserDetails) authentication.getPrincipal()).getUsername();
+            model.addAttribute("username", username);
+        }
+        log.info("isAuthenticated: {}", isAuthenticated);
 
         log.info("Fetching profile for user: {}", principal.getName());
         UserDto userDto = userService.getUserByEmail(principal.getName());
+        List<ResumeDto> resumes = resumeService.getResumeByUserId(userDto.getId());
+        model.addAttribute("userResumes", resumes);
         model.addAttribute("userDto", userDto);
         return "auth/profile";
     }
