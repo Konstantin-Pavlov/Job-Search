@@ -24,6 +24,7 @@ public class VacancyServiceImpl implements VacancyService {
         List<Vacancy> vacancies = vacancyDao.getVacancies();
         List<VacancyDto> dtos = new ArrayList<>();
         vacancies.forEach(e -> dtos.add(VacancyDto.builder()
+                .id(e.getId())
                 .name(e.getName())
                 .description(e.getDescription())
                 .categoryId(e.getCategoryId())
@@ -44,6 +45,7 @@ public class VacancyServiceImpl implements VacancyService {
             Vacancy vacancy = vacancyDao.getVacancyById(id)
                     .orElseThrow(() -> new Exception("Can't find Vacancy with id " + id));
             return VacancyDto.builder()
+                    .id(vacancy.getId())
                     .name(vacancy.getName())
                     .description(vacancy.getDescription())
                     .categoryId(vacancy.getCategoryId())
@@ -56,7 +58,7 @@ public class VacancyServiceImpl implements VacancyService {
                     .updateTime(vacancy.getUpdateTime())
                     .build();
         } catch (Exception e) {
-            log.error("Can't find Vacancy with id " + id);
+            log.error("Can't find Vacancy with id {}", id);
         }
         return null;
     }
