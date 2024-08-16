@@ -4,14 +4,10 @@ import jakarta.validation.Valid;
 import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.dto.UserWithAvatarFileDto;
 import kg.attractor.jobsearch.exception.UserNotFoundException;
-import kg.attractor.jobsearch.mapper.CustomUserMapper;
-import kg.attractor.jobsearch.model.User;
-import kg.attractor.jobsearch.security.CustomUserDetails;
 import kg.attractor.jobsearch.service.UserService;
 import kg.attractor.jobsearch.service.impl.CustomUserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -43,14 +39,6 @@ public class AuthController {
     @ModelAttribute
     public void addAttributes(Model model, CsrfToken csrfToken) {
         model.addAttribute("_csrf", csrfToken);
-    }
-
-    @GetMapping("/example")
-    public String example(Authentication authentication, Model model) {
-        boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
-        model.addAttribute("isAuthenticated", isAuthenticated);
-        // Other model attributes and logic
-        return "example-template";
     }
 
     @GetMapping("login")
@@ -126,7 +114,7 @@ public class AuthController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // Check if the user is authenticated
 //        if (authentication != null && authentication.isAuthenticated()) {
-            // Get the user details
+        // Get the user details
 //            CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
 //
 //            // Map User to UserDto

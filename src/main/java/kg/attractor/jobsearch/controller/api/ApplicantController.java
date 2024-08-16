@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/applicant")
+@RequestMapping("api/applicant")
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class ApplicantController {
