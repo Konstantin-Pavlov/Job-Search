@@ -5,7 +5,7 @@ import kg.attractor.jobsearch.dao.UserDao;
 import kg.attractor.jobsearch.dao.VacancyDao;
 import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.UserDto;
-import kg.attractor.jobsearch.dto.UserDtoWithAvatarUploadingDto;
+import kg.attractor.jobsearch.dto.UserWithAvatarFileDto;
 import kg.attractor.jobsearch.exception.UserNotFoundException;
 import kg.attractor.jobsearch.mapper.CustomUserMapper;
 import kg.attractor.jobsearch.model.Resume;
@@ -94,7 +94,13 @@ public class UserServiceImpl implements UserService {
         return UserDto.builder().
                 id(user.getId())
                 .name(user.getName())
+                .age(user.getAge())
+                .email(user.getEmail())
                 .password(user.getPassword())
+                .phoneNumber(user.getPhoneNumber())
+                .avatar(user.getAvatar())
+                .accountType(user.getAccountType())
+                .enabled(user.isEnabled())
                 .build();
     }
 
@@ -125,15 +131,16 @@ public class UserServiceImpl implements UserService {
         if (userDto.getAvatar() == null || userDto.getAvatar().isEmpty()) {
             userDto.setAvatar("ava.png");
         }
-        User user = new User();
-        user.setName(userDto.getName());
-        user.setAge(userDto.getAge());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
-        user.setPhoneNumber(userDto.getPhoneNumber());
-        user.setAvatar(userDto.getAvatar());
-        user.setAccountType(userDto.getAccountType());
-        user.setEnabled(userDto.isEnabled());
+        User user = User.builder()
+                .name(userDto.getName())
+                .age(userDto.getAge())
+                .email(userDto.getEmail())
+                .password(userDto.getPassword())
+                .phoneNumber(userDto.getPhoneNumber())
+                .avatar(userDto.getAvatar())
+                .accountType(userDto.getAccountType())
+                .enabled(userDto.isEnabled())
+                .build();
 
         userDao.addUser(user);
         if (user.getAccountType().equals("applicant")) {
@@ -144,21 +151,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUserWithAvatar(UserDtoWithAvatarUploadingDto userDtoWithAvatarUploadingDto) throws UserNotFoundException, IOException {
-        if (userDtoWithAvatarUploadingDto.getAvatar().isEmpty()) {
-            addUser(CustomUserMapper.toUserDto(userDtoWithAvatarUploadingDto));
+    public void addUserWithAvatar(UserWithAvatarFileDto userWithAvatarFileDto) throws UserNotFoundException, IOException {
+        if (userWithAvatarFileDto.getAvatar().isEmpty()) {
+            addUser(CustomUserMapper.toUserDto(userWithAvatarFileDto));
         } else {
-            addUser(CustomUserMapper.toUserDto(userDtoWithAvatarUploadingDto));
-            Optional<User> user = userDao.getUserByEmail(userDtoWithAvatarUploadingDto.getEmail());
+            addUser(CustomUserMapper.toUserDto(userWithAvatarFileDto));
+            Optional<User> user = userDao.getUserByEmail(userWithAvatarFileDto.getEmail());
             if (user.isPresent()) {
                 saveAvatar(
                         user.get().getId(),
-                        userDtoWithAvatarUploadingDto.getAvatar()
+                        userWithAvatarFileDto.getAvatar()
                 );
                 log.info("saved avatar {}", user.get().getAvatar());
             } else {
-                log.error("Can't find user with email: {}", userDtoWithAvatarUploadingDto.getEmail());
-                throw new UserNotFoundException("Can't find user with email: " + userDtoWithAvatarUploadingDto.getEmail());
+                log.error("Can't find user with email: {}", userWithAvatarFileDto.getEmail());
+                throw new UserNotFoundException("Can't find user with email: " + userWithAvatarFileDto.getEmail());
             }
         }
     }

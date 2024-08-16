@@ -1,6 +1,5 @@
-<#--<#import "spring.ftl" as spring>-->
-<#macro layout isAuthenticated=false>
-
+<#import "spring.ftl" as spring>
+<#macro layout isAuthenticated=false, username="">
     <!doctype html>
     <html lang="en">
     <head>
@@ -16,27 +15,31 @@
                 crossorigin="anonymous"></script>
         <style>
             /* Custom Styles */
-            .rounded-t-5 {
-                border-top-left-radius: 0.5rem;
-                border-top-right-radius: 0.5rem;
+
+            .navbar-text {
+                font-weight: normal; /* Adjust to normal if bold is too heavy */
+                font-size: 0.9em; /* Make the font size smaller */
+                color: #f8f9fa; /* Light color to contrast with dark background */
+                margin-right: 1rem;
+                white-space: nowrap;
             }
-
-            @media (min-width: 992px) {
-                .rounded-tr-lg-0 {
-                    border-top-right-radius: 0;
-                }
-
-                .rounded-bl-lg-5 {
-                    border-bottom-left-radius: 0.5rem;
-                }
+            .btn {
+                margin-left: 0.5rem; /* Space between buttons */
             }
-
-            body {
-                background-color: rgba(57, 181, 205, 0.5); /* Light grey background */
+            .d-flex {
+                display: flex;
             }
-
+            .flex-grow-1 {
+                flex-grow: 1;
+            }
+            .ms-auto {
+                margin-left: auto;
+            }
+            .me-3 {
+                margin-right: 1rem;
+            }
             .navbar-brand {
-                font-weight: bold;
+                margin-right: auto;
             }
 
             .card {
@@ -92,57 +95,24 @@
                 border-radius: 8px;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             }
+
+            .navbar-text {
+                font-weight: bold;
+                font-size: 1.1em;
+                color: #f8f9fa; /* Light color to contrast with dark background */
+                margin-right: 1rem;
+            }
+
+            .navbar-text span {
+                color: #17a2b8; /* Info color */
+            }
         </style>
         <title>Document</title>
     </head>
     <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-2">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">Navbar</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/create">Create</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                    </li>
-                </ul>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
-            </div>
-            <a href="/auth/login"
-               class="btn btn-outline-info m-2">Login</a>
-            <a href="/auth/register"
-               class="btn btn-outline-info m-2">Register</a>
-
-        </div>
-    </nav>
+    <#--    <#assign isAuthenticatedValue = isAuthenticated?c>-->
+    <#include "navigation/navigation.ftlh">
 
     <div class="container">
 
@@ -152,5 +122,4 @@
 
     </body>
     </html>
-
 </#macro>

@@ -20,11 +20,28 @@
             </div>
         </#if>
 
-        <!-- Debugging: Print the bindingResult -->
+        <!-- Display the list of errors in a styled alert box with a title -->
         <#if bindingResult?has_content>
-            <#list bindingResult.fieldErrors as fieldError>
-                <div>${fieldError.field}: ${fieldError.defaultMessage}</div>
-            </#list>
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Please correct the following errors:</h4>
+                <hr>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>Field Name</th>
+                        <th>Error Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <#list bindingResult.fieldErrors as fieldError>
+                        <tr>
+                            <td><strong>${fieldError.field}</strong></td>
+                            <td>${fieldError.defaultMessage}</td>
+                        </tr>
+                    </#list>
+                    </tbody>
+                </table>
+            </div>
         </#if>
 
         <form action="/auth/register" method="post" enctype="multipart/form-data">
@@ -35,14 +52,15 @@
                 <label for="name" class="form-label">Name</label>
                 <input type="text" class="form-control" id="name" name="name" value="${userDto.name!'Sid W'}" required>
                 <#if bindingResult?has_content && bindingResult.hasFieldErrors("name")>
-                    <div class="text-danger">${bindingResult.getFieldError("name").defaultMessage}</div>
+                    <span class="error-message">${bindingResult.getFieldError("name").defaultMessage}</span>
                 </#if>
             </div>
             <div class="mb-3">
                 <label for="age" class="form-label">Age</label>
                 <input type="number" class="form-control" id="age" name="age" value="${userDto.age!'42'}" required>
                 <#if bindingResult?has_content && bindingResult.hasFieldErrors("age")>
-                    <div class="text-danger">${bindingResult.getFieldError("age").defaultMessage}</div>
+<#--                    <div class="text-danger">${bindingResult.getFieldError("age").defaultMessage}</div>-->
+                    <span class="error-message">${bindingResult.getFieldError("age").defaultMessage}</span>
                 </#if>
             </div>
             <div class="mb-3">
@@ -52,7 +70,6 @@
                 <#if bindingResult?has_content && bindingResult.hasFieldErrors("email")>
                 <#--                    <div class="text-danger">${bindingResult.getFieldError("email").defaultMessage}</div>-->
                     <span class="error-message">${bindingResult.getFieldError("email").defaultMessage}</span>
-
                 </#if>
             </div>
             <div class="mb-3">
@@ -60,7 +77,7 @@
                 <input type="password" class="form-control" id="password" name="password"
                        value="${userDto.password!'123'}" required>
                 <#if bindingResult?has_content && bindingResult.hasFieldErrors("password")>
-                    <div class="text-danger">${bindingResult.getFieldError("password").defaultMessage}</div>
+                    <span class="error-message">${bindingResult.getFieldError("password").defaultMessage}</span>
                 </#if>
             </div>
             <div class="mb-3">
@@ -82,7 +99,7 @@
                     </option>
                 </select>
                 <#if bindingResult?has_content && bindingResult.hasFieldErrors("accountType")>
-                    <div class="text-danger">${bindingResult.getFieldError("accountType").defaultMessage}</div>
+                    <span class="error-message">${bindingResult.getFieldError("accountType").defaultMessage}</span>
                 </#if>
             </div>
             <div class="mb-3">
@@ -99,8 +116,12 @@
             if (successToast) {
                 const toast = new bootstrap.Toast(successToast);
                 toast.show();
+                // setTimeout(() => {
+                //     window.location.href = '/';
+                // }, 3000); // Redirect after 3 seconds
+
                 setTimeout(() => {
-                    window.location.href = '/';
+                    window.location.href = '/auth/profile'; // Redirect to profile page
                 }, 3000); // Redirect after 3 seconds
             }
         });

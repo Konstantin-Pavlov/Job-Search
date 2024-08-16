@@ -1,5 +1,5 @@
 <#import "../layout.ftlh" as main>
-<@main.layout>
+<@main.layout isAuthenticated=isAuthenticated username=username>
     <div class="container mt-4">
         <div class="row d-flex justify-content-between">
             <#list vacancies as vacancie>

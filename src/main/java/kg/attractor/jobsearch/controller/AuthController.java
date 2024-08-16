@@ -1,12 +1,23 @@
 package kg.attractor.jobsearch.controller;
 
 import jakarta.validation.Valid;
-import kg.attractor.jobsearch.dto.UserDtoWithAvatarUploadingDto;
+import kg.attractor.jobsearch.dto.UserDto;
+import kg.attractor.jobsearch.dto.UserWithAvatarFileDto;
 import kg.attractor.jobsearch.exception.UserNotFoundException;
+import kg.attractor.jobsearch.mapper.CustomUserMapper;
+import kg.attractor.jobsearch.model.User;
+import kg.attractor.jobsearch.security.CustomUserDetails;
 import kg.attractor.jobsearch.service.UserService;
+import kg.attractor.jobsearch.service.impl.CustomUserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +28,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Objects;
 
 @Slf4j
@@ -25,10 +37,20 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class AuthController {
     private final UserService userService;
+    private final AuthenticationManager authenticationManager;
+    private final CustomUserDetailsServiceImpl customUserDetails;
 
     @ModelAttribute
     public void addAttributes(Model model, CsrfToken csrfToken) {
         model.addAttribute("_csrf", csrfToken);
+    }
+
+    @GetMapping("/example")
+    public String example(Authentication authentication, Model model) {
+        boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
+        model.addAttribute("isAuthenticated", isAuthenticated);
+        // Other model attributes and logic
+        return "example-template";
     }
 
     @GetMapping("login")
@@ -38,24 +60,38 @@ public class AuthController {
 
     @GetMapping("register")
     public String register(Model model) {
-        model.addAttribute("userDto", new UserDtoWithAvatarUploadingDto());
+        model.addAttribute("userDto", new UserWithAvatarFileDto());
         return "auth/register";
     }
 
     @PostMapping("register")
-    public String registerUser(@Valid @ModelAttribute("userDto") UserDtoWithAvatarUploadingDto userDto,
+    public String registerUser(@Valid @ModelAttribute("userDto") UserWithAvatarFileDto userDto,
                                BindingResult bindingResult,
                                Model model) {
         if (bindingResult.hasErrors()) {
             log.error(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
             model.addAttribute("bindingResult", bindingResult);
-            model.addAttribute("userDto", new UserDtoWithAvatarUploadingDto()); // Keep the form fields with the entered values
+            model.addAttribute("userDto", userDto); // Keep the form fields with the entered values
             return "auth/register";
         }
 
         try {
             userDto.setEnabled(true);
             userService.addUserWithAvatar(userDto);
+
+            // Authenticate the user programmatically
+//            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDto.getEmail(), userDto.getPassword());
+//            Authentication authentication = authenticationManager.authenticate(authToken);
+//            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            // Automatically log in the user after registration
+            UserDetails userDetails = customUserDetails.loadUserByUsername(userDto.getEmail());
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, userDto.getPassword(), userDetails.getAuthorities());
+
+            Authentication authentication = authenticationManager.authenticate(authToken);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            log.info("User authenticated successfully: {}", userDto.getEmail());
         } catch (IOException | UserNotFoundException e) {
             model.addAttribute("errorMessage", "Error uploading avatar. Please try again.");
             log.error(e.getMessage());
@@ -71,9 +107,49 @@ public class AuthController {
             // сообщение появляется над формой
 //            model.addAttribute("errorMessage", String.format("User with email %s already exists.", userDto.getEmail()));
             return "auth/register";
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            // сообщение появляется над формой
+            model.addAttribute("errorMessage", e.getMessage());
+            return "auth/register";
         }
 
         model.addAttribute("successMessage", "Registration successful! Redirecting to the main page...");
-        return "auth/register";
+        // Redirect to the profile page after successful registration
+//        return "auth/profile";
+        return "redirect:/auth/profile";
+    }
+
+    @GetMapping("profile")
+    public String profile(Model model, Principal principal) throws IOException, UserNotFoundException {
+        // Get the authentication object
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // Check if the user is authenticated
+//        if (authentication != null && authentication.isAuthenticated()) {
+            // Get the user details
+//            CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
+//
+//            // Map User to UserDto
+//            UserWithAvatarFileDto userDto = CustomUserMapper.toUserWithAvatarFileDto(user);
+
+
+//            Object principal = authentication.getPrincipal();
+//            if (principal instanceof UserDetails ) {
+//                // Add user details to the model
+//                UserDetails userDetails = (UserDetails) principal;
+//                // Add user details to the model
+//                model.addAttribute("userDto", userDetails);
+//            }
+
+//        }
+        if (principal == null) {
+            log.error("Principal is null. User is not authenticated.");
+            return "redirect:/auth/login";
+        }
+
+        log.info("Fetching profile for user: {}", principal.getName());
+        UserDto userDto = userService.getUserByEmail(principal.getName());
+        model.addAttribute("userDto", userDto);
+        return "auth/profile";
     }
 }
