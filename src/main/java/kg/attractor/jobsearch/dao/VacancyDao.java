@@ -66,8 +66,6 @@ public class VacancyDao {
         String sql = """
                                 SELECT   v.id,
                                          v.NAME,
-                //                         v.NAME AS position,
-                //                         u.name AS applicant_name,
                                          v.description,
                                          v.category_id,
                                          v.salary,
