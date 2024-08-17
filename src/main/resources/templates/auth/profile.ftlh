@@ -4,13 +4,7 @@
     <link rel="stylesheet" type="text/css" href="/static/css/profile.css">
 
     <div class="profile-container">
-        <h1 class="profile-header" id="profile-header">
-            <#if userDto.accountType == "employer">
-                Личный кабинет работодателя
-            <#else>
-                Личный кабинет Соискателя
-            </#if>
-        </h1>
+        <h1 class="profile-header" id="profile-header"></h1>
 
         <div class="profile-section">
             <div class="profile-info">
@@ -100,7 +94,13 @@
             const accountType = "${userDto.accountType}";
             console.log("Account Type:", accountType);
 
-            // Additional JavaScript logic can be added here if needed
+            // Set the header based on account type
+            const profileHeader = document.getElementById("profile-header");
+            if (accountType === "employer") {
+                profileHeader.textContent = "Личный кабинет работодателя";
+            } else {
+                profileHeader.textContent = "Личный кабинет Соискателя";
+            }
         });
     </script>
 </@layout.layout>
