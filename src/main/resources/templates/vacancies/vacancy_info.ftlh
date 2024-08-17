@@ -14,8 +14,8 @@
                     <strong>Work Experience:</strong> From ${vacancy.expFrom} to ${vacancy.expTo} years</p>
                 <p class="card-text"><strong>Active:</strong> ${vacancy.isActive?string('Yes', 'No')}</p>
                 <p class="card-text"><strong>Author ID:</strong> ${vacancy.authorId}</p>
-                <p class="card-text"><strong>Created Date:</strong> ${formattedCreateDate}</p>
-                <p class="card-text"><strong>Updated Time:</strong> ${formattedUpdateDate}</p>
+                <p class="card-text"><strong>Created Date:</strong> ${vacancy.getFormattedCreatedDate()}</p>
+                <p class="card-text"><strong>Updated Time:</strong> ${vacancy.getFormattedUpdatedDate()}</p>
             </div>
         </div>
         <div class="mt-3">

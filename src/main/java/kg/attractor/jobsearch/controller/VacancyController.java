@@ -4,6 +4,7 @@ import kg.attractor.jobsearch.dto.VacancyDto;
 import kg.attractor.jobsearch.service.UserService;
 import kg.attractor.jobsearch.service.VacancyService;
 import kg.attractor.jobsearch.util.DateTimeUtil;
+import kg.attractor.jobsearch.util.VacancyAndResumeUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,28 +20,22 @@ public class VacancyController {
 
     @GetMapping()
     public String getVacancies(Model model, Authentication authentication) {
-        boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
-        model.addAttribute("vacancies", vacancyService.getVacancies());
-        model.addAttribute("isAuthenticated", isAuthenticated);
-        if (isAuthenticated && authentication.getPrincipal() instanceof UserDetails) {
-            String username = ((UserDetails) authentication.getPrincipal()).getUsername();
-            model.addAttribute("username", username);
-        }
+        VacancyAndResumeUtil.authCheckAndAddAttributes(
+                model,
+                authentication,
+                vacancyService.getVacancies(),
+                "vacancies");
         return "vacancies/index";
     }
 
     @GetMapping("vacancies/{vacancyId}")
     public String getInfo(@PathVariable long vacancyId, Model model, Authentication authentication) {
-        boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
-        VacancyDto vacancyDto = vacancyService.getVacancyById(vacancyId);
-        model.addAttribute("vacancy", vacancyDto);
-        model.addAttribute("formattedCreateDate", DateTimeUtil.getFormattedDate(vacancyDto.getCreatedDate()));
-        model.addAttribute("formattedUpdateDate", DateTimeUtil.getFormattedDate(vacancyDto.getUpdateTime()));
-        model.addAttribute("isAuthenticated", isAuthenticated);
-        if (isAuthenticated && authentication.getPrincipal() instanceof UserDetails) {
-            String username = ((UserDetails) authentication.getPrincipal()).getUsername();
-            model.addAttribute("username", username);
-        }
+        VacancyAndResumeUtil.authCheckAndAddAttributes(
+                model,
+                authentication,
+                vacancyService.getVacancyById(vacancyId),
+                "vacancy"
+        );
         return "vacancies/vacancy_info";
     }
 }
