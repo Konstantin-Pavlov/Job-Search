@@ -19,6 +19,7 @@
 <#--                </form>-->
                 <span class="navbar-text">
                 <a href="/resumes" class="btn btn-outline-info ms-2">see all resumes</a>
+                <a href="/vacancies" class="btn btn-outline-info ms-2">see all vacancies</a>
                 <#if isAuthenticated>
                     <a href="/auth/profile" class="btn btn-outline-info ms-2">Profile</a>
                     <a href="/logout" class="btn btn-outline-info ms-2">Logout</a>
