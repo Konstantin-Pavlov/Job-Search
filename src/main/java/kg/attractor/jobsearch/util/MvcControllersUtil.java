@@ -8,8 +8,8 @@ import org.springframework.ui.Model;
 import java.util.List;
 
 @Slf4j
-public class MvcConrollersUtil {
-    private MvcConrollersUtil() {
+public class MvcControllersUtil {
+    private MvcControllersUtil() {
     }
 
     public static void authCheckAndAddAttributes(

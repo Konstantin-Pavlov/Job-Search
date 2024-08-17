@@ -1,7 +1,7 @@
 package kg.attractor.jobsearch.controller;
 
 import kg.attractor.jobsearch.service.VacancyService;
-import kg.attractor.jobsearch.util.MvcConrollersUtil;
+import kg.attractor.jobsearch.util.MvcControllersUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -16,7 +16,7 @@ public class VacancyController {
 
     @GetMapping("vacancies")
     public String getVacancies(Model model, Authentication authentication) {
-        MvcConrollersUtil.authCheckAndAddAttributes(
+        MvcControllersUtil.authCheckAndAddAttributes(
                 model,
                 authentication,
                 vacancyService.getVacancies(),
@@ -26,7 +26,7 @@ public class VacancyController {
 
     @GetMapping("vacancies/{vacancyId}")
     public String getInfo(@PathVariable long vacancyId, Model model, Authentication authentication) {
-        MvcConrollersUtil.authCheckAndAddAttributes(
+        MvcControllersUtil.authCheckAndAddAttributes(
                 model,
                 authentication,
                 vacancyService.getVacancyById(vacancyId),
