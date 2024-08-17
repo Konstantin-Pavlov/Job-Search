@@ -14,8 +14,11 @@
                 <p class="card-text"><strong>Updated Time:</strong> ${resume.getFormattedUpdatedDate()}</p>
             </div>
         </div>
-        <div class="mt-3">
-            <a href="/" class="btn btn-primary">Home</a>
+        <!-- Centering the Home button -->
+        <div class="row">
+            <div class="col text-center"> <!-- This div centers the button -->
+                <a href="/" class="btn btn-primary">Home</a>
+            </div>
         </div>
     </div>
     </body>

@@ -28,6 +28,13 @@
         <#nested>
     </div>
 
+<#--    <!-- Centering the Home button &ndash;&gt;-->
+<#--    <div class="row">-->
+<#--        <div class="col text-center"> <!-- This div centers the button &ndash;&gt;-->
+<#--            <a href="/" class="btn btn-primary">Home</a>-->
+<#--        </div>-->
+<#--    </div>-->
+
     </body>
     </html>
 </#macro>

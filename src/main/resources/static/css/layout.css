@@ -53,6 +53,20 @@
 .btn-primary {
     background-color: #28a745; /* Green */
     border-color: #28a745; /* Green */
+    padding: 15px 30px; /* Make the button bigger */
+    font-size: 18px; /* Increase font size */
+    border-radius: 5px; /* Optional: rounded corners */
+    display: inline-block; /* Ensure it respects padding */
+    text-align: center; /* Center the text inside the button */
+    margin: 0 auto; /* Center the button horizontally */
+    width: fit-content; /* Button width fits content */
+}
+
+.center-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100%; /* Optional: use with full-height parent */
 }
 
 .btn-primary:hover {

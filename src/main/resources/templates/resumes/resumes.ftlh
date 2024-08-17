@@ -15,5 +15,11 @@
                 </div>
             </#list>
         </div>
+        <!-- Centering the Home button -->
+        <div class="row">
+            <div class="col text-center"> <!-- This div centers the button -->
+                <a href="/" class="btn btn-primary">Home</a>
+            </div>
+        </div>
     </div>
 </@main.layout>

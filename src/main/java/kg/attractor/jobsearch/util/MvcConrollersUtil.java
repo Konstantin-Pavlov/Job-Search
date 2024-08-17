@@ -8,8 +8,8 @@ import org.springframework.ui.Model;
 import java.util.List;
 
 @Slf4j
-public class VacancyAndResumeUtil {
-    private VacancyAndResumeUtil() {
+public class MvcConrollersUtil {
+    private MvcConrollersUtil() {
     }
 
     public static void authCheckAndAddAttributes(
@@ -17,14 +17,8 @@ public class VacancyAndResumeUtil {
             Authentication authentication,
             List<?> collection,
             String placeHolder) {
-        boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
         model.addAttribute(placeHolder, collection);
-        model.addAttribute("isAuthenticated", isAuthenticated);
-        if (isAuthenticated && authentication.getPrincipal() instanceof UserDetails) {
-            String username = ((UserDetails) authentication.getPrincipal()).getUsername();
-            log.info("Authenticated with email {}", username);
-            model.addAttribute("username", username);
-        }
+        authCheck(model, authentication);
     }
 
     public static <T> void authCheckAndAddAttributes(
@@ -33,12 +27,17 @@ public class VacancyAndResumeUtil {
             T dto,
             String placeHolder
     ) {
-        boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
         model.addAttribute(placeHolder, dto);
+        authCheck(model, authentication);
+    }
+
+    public static void authCheck(Model model, Authentication authentication) {
+        boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
         model.addAttribute("isAuthenticated", isAuthenticated);
         if (isAuthenticated && authentication.getPrincipal() instanceof UserDetails) {
             String username = ((UserDetails) authentication.getPrincipal()).getUsername();
             model.addAttribute("username", username);
         }
     }
+
 }
