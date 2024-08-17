@@ -4,9 +4,11 @@ import jakarta.validation.Valid;
 import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.dto.UserWithAvatarFileDto;
+import kg.attractor.jobsearch.dto.VacancyDto;
 import kg.attractor.jobsearch.exception.UserNotFoundException;
 import kg.attractor.jobsearch.service.ResumeService;
 import kg.attractor.jobsearch.service.UserService;
+import kg.attractor.jobsearch.service.VacancyService;
 import kg.attractor.jobsearch.service.impl.CustomUserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +39,7 @@ import java.util.Objects;
 public class AuthController {
     private final UserService userService;
     private final ResumeService resumeService;
+    private final VacancyService vacancyService;
     private final AuthenticationManager authenticationManager;
     private final CustomUserDetailsServiceImpl customUserDetails;
 
@@ -125,10 +128,12 @@ public class AuthController {
             model.addAttribute("username", username);
         }
         log.info("isAuthenticated: {}", isAuthenticated);
-
         log.info("Fetching profile for user: {}", principal.getName());
+
         UserDto userDto = userService.getUserByEmail(principal.getName());
         List<ResumeDto> resumes = resumeService.getResumeByUserId(userDto.getId());
+        List<VacancyDto> vacancies = vacancyService.getVacancyByAuthorId(userDto.getId());
+        model.addAttribute("userVacancies", vacancies);
         model.addAttribute("userResumes", resumes);
         model.addAttribute("userDto", userDto);
         return "auth/profile";

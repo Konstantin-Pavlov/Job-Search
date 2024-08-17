@@ -20,4 +20,6 @@ public interface VacancyService {
     void editVacancy(Long id, VacancyDto vacancyDto);
 
     List<VacancyDto> getVacanciesByCategory(String category);
+
+    List<VacancyDto> getVacancyByAuthorId(Integer id);
 }

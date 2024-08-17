@@ -15,6 +15,7 @@
                      onerror="this.onerror=null;this.src='/static/images/avatars/<#if userDto.accountType == "employer">default_company_avatar.png<#else>ava.png</#if>';">
                 <div id="profile-details">
                     <#if userDto.accountType == "employer">
+                        <p class="profile-name" id="profile-name">company name</p><br>
                         <button class="edit-profile-btn">Редактировать</button>
                     <#else>
                         <p class="profile-name" id="profile-name">${userDto.name}</p>

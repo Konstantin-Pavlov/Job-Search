@@ -2,7 +2,6 @@ package kg.attractor.jobsearch.mapper;
 
 import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.dto.UserWithAvatarFileDto;
-import kg.attractor.jobsearch.model.User;
 import kg.attractor.jobsearch.security.CustomUserDetails;
 import kg.attractor.jobsearch.util.CustomMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +13,7 @@ import java.nio.file.Paths;
 
 public class CustomUserMapper {
     private static final String UPLOAD_DIR = "avatars/";
+
     public static UserDto toUserDto(UserWithAvatarFileDto userWithAvatarFileDto) {
         return UserDto.builder()
                 .name(userWithAvatarFileDto.getName())

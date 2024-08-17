@@ -36,30 +36,12 @@ public class VacancyDao {
         ));
     }
 
-    public void addVacancy(Vacancy vacancy) {
+    public List<Vacancy> getVacanciesByAuthorId(Integer id) {
         String sql = """
-                insert into VACANCIES(NAME, DESCRIPTION, CATEGORY_ID, SALARY, EXP_FROM, EXP_TO, IS_ACTIVE, AUTHOR_ID, CREATED_DATE, UPDATE_TIME)
-                values (:name, :description, :categoryId, :salary, :expFrom, :expTo, :isActive, :authorId, :createdDate, :updateTime);
+                select * from VACANCIES
+                where AUTHOR_ID = ?
                 """;
-        namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource()
-                .addValue("name", vacancy.getName())
-                .addValue("description", vacancy.getDescription())
-                .addValue("categoryId", vacancy.getCategoryId())
-                .addValue("salary", vacancy.getSalary())
-                .addValue("expFrom", vacancy.getExpFrom())
-                .addValue("expTo", vacancy.getExpTo())
-                .addValue("isActive", vacancy.getIsActive())
-                .addValue("authorId", vacancy.getAuthorId())
-                .addValue("createdDate", vacancy.getCreatedDate())
-                .addValue("updateTime", vacancy.getUpdateTime()));
-    }
-
-    public void delete(Integer id) {
-        String sql = """
-                delete from VACANCIES
-                where ID=?
-                """;
-        template.update(sql, id);
+        return template.query(sql, new BeanPropertyRowMapper<>(Vacancy.class), id);
     }
 
     public List<Vacancy> getVacanciesUserResponded(Integer userId) {
@@ -94,6 +76,24 @@ public class VacancyDao {
         return template.query(sql, new BeanPropertyRowMapper<>(Vacancy.class), categoryId);
     }
 
+    public void addVacancy(Vacancy vacancy) {
+        String sql = """
+                insert into VACANCIES(NAME, DESCRIPTION, CATEGORY_ID, SALARY, EXP_FROM, EXP_TO, IS_ACTIVE, AUTHOR_ID, CREATED_DATE, UPDATE_TIME)
+                values (:name, :description, :categoryId, :salary, :expFrom, :expTo, :isActive, :authorId, :createdDate, :updateTime);
+                """;
+        namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource()
+                .addValue("name", vacancy.getName())
+                .addValue("description", vacancy.getDescription())
+                .addValue("categoryId", vacancy.getCategoryId())
+                .addValue("salary", vacancy.getSalary())
+                .addValue("expFrom", vacancy.getExpFrom())
+                .addValue("expTo", vacancy.getExpTo())
+                .addValue("isActive", vacancy.getIsActive())
+                .addValue("authorId", vacancy.getAuthorId())
+                .addValue("createdDate", vacancy.getCreatedDate())
+                .addValue("updateTime", vacancy.getUpdateTime()));
+    }
+
     public void applyForVacancy(Integer resumeId, Integer vacancyId) {
         String sql = """
                 INSERT INTO responded_applicants (RESUME_ID, VACANCY_ID, CONFIRMATION)
@@ -105,4 +105,13 @@ public class VacancyDao {
                 .addValue("confirmation", true)
         );
     }
+
+    public void delete(Integer id) {
+        String sql = """
+                delete from VACANCIES
+                where ID=?
+                """;
+        template.update(sql, id);
+    }
+
 }

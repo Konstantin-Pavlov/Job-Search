@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class VacancyDto {
-    long id;
+    Integer id;
     @NotBlank
     String name;
 

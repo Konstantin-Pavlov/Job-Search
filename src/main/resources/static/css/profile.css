@@ -76,9 +76,26 @@
     padding: 20px;
     margin: 10px;
     font-size: 1.2em;
+    overflow: hidden; /* Ensure content fits within the card */
+    text-overflow: ellipsis; /* Add ellipsis for overflow text */
+    word-wrap: break-word; /* Break long words to fit within the card */
 }
-.resume-title, .resume-date {
+.resume-title {
     margin: 0;
+    font-weight: bold;
+    color: #1c1c1e; /* Highlight color */
+    overflow: hidden; /* Ensure content fits within the card */
+    text-overflow: ellipsis; /* Add ellipsis for overflow text */
+    white-space: nowrap; /* Prevent text wrapping */
+}
+.resume-date {
+    margin: 0;
+    font-weight: bold;
+    color: rgba(50, 50, 50, 0.5); /* Different color for date */
+    overflow: hidden; /* Ensure content fits within the card */
+    text-overflow: ellipsis; /* Add ellipsis for overflow text */
+    white-space: nowrap; /* Prevent text wrapping */
+    font-size: 0.9em; /* Smaller font size */
 }
 .resume-actions {
     margin-top: 10px;
