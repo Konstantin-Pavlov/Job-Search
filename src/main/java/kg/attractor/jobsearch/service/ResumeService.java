@@ -4,7 +4,7 @@ import kg.attractor.jobsearch.dto.ResumeDto;
 
 import java.util.List;
 
-public interface ResumeService {
+public interface ResumeService extends CommonService{
     List<ResumeDto> getResumes();
 
     ResumeDto getResumeById(long id);

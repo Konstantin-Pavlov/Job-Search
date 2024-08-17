@@ -24,6 +24,7 @@ public class ResumeServiceImpl implements ResumeService {
         List<Resume> resumes = resumeDao.getResumes();
         List<ResumeDto> dtos = new ArrayList<>();
         resumes.forEach(e -> dtos.add(ResumeDto.builder()
+                        .id(e.getId())
                 .applicantId(e.getApplicantId())
                 .name(e.getName())
                 .categoryId(e.getCategoryId())
@@ -41,8 +42,9 @@ public class ResumeServiceImpl implements ResumeService {
         try {
             Resume resume = resumeDao.getResumeById(id)
                     .orElseThrow(() -> new Exception("Can't find resume with id " + id));
-            log.info("found resume with id " + id);
+            log.info("found resume with id {}", id);
             return ResumeDto.builder()
+                    .id(resume.getId())
                     .applicantId(resume.getApplicantId())
                     .name(resume.getName())
                     .categoryId(resume.getCategoryId())
@@ -52,7 +54,7 @@ public class ResumeServiceImpl implements ResumeService {
                     .updateTime(resume.getUpdateTime())
                     .build();
         } catch (Exception e) {
-            log.error("Can't find resume with id " + id);
+            log.error("Can't find resume with id {}", id);
         }
         return null;
     }
@@ -111,7 +113,7 @@ public class ResumeServiceImpl implements ResumeService {
     public void editResume(Integer id, ResumeDto resumeDto) {
         ResumeDto resumeDto1 = getResumeById(id);
         if (resumeDto1 == null) {
-            log.error("Can't find resume with id " + id);
+            log.error("Can't edit resume because resume with id {} not found",  id);
         } else {
             deleteResume(id);
             addResume(resumeDto);
@@ -139,7 +141,7 @@ public class ResumeServiceImpl implements ResumeService {
         Optional<Resume> resume = resumeDao.getResumeById(id);
         if (resume.isPresent()) {
             resumeDao.delete(id);
-            log.info("resume deleted: " + resume.get().getName());
+            log.info("resume deleted: {}", resume.get().getName());
             return true;
         }
         log.info(String.format(" resume with id %d not found", id));
