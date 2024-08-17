@@ -207,7 +207,7 @@
             </div>
             <div class="content">
                 <h1>${status}</h1>
-                <h2><span data-l10n>UH OH</span>! <span data-l10n>${reason}</span></h2>
+                <h2><span>UH OH</span>! <span data-l10n>${reason}</span></h2>
                 <!--        <p data-l10n>{{ description></p>-->
 
                 <#if details??>
