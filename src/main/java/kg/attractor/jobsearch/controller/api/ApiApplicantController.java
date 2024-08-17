@@ -32,7 +32,7 @@ import java.util.List;
 @RequestMapping("api/applicant")
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-public class ApplicantController {
+public class ApiApplicantController {
     //    @Autowired - no need if field is final and @RequiredArgsConstructor annotation is used
     UserService applicantService;
     VacancyService vacancyService;

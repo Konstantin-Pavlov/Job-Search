@@ -19,7 +19,7 @@ import java.util.List;
 @RestController("apiVacancyController")
 @RequestMapping("api/vacancies")
 @RequiredArgsConstructor
-public class VacancyController {
+public class ApiVacancyController {
     private final VacancyService vacancyService;
 
     @GetMapping()

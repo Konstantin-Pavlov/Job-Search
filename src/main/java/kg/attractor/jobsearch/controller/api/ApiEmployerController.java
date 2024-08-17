@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("api/employer")
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-public class EmployerController {
+public class ApiEmployerController {
     //    @Autowired - no need if field is final and @RequiredArgsConstructor annotation is used
     UserService employerService;
     VacancyService vacancyService;

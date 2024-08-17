@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("api/resumes")
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-public class ResumeController {
+public class ApiResumeController {
 
     ResumeService resumeService;
 
