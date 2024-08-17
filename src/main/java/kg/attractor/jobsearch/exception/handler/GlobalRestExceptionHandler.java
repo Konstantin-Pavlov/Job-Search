@@ -22,7 +22,7 @@ import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 @RequiredArgsConstructor
-public class GlobalExceptionHandler {
+public class GlobalRestExceptionHandler {
 
     private final ErrorService errorService;
 

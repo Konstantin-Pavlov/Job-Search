@@ -2,6 +2,7 @@ package kg.attractor.jobsearch.service.impl;
 
 import kg.attractor.jobsearch.dao.VacancyDao;
 import kg.attractor.jobsearch.dto.VacancyDto;
+import kg.attractor.jobsearch.exception.VacancyNotFoundException;
 import kg.attractor.jobsearch.model.Vacancy;
 import kg.attractor.jobsearch.service.VacancyService;
 import lombok.RequiredArgsConstructor;
@@ -41,26 +42,24 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public VacancyDto getVacancyById(long id) {
-        try {
-            Vacancy vacancy = vacancyDao.getVacancyById(id)
-                    .orElseThrow(() -> new Exception("Can't find Vacancy with id " + id));
-            return VacancyDto.builder()
-                    .id(vacancy.getId())
-                    .name(vacancy.getName())
-                    .description(vacancy.getDescription())
-                    .categoryId(vacancy.getCategoryId())
-                    .salary(vacancy.getSalary())
-                    .expFrom(vacancy.getExpFrom())
-                    .expTo(vacancy.getExpTo())
-                    .isActive(vacancy.getIsActive())
-                    .authorId(vacancy.getAuthorId())
-                    .createdDate(vacancy.getCreatedDate())
-                    .updateTime(vacancy.getUpdateTime())
-                    .build();
-        } catch (Exception e) {
-            log.error("Can't find Vacancy with id {}", id);
-        }
-        return null;
+        Vacancy vacancy = vacancyDao.getVacancyById(id)
+                .orElseThrow(() -> {
+                    log.error("Can't find Vacancy with id {}", id);
+                    return new VacancyNotFoundException("Can't find Vacancy with id " + id);
+                });
+        return VacancyDto.builder()
+                .id(vacancy.getId())
+                .name(vacancy.getName())
+                .description(vacancy.getDescription())
+                .categoryId(vacancy.getCategoryId())
+                .salary(vacancy.getSalary())
+                .expFrom(vacancy.getExpFrom())
+                .expTo(vacancy.getExpTo())
+                .isActive(vacancy.getIsActive())
+                .authorId(vacancy.getAuthorId())
+                .createdDate(vacancy.getCreatedDate())
+                .updateTime(vacancy.getUpdateTime())
+                .build();
     }
 
     @Override

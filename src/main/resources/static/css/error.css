@@ -1,0 +1,123 @@
+
+:root {
+    --color-bg-primary: #fff;
+    --color-text-primary: #0e0620;
+
+    --color-ui-bg-primary: #0e0620;
+    --color-ui-bg-inverted: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-bg-primary: #212121;
+        --color-text-primary: #fafafa;
+
+        --color-ui-bg-primary: #fafafa;
+        --color-ui-bg-inverted: #212121;
+    }
+}
+
+html,
+body {
+    /*height: 100%;*/
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    font-family: 'Nunito Sans', sans-serif;
+    /*margin: 0;*/
+    /*padding: 0;*/
+    /*font-size: 0;*/
+}
+
+.error_block {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+}
+
+.main_block {
+    width: 100%;
+    max-width: 1140px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.picture, .content {
+    box-sizing: border-box;
+    width: 50%;
+}
+
+.content {
+    padding: 0 40px;
+}
+
+.bold-yellow {
+    font-weight: bold;
+    color: yellow;
+}
+
+svg .dark {
+    stroke: var(--color-ui-bg-primary);
+}
+
+svg .fill-dark {
+    fill: var(--color-ui-bg-primary);
+}
+
+svg .fill-light {
+    fill: var(--color-ui-bg-inverted);
+}
+
+h1 {
+    font-size: 150px;
+    margin: 15px 0;
+    font-weight: bold;
+}
+
+h2 {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+p {
+    font-size: 16px;
+}
+
+/* {{ if show_details }} */
+.details {
+    list-style: none;
+    padding-left: 0;
+    opacity: .7;
+}
+
+.details li span {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.details li code {
+    font-size: 14px;
+    font-weight: normal;
+    padding-left: 7px;
+}
+
+/* {{ end }} */
+
+@media screen and (max-width: 768px) {
+    main {
+        display: block;
+    }
+
+    .picture, .content {
+        width: 100%;
+        text-align: center;
+    }
+
+    .content {
+        padding: 0 20px;
+    }
+
+    .picture svg {
+        max-width: 60%;
+    }
+}
