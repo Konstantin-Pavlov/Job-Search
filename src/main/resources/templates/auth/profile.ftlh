@@ -4,24 +4,41 @@
     <link rel="stylesheet" type="text/css" href="/static/css/profile.css">
 
     <div class="profile-container">
-        <h1 class="profile-header">Личный кабинет Соискателя</h1>
+        <h1 class="profile-header" id="profile-header">
+            <#if userDto.accountType == "employer">
+                Личный кабинет работодателя
+            <#else>
+                Личный кабинет Соискателя
+            </#if>
+        </h1>
 
         <div class="profile-section">
             <div class="profile-info">
-                <#--                не работает почемуто, видит файлы только если они в /static/-->
-                <#--                <img src="/avatars/${userDto.avatar}" alt="User Avatar" class="profile-avatar">-->
-                <img src="/static/images/avatars/${userDto.avatar}" alt="User Avatar" class="profile-avatar"
-                     onerror="this.onerror=null;this.src='/static/images/avatars/ava.png';">
-                <div>
-                    <p class="profile-name">${userDto.name}</p>
-                    <p class="profile-age">Возраст: ${userDto.age}</p>
-                    <button class="edit-profile-btn">Редактировать</button>
+                <img id="profile-avatar"
+                     src="/static/images/avatars/${userDto.avatar}"
+                     alt="User Avatar"
+                     class="profile-avatar"
+                     onerror="this.onerror=null;this.src='/static/images/avatars/<#if userDto.accountType == "employer">default_company_avatar.png<#else>ava.png</#if>';">
+                <div id="profile-details">
+                    <#if userDto.accountType == "employer">
+                        <button class="edit-profile-btn">Редактировать</button>
+                    <#else>
+                        <p class="profile-name" id="profile-name">${userDto.name}</p>
+                        <p class="profile-age" id="profile-age">Возраст: ${userDto.age}</p>
+                        <button class="edit-profile-btn">Редактировать</button>
+                    </#if>
                 </div>
             </div>
 
             <div class="profile-actions">
                 <div class="create-resume">
-                    <button class="create-resume-btn">Создать<br>резюме</button>
+                    <button class="create-resume-btn" id="create-resume-btn">
+                        <#if userDto.accountType == "employer">
+                            Создать<br>вакансию
+                        <#else>
+                            Создать<br>резюме
+                        </#if>
+                    </button>
                 </div>
                 <div class="responses">
                     <button class="create-resume-btn">отклики: 42</button>
@@ -30,21 +47,44 @@
         </div>
 
         <div class="resume-section">
-            <h2>Резюме:</h2>
-            <div class="resume-list">
-                <#if userResumes?size == 0>
-                    <p class="no-resumes">No resume added yet</p>
+            <h2 id="resume-section-title">
+                <#if userDto.accountType == "employer">
+                    Вакансии:
                 <#else>
-                    <#list userResumes as resume>
-                        <div class="resume-card">
-                            <p class="resume-title">${resume.name}</p>
-                            <p class="resume-date">Дата обновления: ${resume.getFormattedUpdatedDate()}</p>
-                            <div class="resume-actions">
-                                <button class="update-resume-btn">Обновить</button>
-                                <button class="edit-resume-btn">Ред.</button>
+                    Резюме:
+                </#if>
+            </h2>
+            <div class="resume-list" id="resume-list">
+                <#if userDto.accountType == "employer">
+                    <#if userVacancies?size == 0>
+                        <p class="no-resumes">No vacancies added yet</p>
+                    <#else>
+                        <#list userVacancies as vacancy>
+                            <div class="resume-card">
+                                <p class="resume-title">${vacancy.name}</p>
+                                <p class="resume-date">Дата обновления: ${vacancy.getFormattedUpdatedDate()}</p>
+                                <div class="resume-actions">
+                                    <button class="update-resume-btn">Обновить</button>
+                                    <button class="edit-resume-btn">Ред.</button>
+                                </div>
                             </div>
-                        </div>
-                    </#list>
+                        </#list>
+                    </#if>
+                <#else>
+                    <#if userResumes?size == 0>
+                        <p class="no-resumes">No resume added yet</p>
+                    <#else>
+                        <#list userResumes as resume>
+                            <div class="resume-card">
+                                <p class="resume-title">${resume.name}</p>
+                                <p class="resume-date">Дата обновления: ${resume.getFormattedUpdatedDate()}</p>
+                                <div class="resume-actions">
+                                    <button class="update-resume-btn">Обновить</button>
+                                    <button class="edit-resume-btn">Ред.</button>
+                                </div>
+                            </div>
+                        </#list>
+                    </#if>
                 </#if>
             </div>
         </div>
@@ -52,4 +92,15 @@
             <a href="/" class="home-btn">Home</a>
         </div>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("JavaScript is running");
+
+            const accountType = "${userDto.accountType}";
+            console.log("Account Type:", accountType);
+
+            // Additional JavaScript logic can be added here if needed
+        });
+    </script>
 </@layout.layout>
