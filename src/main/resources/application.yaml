@@ -38,3 +38,7 @@ logging:
 
   file:
     name: logs/spring.log
+
+app:
+  avatar_dir: avatars
+
