@@ -77,6 +77,9 @@ public class AuthController {
             if (avatar != null) {
                 log.info("Received avatar: name={}, size={}, originalFilename={}",
                         avatar.getName(), avatar.getSize(), avatar.getOriginalFilename());
+                if(avatar.getOriginalFilename() == null || avatar.getOriginalFilename().isEmpty()){
+                    log.info("Received empty avatar, default avatar will be used");
+                }
             } else {
                 log.warn("Avatar file is null!");
             }

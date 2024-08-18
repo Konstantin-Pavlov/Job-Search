@@ -8,11 +8,18 @@
 
         <div class="profile-section">
             <div class="profile-info">
+<#--                <img id="profile-avatar"-->
+<#--                     src="/avatars/${userDto.avatar}"-->
+<#--                     alt="User Avatar"-->
+<#--                     class="profile-avatar"-->
+<#--                     onerror="this.onerror=null;this.src='/avatars/<#if userDto.accountType == 'employer'>default_company_avatar.png<#else>ava.png</#if>';">-->
+
                 <img id="profile-avatar"
                      src="/avatars/${userDto.avatar}"
                      alt="User Avatar"
                      class="profile-avatar"
-                     onerror="this.onerror=null;this.src='/avatars/<#if userDto.accountType == 'employer'>default_company_avatar.png<#else>ava.png</#if>';">
+                     onerror="this.onerror=null; this.src='/avatars/<#if userDto.accountType == 'employer'>default_company_avatar.png<#else>default_user_avatar.png</#if>';
+                     this.onerror=function(){ this.src='/static/images/avatars/<#if userDto.accountType == 'employer'>default_company_avatar.png<#else>default_user_avatar.png</#if>'; };">
 
                 <div id="profile-details">
                     <#if userDto.accountType == "employer">

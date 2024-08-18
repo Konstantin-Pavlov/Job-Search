@@ -134,7 +134,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addUser(UserDto userDto) {
         if (userDto.getAvatar() == null || userDto.getAvatar().isEmpty()) {
-            userDto.setAvatar("ava.png");
+            userDto.setAvatar("default_user_avatar.png");
+            log.info(ConsoleColors.YELLOW +
+                    "user with email {} didn't choose avatar, so default avatar is set" +
+                    ConsoleColors.RESET,
+                    userDto.getEmail());
         }
         User user = CustomUserMapper.fromUserDto(userDto);
         userDao.addUser(user);
