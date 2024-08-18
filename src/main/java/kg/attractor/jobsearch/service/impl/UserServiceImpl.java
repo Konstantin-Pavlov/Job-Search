@@ -12,6 +12,7 @@ import kg.attractor.jobsearch.model.Resume;
 import kg.attractor.jobsearch.model.User;
 import kg.attractor.jobsearch.model.Vacancy;
 import kg.attractor.jobsearch.service.UserService;
+import kg.attractor.jobsearch.util.ConsoleColors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
@@ -42,7 +43,7 @@ public class UserServiceImpl implements UserService {
     private final UserDao userDao;
     private final VacancyDao vacancyDao;
     private final ResumeDao resumeDao;
-    private final String UPLOAD_DIR = "avatars/";
+    private final String UPLOAD_DIR = "avatars";
 
     @Override
     public List<UserDto> getUsers() {
@@ -104,7 +105,6 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
-
     @Override
     public UserDto getUserById(long id) {//throws UserNotFoundException {
         User user = userDao.getUserById(id).orElseThrow(
@@ -162,7 +162,8 @@ public class UserServiceImpl implements UserService {
                         user.get().getId(),
                         userWithAvatarFileDto.getAvatar()
                 );
-                log.info("saved avatar {}", user.get().getAvatar());
+                UserDto userWithUpdatedAvatar = getUserById(user.get().getId());
+                log.info(ConsoleColors.YELLOW_BACKGROUND + "saved avatar {}" + ConsoleColors.RESET, userWithUpdatedAvatar.getAvatar());
             } else {
                 log.error("Can't find user with email: {}", userWithAvatarFileDto.getEmail());
                 throw new UserNotFoundException("Can't find user with email: " + userWithAvatarFileDto.getEmail());
@@ -236,6 +237,8 @@ public class UserServiceImpl implements UserService {
                     () -> new UserNotFoundException("can't find user with id: " + userId));
 
             userDao.updateAvatar(user.getId(), fileName);
+
+            log.warn(ConsoleColors.YELLOW_BACKGROUND + "saved avatar to path {}" + ConsoleColors.RESET, filePath.getFileName().getFileName());
         } else {
             throw new IOException("File is empty");
         }

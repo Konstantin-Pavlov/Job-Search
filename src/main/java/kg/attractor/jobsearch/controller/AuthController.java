@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -71,6 +72,15 @@ public class AuthController {
         }
 
         try {
+            // Debugging output
+            MultipartFile avatar = userDto.getAvatar();
+            if (avatar != null) {
+                log.info("Received avatar: name={}, size={}, originalFilename={}",
+                        avatar.getName(), avatar.getSize(), avatar.getOriginalFilename());
+            } else {
+                log.warn("Avatar file is null!");
+            }
+
             userDto.setEnabled(true);
             userService.addUserWithAvatar(userDto);
 

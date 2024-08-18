@@ -9,10 +9,11 @@
         <div class="profile-section">
             <div class="profile-info">
                 <img id="profile-avatar"
-                     src="/static/images/avatars/${userDto.avatar}"
+                     src="/avatars/${userDto.avatar}"
                      alt="User Avatar"
                      class="profile-avatar"
-                     onerror="this.onerror=null;this.src='/static/images/avatars/<#if userDto.accountType == "employer">default_company_avatar.png<#else>ava.png</#if>';">
+                     onerror="this.onerror=null;this.src='/avatars/<#if userDto.accountType == 'employer'>default_company_avatar.png<#else>ava.png</#if>';">
+
                 <div id="profile-details">
                     <#if userDto.accountType == "employer">
                         <p class="profile-name" id="profile-name">company name</p><br>
@@ -89,7 +90,7 @@
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             console.log("JavaScript is running");
 
             const accountType = "${userDto.accountType}";
