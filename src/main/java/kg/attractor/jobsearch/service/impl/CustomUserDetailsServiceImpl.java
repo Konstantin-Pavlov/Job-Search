@@ -50,7 +50,7 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("User not found with email: " + email, e);
         }
         if (user == null) {
-            log.error("User not found with email: " + email);
+            log.error("User not found with email: {}", email);
             throw new UsernameNotFoundException("User not found with email: " + email);
         }
         List<GrantedAuthority> authorities = jdbcTemplate.query(AUTHORITIES_QUERY, new AuthorityRowMapper(), email)

@@ -14,6 +14,7 @@ import kg.attractor.jobsearch.model.Vacancy;
 import kg.attractor.jobsearch.service.UserService;
 import kg.attractor.jobsearch.util.ConsoleColors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -43,7 +44,11 @@ public class UserServiceImpl implements UserService {
     private final UserDao userDao;
     private final VacancyDao vacancyDao;
     private final ResumeDao resumeDao;
-    private final String UPLOAD_DIR = "avatars";
+
+    @Value("${app.avatar_dir}")
+    private  String AVATAR_DIR;
+
+//    private final String UPLOAD_DIR = "avatars";
 
     @Override
     public List<UserDto> getUsers() {
@@ -131,17 +136,7 @@ public class UserServiceImpl implements UserService {
         if (userDto.getAvatar() == null || userDto.getAvatar().isEmpty()) {
             userDto.setAvatar("ava.png");
         }
-        User user = User.builder()
-                .name(userDto.getName())
-                .age(userDto.getAge())
-                .email(userDto.getEmail())
-                .password(userDto.getPassword())
-                .phoneNumber(userDto.getPhoneNumber())
-                .avatar(userDto.getAvatar())
-                .accountType(userDto.getAccountType())
-                .enabled(userDto.isEnabled())
-                .build();
-
+        User user = CustomUserMapper.fromUserDto(userDto);
         userDao.addUser(user);
         if (user.getAccountType().equals("applicant")) {
             log.info("added applicant with email {}", user.getEmail());
@@ -169,18 +164,6 @@ public class UserServiceImpl implements UserService {
                 throw new UserNotFoundException("Can't find user with email: " + userWithAvatarFileDto.getEmail());
             }
         }
-    }
-
-    @Override
-    public boolean deleteUser(Long id) {
-        Optional<User> user = userDao.getUserById(id);
-        if (user.isPresent()) {
-            userDao.delete(id);
-            log.info("user deleted: {}", user.get().getName());
-            return true;
-        }
-        log.info(String.format("user with id %d not found", id));
-        return false;
     }
 
     @Override
@@ -229,7 +212,7 @@ public class UserServiceImpl implements UserService {
             if (fileName.length() > 45) {
                 fileName = fileName.substring(fileName.length() - 45);
             }
-            Path filePath = Paths.get(UPLOAD_DIR, fileName);
+            Path filePath = Paths.get(AVATAR_DIR, fileName);
             Files.createDirectories(filePath.getParent());
             Files.write(filePath, avatar.getBytes());
 
@@ -249,7 +232,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> user = userDao.getUserById(userId);
         if (user.isPresent()) {
             try {
-                byte[] image = Files.readAllBytes(Paths.get(UPLOAD_DIR + user.get().getAvatar()));
+                byte[] image = Files.readAllBytes(Paths.get(AVATAR_DIR + user.get().getAvatar()));
                 Resource resource = new ByteArrayResource(image);
                 return ResponseEntity.ok()
                         .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + user.get().getAvatar() + "\"")
@@ -263,6 +246,18 @@ public class UserServiceImpl implements UserService {
             log.error("Can't find user with id {}", userId);
             throw new UserNotFoundException(String.format("user with id %d not found", userId));
         }
+    }
+
+    @Override
+    public boolean deleteUser(Long id) {
+        Optional<User> user = userDao.getUserById(id);
+        if (user.isPresent()) {
+            userDao.delete(id);
+            log.info("user deleted: {}", user.get().getName());
+            return true;
+        }
+        log.info(String.format("user with id %d not found", id));
+        return false;
     }
 
 }
