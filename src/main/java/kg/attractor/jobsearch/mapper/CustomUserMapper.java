@@ -2,8 +2,10 @@ package kg.attractor.jobsearch.mapper;
 
 import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.dto.UserWithAvatarFileDto;
+import kg.attractor.jobsearch.model.User;
 import kg.attractor.jobsearch.security.CustomUserDetails;
 import kg.attractor.jobsearch.util.CustomMultipartFile;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -12,7 +14,8 @@ import java.nio.file.Paths;
 
 
 public class CustomUserMapper {
-    private static final String UPLOAD_DIR = "avatars/";
+    @Value("${app.avatar_dir}")
+    private static String UPLOAD_DIR;
 
     public static UserDto toUserDto(UserWithAvatarFileDto userWithAvatarFileDto) {
         return UserDto.builder()
@@ -24,6 +27,23 @@ public class CustomUserMapper {
                 .avatar(userWithAvatarFileDto.getAvatar().getOriginalFilename())
                 .accountType(userWithAvatarFileDto.getAccountType())
                 .enabled(userWithAvatarFileDto.isEnabled())
+                .build();
+    }
+
+    public static User fromUserDto(UserDto userDto) {
+        if (userDto == null) {
+            return null;
+        }
+        return User.builder()
+                .id(userDto.getId())
+                .name(userDto.getName())
+                .age(userDto.getAge())
+                .email(userDto.getEmail())
+                .password(userDto.getPassword())
+                .phoneNumber(userDto.getPhoneNumber())
+                .avatar(userDto.getAvatar())
+                .accountType(userDto.getAccountType())
+                .enabled(userDto.isEnabled())
                 .build();
     }
 
