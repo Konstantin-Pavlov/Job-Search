@@ -1,5 +1,6 @@
 <#import "layout.ftlh" as layout>
-<@layout.layout isAuthenticated=isAuthenticated username=username>
+<#--<@layout.layout isAuthenticated=isAuthenticated username=username>-->
+<@layout.layout>
 <link rel="stylesheet" type="text/css" href="/static/css/index.css">
     <div class="main-content">
         <div class="welcome-container">

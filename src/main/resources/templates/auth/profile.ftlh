@@ -1,5 +1,6 @@
 <#import "../layout.ftlh" as layout>
-<@layout.layout isAuthenticated=isAuthenticated username=username>
+<#--<@layout.layout isAuthenticated=isAuthenticated username=username>-->
+<@layout.layout>
     <!-- Link to the external CSS file -->
     <link rel="stylesheet" type="text/css" href="/static/css/profile.css">
 

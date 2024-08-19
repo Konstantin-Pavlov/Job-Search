@@ -1,5 +1,6 @@
-<#import "../layout.ftlh" as main>
-<@main.layout isAuthenticated=isAuthenticated username=username>
+<#import "../layout.ftlh" as layout>
+<#--<@main.layout isAuthenticated=isAuthenticated username=username>-->
+<@layout.layout>
     <div class="container mt-4">
         <div class="row d-flex justify-content-between">
             <#list resumes as resume>
@@ -22,4 +23,4 @@
             </div>
         </div>
     </div>
-</@main.layout>
+</@layout.layout>
