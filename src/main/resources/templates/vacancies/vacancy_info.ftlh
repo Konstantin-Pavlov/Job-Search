@@ -1,5 +1,6 @@
 <#import "../layout.ftlh" as main>
-<@main.layout isAuthenticated=isAuthenticated username=username>
+<#--<@main.layout isAuthenticated=isAuthenticated username=username>-->
+<@main.layout>
     <body>
     <div class="container">
         <div class="card mb-3">
