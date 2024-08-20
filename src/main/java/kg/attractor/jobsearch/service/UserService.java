@@ -33,5 +33,7 @@ public interface UserService {
     void saveAvatar(Integer userId, MultipartFile avatar) throws IOException, UserNotFoundException;
 
     ResponseEntity<?> getAvatar(Integer userId) throws UserNotFoundException;
+
+    void updateUser(UserDto userDto);
 }
 

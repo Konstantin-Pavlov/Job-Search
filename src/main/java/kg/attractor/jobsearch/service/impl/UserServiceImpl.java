@@ -253,6 +253,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateUser(UserDto userDto) {
+        // todo - implement
+    }
+
+    @Override
     public boolean deleteUser(Long id) {
         Optional<User> user = userDao.getUserById(id);
         if (user.isPresent()) {
