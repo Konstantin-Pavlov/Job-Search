@@ -7,7 +7,7 @@ import java.util.List;
 public interface VacancyService {
     List<VacancyDto> getVacancies();
 
-    VacancyDto getVacancyById(long id);
+    VacancyDto getVacancyById(Integer id);
 
     void createVacancy(VacancyDto vacancyDto);
 
@@ -17,7 +17,7 @@ public interface VacancyService {
 
     List<VacancyDto> getVacanciesByCategoryId(Integer categoryId);
 
-    void editVacancy(Long id, VacancyDto vacancyDto);
+    void editVacancy(Integer id, VacancyDto vacancyDto);
 
     List<VacancyDto> getVacanciesByCategory(String category);
 }

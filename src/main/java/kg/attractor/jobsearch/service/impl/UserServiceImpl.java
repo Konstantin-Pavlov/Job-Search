@@ -1,145 +1,104 @@
 package kg.attractor.jobsearch.service.impl;
 
-import kg.attractor.jobsearch.dao.ResumeDao;
-import kg.attractor.jobsearch.dao.UserDao;
-import kg.attractor.jobsearch.dao.VacancyDao;
-import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.UserDto;
-import kg.attractor.jobsearch.dto.UserDtoWithAvatarUploading;
 import kg.attractor.jobsearch.exception.UserNotFoundException;
-import kg.attractor.jobsearch.mapper.CustomUserMapper;
-import kg.attractor.jobsearch.model.Resume;
+import kg.attractor.jobsearch.mapper.UserMapper;
 import kg.attractor.jobsearch.model.User;
-import kg.attractor.jobsearch.model.Vacancy;
-import kg.attractor.jobsearch.service.ResumeService;
+import kg.attractor.jobsearch.repository.UserRepository;
 import kg.attractor.jobsearch.service.UserService;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class UserServiceImpl implements UserService {
-    private final UserDao userDao;
-    private final VacancyDao vacancyDao;
-    private final ResumeDao resumeDao;
-    private final ResumeService resumeService;
-    private final String UPLOAD_DIR = "avatars/";
-//    private final UserMapper userMapper = UserMapper.INSTANCE;
-
+    UserRepository userRepository;
+    UserMapper userMapper = UserMapper.INSTANCE;
+    String UPLOAD_DIR = "avatars/";
 
     @Override
     public List<UserDto> getUsers() {
-        List<User> users = userDao.getUser();
-        List<UserDto> dtos = new ArrayList<>();
-        users.forEach(e -> dtos.add(UserDto.builder()
-                .id(e.getId())
-                .name(e.getName())
-                .age(e.getAge())
-                .email(e.getEmail())
-                .password(e.getPassword())
-                .phoneNumber(e.getPhoneNumber())
-                .avatar(e.getAvatar())
-                .accountType(e.getAccountType())
-                .enabled(e.isEnabled())
-                .build()));
-        return dtos;
+        return userRepository.findAll().stream().map(userMapper::toUserDto).toList();
     }
 
     @Override
-    public UserDto getUserByName(String name) throws UserNotFoundException {
-        User user = userDao.getUserByName(name).orElseThrow(
-                () -> new UserNotFoundException("Can't find user with name: " + name)
-        );
-        return UserDto.builder().
-                id(user.getId())
-                .name(user.getName())
-                .password(user.getPassword())
-                .build();
+    public UserDto getUserById(Integer id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            log.info("User found with ID: {}", id);
+            return userMapper.toUserDto(user.get());
+        }
+        log.error("Can't find user with ID: {}", id);
+        throw new NoSuchElementException("Can't find user with ID: " + id);
+    }
+
+    @Override
+    public List<UserDto> getUsersByName(String name) throws UserNotFoundException {
+        List<User> users = userRepository.findByName(name);
+        if (users.isEmpty()) {
+            log.error("Can't find user with name: {}", name);
+            throw new UserNotFoundException("Users with name " + name + " not found");
+        }
+        log.info("User found with name: {}", name);
+        return users.stream().map(userMapper::toUserDto).toList();
     }
 
     @Override
     public UserDto getUserByPhone(String phoneNumber) throws UserNotFoundException {
-        User user = userDao.getUserByPhone(phoneNumber).orElseThrow(
-                () -> new UserNotFoundException("Can't find user with phone: " + phoneNumber)
-        );
-        return UserDto.builder().
-                id(user.getId())
-                .name(user.getName())
-                .password(user.getPassword())
-                .build();
+        Optional<User> user = userRepository.findByPhoneNumber(phoneNumber);
+        if (user.isEmpty()) {
+            log.error("Can't find user with phone number: {}", phoneNumber);
+            throw new UserNotFoundException("Users with phone number " + phoneNumber + " not found");
+        }
+        log.info("User found with phone number: {}", phoneNumber);
+        return userMapper.toUserDto(user.get());
     }
 
     @Override
     public UserDto getUserByEmail(String email) throws UserNotFoundException {
-        User user = userDao.getUserByEmail(email).orElseThrow(
-                () -> new UserNotFoundException("Can't find user with email: " + email)
-        );
-        return UserDto.builder().
-                id(user.getId())
-                .name(user.getName())
-                .password(user.getPassword())
-                .build();
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isEmpty()) {
+            log.error("Can't find user with email: {}", email);
+            throw new UserNotFoundException("Users with email " + email + " not found");
+        }
+        log.info("User found with email: {}", email);
+        return userMapper.toUserDto(user.get());
     }
 
-
     @Override
-    public UserDto getUserById(long id) {//throws UserNotFoundException {
-        User user = userDao.getUserById(id).orElseThrow(
-                () -> {
-                    log.error("Can't find user with ID: " + id);
-                    return new NoSuchElementException("Can't find user with ID: " + id);
-                }
-        );
-        log.info("User found with ID: " + id);
-        return UserDto.builder().
-                id(user.getId())
-                .name(user.getName())
-                .age(user.getAge())
-                .email(user.getEmail())
-                .password(user.getPassword())
-                .phoneNumber(user.getPhoneNumber())
-                .avatar(user.getAvatar())
-                .accountType(user.getAccountType())
-                .build();
+    public List<UserDto> getUsersRespondedToVacancy(Integer vacancyId) {
+        List<User> users = userRepository.findUsersRespondedToVacancy(vacancyId);
+        if (users.isEmpty()) {
+            log.error("Can't find users with vacancy id {}", vacancyId);
+        } else {
+            log.info("found users with vacancy id {}", vacancyId);
+        }
+        return users.stream().map(userMapper::toUserDto).toList();
     }
 
     @Override
     public void addUser(UserDto userDto) {
-        if (userDto.getAvatar() == null || userDto.getAvatar().isEmpty()) {
-            userDto.setAvatar("ava.png");
-        }
-        User user = new User();
-        user.setName(userDto.getName());
-        user.setAge(userDto.getAge());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
-        user.setPhoneNumber(userDto.getPhoneNumber());
-        user.setAvatar(userDto.getAvatar());
-        user.setAccountType(userDto.getAccountType());
-        user.setEnabled(userDto.isEnabled());
-
-        userDao.addUser(user);
+        User user = userMapper.toUser(userDto);
+        userRepository.save(user);
         if (user.getAccountType().equals("applicant")) {
             log.info("added applicant with email {}", user.getEmail());
         } else {
@@ -148,113 +107,63 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUserWithAvatar(UserDtoWithAvatarUploading userDtoWithAvatarUploading) throws UserNotFoundException, IOException {
-        if (userDtoWithAvatarUploading.getAvatar().isEmpty()) {
-            addUser(CustomUserMapper.toUserDto(userDtoWithAvatarUploading));
-        } else {
-            addUser(CustomUserMapper.toUserDto(userDtoWithAvatarUploading));
-            Optional<User> user = userDao.getUserByEmail(userDtoWithAvatarUploading.getEmail());
-            if (user.isPresent()) {
-                saveAvatar(
-                        user.get().getId(),
-                        userDtoWithAvatarUploading.getAvatar()
-                );
+    public boolean deleteUser(Integer id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            log.error("not possible to delete user because user with ID: {} nor found", id);
+            return false;
+        }
+        userRepository.delete(user.get());
+        return true;
+    }
+
+    @Override
+    public void applyForVacancy(Long vacancyId) {
+// todo - implement
+    }
+
+    @Override
+    public void uploadAvatar(Integer userId, MultipartFile file) throws IOException {
+        // Create the directory if it doesn't exist
+        File directory = new File(UPLOAD_DIR);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        // Save the file to the directory, add unique name using UUID class
+        String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+        Path filePath = Paths.get(UPLOAD_DIR, fileName);
+        Files.write(filePath, file.getBytes());
+
+        // Update the user's avatar field in the database
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setAvatar(fileName);
+        userRepository.save(user);
+
+        log.info("avatar {} uploaded successfully", fileName);
+    }
+
+    public Resource getAvatarFileResource(Integer userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        Path filePath = Paths.get(UPLOAD_DIR, user.getAvatar()).normalize();
+        try {
+            Resource resource = new UrlResource(filePath.toUri());
+            if (resource.exists() && resource.isReadable()) {
+                return resource;
             } else {
-                log.error("Can't find user with email: {}", userDtoWithAvatarUploading.getEmail());
-                throw new UserNotFoundException("Can't find user with email: " + userDtoWithAvatarUploading.getEmail());
+                throw new RuntimeException("Could not read the file!");
             }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Error: " + e.getMessage());
         }
     }
 
-    @Override
-    public boolean deleteUser(Long id) {
-        Optional<User> user = userDao.getUserById(id);
-        if (user.isPresent()) {
-            userDao.delete(id);
-            log.info("user deleted: " + user.get().getName());
-            return true;
-        }
-        log.info(String.format("user with id %d not found", id));
-        return false;
-    }
+    public String getContentType(Resource resource) {
+        try {
 
-    @Override
-    public List<UserDto> getUsersRespondedToVacancy(Integer vacancyId) {
-        List<User> users = userDao.getUsersRespondedToVacancy(vacancyId);
-        List<UserDto> dtos = users.stream()
-                .map(user -> UserDto.builder()
-                        .id(user.getId())
-                        .name(user.getName())
-                        .age(user.getAge())
-                        .email(user.getEmail())
-                        .password(user.getPassword())
-                        .phoneNumber(user.getPhoneNumber())
-                        .avatar(user.getAvatar())
-                        .accountType(user.getAccountType())
-                        .build())
-                .collect(Collectors.toList());
-        if (dtos.isEmpty()) {
-            log.error("Can't find users with vacancy id {}", vacancyId);
-        } else {
-            log.info("found users with vacancy id {}", vacancyId);
-        }
-        return dtos;
-    }
-
-    @Override
-    public void applyForVacancy(Long vacancyId, ResumeDto resumeDto) {
-        Resume resume = resumeDao.getResumeById(resumeDto.getApplicantId()).orElseThrow(
-                () -> new UsernameNotFoundException(
-                        "Can't find resume with applicant id: " + resumeDto.getApplicantId()
-                )
-        );
-        Vacancy vacancy = vacancyDao.getVacancyById(vacancyId).orElseThrow(
-                () -> new NoSuchElementException("Can't find vacancy with ID: " + vacancyId)
-        );
-        vacancyDao.applyForVacancy(resume.getId(), vacancy.getId());
-        log.info("apply for vacancy {} successfully", vacancy.getName());
-    }
-
-    @Override
-    public void saveAvatar(Integer userId, MultipartFile avatar) throws IOException, UserNotFoundException {
-        if (!avatar.isEmpty()) {
-            String fileName = UUID.randomUUID() + "_" + avatar.getOriginalFilename();
-            // in users table avatar field length is only 45
-            // if it's more - we get sql exception
-            if (fileName.length() > 45) {
-                fileName = fileName.substring(fileName.length() - 45);
-            }
-            Path filePath = Paths.get(UPLOAD_DIR, fileName);
-            Files.createDirectories(filePath.getParent());
-            Files.write(filePath, avatar.getBytes());
-
-            User user = userDao.getUserById(userId).orElseThrow(
-                    () -> new UserNotFoundException("can't find user with id: " + userId));
-
-            userDao.updateAvatar(user.getId(), fileName);
-        } else {
-            throw new IOException("File is empty");
-        }
-    }
-
-    @Override
-    public ResponseEntity<?> getAvatar(Integer userId) throws UserNotFoundException {
-        Optional<User> user = userDao.getUserById(userId);
-        if (user.isPresent()) {
-            try {
-                byte[] image = Files.readAllBytes(Paths.get(UPLOAD_DIR + user.get().getAvatar()));
-                Resource resource = new ByteArrayResource(image);
-                return ResponseEntity.ok()
-                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + user.get().getAvatar() + "\"")
-                        .contentLength(resource.contentLength())
-                        .contentType(MediaType.IMAGE_JPEG)
-                        .body(resource);
-            } catch (IOException e) {
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("avatar not found");
-            }
-        } else {
-            log.error("Can't find user with id {}", userId);
-            throw new UserNotFoundException(String.format("user with id %d not found", userId));
+            return Files.probeContentType(resource.getFile().toPath());
+        } catch (IOException e) {
+            throw new RuntimeException("Error: " + e.getMessage());
         }
     }
 

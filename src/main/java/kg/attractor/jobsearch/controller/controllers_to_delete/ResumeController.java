@@ -27,7 +27,7 @@ public class ResumeController {
 
     //    http://localhost:8089/resumes/id/4
     @GetMapping("id/{id}")
-    public ResponseEntity<?> getResumeById(@PathVariable long id) {
+    public ResponseEntity<?> getResumeById(@PathVariable Integer id) {
         ResumeDto resume = resumeService.getResumeById(id);
         if (resume == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("resume with id %d not found", id));
@@ -37,12 +37,12 @@ public class ResumeController {
 
     //    http://localhost:8089/resumes/category/2
     @GetMapping("category/{category_id}")
-    public ResponseEntity<?> getResumeByCategoryId(@PathVariable Integer category_id) {
-        ResumeDto resume = resumeService.getResumeByCategoryId(category_id);
-        if (resume == null) {
+    public ResponseEntity<?> getResumesByCategoryId(@PathVariable Integer category_id) {
+        List<ResumeDto> resumes = resumeService.getResumesByCategoryId(category_id);
+        if (resumes == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("resume with category_id %d not found", category_id));
         }
-        return ResponseEntity.ok(resume);
+        return ResponseEntity.ok(resumes);
     }
 
     //    http://localhost:8089/resumes/search-by-user/2

@@ -1,26 +1,22 @@
 package kg.attractor.jobsearch.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.With;
 
-
 @Entity
-@Table(name = "CATEGORIES")
+@Table(name = "RESPONDED_APPLICANTS")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @With
-public class Category {
+public class RespondedApplicant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String name;
-    private Integer parentId;
+    private Integer resumeId;
+    private Integer vacancyId;
+    private boolean confirmation;
 }

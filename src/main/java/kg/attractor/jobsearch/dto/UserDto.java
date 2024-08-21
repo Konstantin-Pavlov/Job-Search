@@ -1,6 +1,6 @@
 package kg.attractor.jobsearch.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModel;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -21,6 +21,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@ApiModel(value = "User dto")
 public class UserDto {
     Integer id;
     @NotBlank
@@ -37,19 +38,13 @@ public class UserDto {
 
 //    @Pattern(regexp = "^(?=.\\d)(?=.[a-z])(?=.[A-Z])(?=.[a-zA-Z]).+$", message = "Should contain at least one uppercase letter, one number")
     @NotBlank(message = "Password must not be blank")
-    @Size(min = 3, max = 60, message = "Password length must be from {min} to {max} characters")
+    @Size(min = 4, max = 60, message = "Password length must be from {min} to {max} characters")
     @NotBlank
     String password;
     @Pattern(regexp = "^\\+996\\d{7}$", message = "phone number is invalid")
-
-    @JsonProperty("phone_number")
     String phoneNumber;
-
     String avatar;
-
-    //    @Pattern(regexp = "^(employer|applicant)$", message = "should only contain \"employer\" or \"applicant\"")
-    @JsonProperty("account_type")
+    @Pattern(regexp = "^(employer|applicant)$", message = "should only contain \"employer\" or \"applicant\"")
     String accountType;
-
     boolean enabled;
 }

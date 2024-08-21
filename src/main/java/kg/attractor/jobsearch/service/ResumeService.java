@@ -7,17 +7,18 @@ import java.util.List;
 public interface ResumeService {
     List<ResumeDto> getResumes();
 
-    ResumeDto getResumeById(long id);
+    ResumeDto getResumeById(Integer id);
 
-    ResumeDto getResumeByCategoryId(Integer categoryId);
-
-    void addResume(ResumeDto resumeDto);
-
-    boolean deleteResume(Integer id);
+    List<ResumeDto> getResumesByCategoryId(Integer categoryId);
 
     List<ResumeDto> getResumeByUserId(Integer userId);
 
     List<ResumeDto> getResumeByCategory(String category);
 
+    void addResume(ResumeDto resumeDto);
+
     void editResume(Integer id, ResumeDto resumeDto);
+
+    boolean deleteResume(Integer id);
+
 }

@@ -11,12 +11,19 @@ import kg.attractor.jobsearch.service.VacancyService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("employer")
 @RequiredArgsConstructor
@@ -26,15 +33,6 @@ public class EmployerController {
     UserService employerService;
     VacancyService vacancyService;
     ResumeService resumeService;
-
-    @GetMapping("/applicant/{id}")
-    public ResponseEntity<?> getApplicantById(@PathVariable Integer id) {
-        try {
-            return ResponseEntity.ok(employerService.getUserById(id));
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-    }
 
     @GetMapping("/resumes")
     public ResponseEntity<List<ResumeDto>> getAllResumes() {
@@ -61,11 +59,34 @@ public class EmployerController {
         return ResponseEntity.ok(users);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<?> add(@Valid @RequestBody UserDto userDto) {
-        userDto.setAccountType("employer");
-        employerService.addUser(userDto);
-        return ResponseEntity.ok("user is valid");
+    @GetMapping("/applicant/{id}")
+    public ResponseEntity<?> getApplicantById(@PathVariable Integer id) throws UserNotFoundException {
+        return ResponseEntity.ok(employerService.getUserById(id));
+    }
+
+    @GetMapping("/{userId}/avatar")
+    public ResponseEntity<Resource> getAvatar(@PathVariable Integer userId) {
+        try {
+            Resource resource = employerService.getAvatarFileResource(userId);
+            String contentType = employerService.getContentType(resource);
+            log.info("get avatar : {}", contentType);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(contentType))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/{userId}/upload-avatar")
+    public ResponseEntity<String> uploadAvatar(@PathVariable Integer userId, @RequestParam("file") MultipartFile file) {
+        try {
+            employerService.uploadAvatar(userId, file);
+            return ResponseEntity.ok("Avatar uploaded successfully");
+        } catch (IOException e) {
+            return ResponseEntity.status(500).body("Failed to upload avatar");
+        }
     }
 
     @PostMapping("/vacancy")
@@ -76,7 +97,7 @@ public class EmployerController {
     }
 
     @PutMapping("/vacancy/{id}")
-    public ResponseEntity<String> editVacancy(@PathVariable Long id, @RequestBody VacancyDto vacancyDto) {
+    public ResponseEntity<String> editVacancy(@PathVariable Integer id, @RequestBody VacancyDto vacancyDto) {
         vacancyService.editVacancy(id, vacancyDto);
         return ResponseEntity.ok("Vacancy edited successfully");
     }

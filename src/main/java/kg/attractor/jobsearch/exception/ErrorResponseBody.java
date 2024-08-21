@@ -1,14 +1,16 @@
 package kg.attractor.jobsearch.exception;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 import java.util.Map;
 
-@Data
+@Getter
+@Setter
 @Builder
 public class ErrorResponseBody {
-    private String error;
+    private String title;
     private Map<String, List<String>> reasons;
 }

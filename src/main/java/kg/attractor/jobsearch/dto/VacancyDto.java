@@ -1,6 +1,6 @@
 package kg.attractor.jobsearch.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModel;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -17,37 +17,22 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE) // all fields are private
+@ApiModel(value = "Vacancy dto")
 public class VacancyDto {
     @NotBlank
     String name;
-
     @NotBlank
     String description;
-
     @Min(value = 1, message = "categoryId must be at least 1")
-    @JsonProperty("category_id")
     Integer categoryId;
-
     @Positive
     Integer salary;
-
-    @JsonProperty("exp_from")
     LocalDateTime expFrom;
-
-    @JsonProperty("exp_to")
     LocalDateTime expTo;
-
-    @JsonProperty("is_active")
     Boolean isActive;
-
     @Min(1)
-    @JsonProperty("author_id")
     Integer authorId;
-
-    @JsonProperty("created_date")
     LocalDateTime createdDate;
-
-    @JsonProperty("update_time")
     LocalDateTime updateTime;
 }
