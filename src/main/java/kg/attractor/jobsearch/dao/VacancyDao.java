@@ -1,7 +1,7 @@
 package kg.attractor.jobsearch.dao;
 
 
-import kg.attractor.jobsearch.model.Vacancy;
+import kg.attractor.jobsearch.entity.Vacancy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -38,7 +38,7 @@ public class VacancyDao {
 
     public void addVacancy(Vacancy vacancy) {
         String sql = """
-                insert into VACANCIES(NAME, DESCRIPTION, CATEGORY_ID, SALARY,EXPFROM, EXPTO, IS_ACTIVE, AUTHOR_ID,CREATED_DATE, UPDATE_TIME)
+                insert into VACANCIES(NAME, DESCRIPTION, CATEGORY_ID, SALARY, EXP_FROM, EXP_TO, IS_ACTIVE, AUTHOR_ID, CREATED_DATE, UPDATE_TIME)
                 values (:name, :description, :categoryId, :salary, :expFrom, :expTo, :isActive, :authorId, :createdDate, :updateTime);
                 """;
         namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource()
@@ -66,13 +66,11 @@ public class VacancyDao {
         String sql = """
                                 SELECT   v.id,
                                          v.NAME,
-                //                         v.NAME AS position,
-                //                         u.name AS applicant_name,
                                          v.description,
                                          v.category_id,
                                          v.salary,
-                                         v.expFrom,
-                                         v.expTo,
+                                         v.EXP_FROM,
+                                         v.EXP_TO,
                                          v.is_active,
                                          v.author_id,
                                          v.created_date,
