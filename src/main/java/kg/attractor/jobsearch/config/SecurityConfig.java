@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,9 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 
 import javax.sql.DataSource;
 
@@ -77,33 +74,46 @@ public class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
-//                .exceptionHandling(exception -> exception.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .authorizeHttpRequests(authorize -> authorize
-                                .requestMatchers("/swagger-ui/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/applicant/vacancies").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/applicant/get-user-vacancies/{user_id}").hasAnyAuthority("USER", "ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/applicant/avatar/{userId}").hasAnyAuthority("USER", "ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/users/{id}").hasAuthority("ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/users/**").hasAuthority("ADMIN")
-//                        .requestMatchers("/quizzes/**").hasAuthority("ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/users").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/applicant/add").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/applicant/add-with-avatar").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/applicant/{userId}/upload-avatar").hasAnyAuthority("ADMIN", "USER")
-                                .requestMatchers(HttpMethod.POST, "/applicant/resume").hasAnyAuthority("ADMIN", "USER")
-                                .requestMatchers(HttpMethod.POST, "/applicant/vacancy/{vacancyId}/apply").hasAnyAuthority("ADMIN", "USER")
-                                .requestMatchers(HttpMethod.PUT, "/applicant/resume/{id}").hasAnyAuthority("ADMIN", "USER")
-                                .requestMatchers(HttpMethod.DELETE, "/applicant/resume/{id}").hasAnyAuthority("ADMIN", "USER")
+                        .requestMatchers("/swagger-ui/**").permitAll()
 
-                                .requestMatchers(HttpMethod.GET, "/employer/resumes").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/employer/resumes/category/{category}").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/employer/vacancy/{vacancyId}/applicants").hasAnyAuthority("ADMIN", "USER")
-                                .requestMatchers(HttpMethod.POST, "/employer/add").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/employer/vacancy").hasAnyAuthority("ADMIN", "USER")
-                                .requestMatchers(HttpMethod.PUT, "/employer/vacancy/{id}").hasAnyAuthority("ADMIN", "USER")
-                                .requestMatchers(HttpMethod.DELETE, "/employer/vacancy/{id}").hasAnyAuthority("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.GET,
+                                "/users",
+                                "/applicant/vacancies",
+                                "/employer/resumes",
+                                "/employer/resumes/category/{category}")
+                        .permitAll()
+                        .requestMatchers(HttpMethod.POST,
+                                "/applicant/add",
+                                "/applicant/add-with-avatar",
+                                "/employer/add")
+                        .permitAll()
 
-                                .anyRequest().authenticated()
+                        .requestMatchers(HttpMethod.GET,
+                                "/applicant/get-user-vacancies/{user_id}",
+                                "/applicant/avatar/{userId}",
+                                "/users/{id}",
+                                "/employer/vacancy/{vacancyId}/applicants")
+                        .hasAnyAuthority("USER", "ADMIN")
+
+                        .requestMatchers(HttpMethod.POST,
+                                "/applicant/{userId}/upload-avatar",
+                                "/applicant/resume",
+                                "/applicant/vacancy/{vacancyId}/apply",
+                                "/employer/vacancy")
+                        .hasAnyAuthority("ADMIN", "USER")
+
+                        .requestMatchers(HttpMethod.PUT,
+                                "/applicant/resume/{id}",
+                                "/employer/vacancy/{id}")
+                        .hasAnyAuthority("ADMIN", "USER")
+
+                        .requestMatchers(HttpMethod.DELETE,
+                                "/applicant/resume/{id}",
+                                "/employer/vacancy/{id}")
+                        .hasAnyAuthority("ADMIN", "USER")
+
+                        .anyRequest().authenticated()
                 );
         return http.build();
     }
