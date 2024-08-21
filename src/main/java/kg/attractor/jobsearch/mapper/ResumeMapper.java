@@ -9,7 +9,6 @@ import org.mapstruct.factory.Mappers;
 import java.util.List;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-
 public interface ResumeMapper {
     ResumeMapper INSTANCE = Mappers.getMapper(ResumeMapper.class);
     ResumeDto toResumeDto(Resume resume);

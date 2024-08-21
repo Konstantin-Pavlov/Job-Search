@@ -20,7 +20,7 @@ public class ProfileController {
     private final UserService userService;
 
     @GetMapping("/edit-profile")
-    public String editProfile(@RequestParam("userId") long userId, Model model) throws UserNotFoundException {
+    public String editProfile(@RequestParam("userId") Integer userId, Model model) throws UserNotFoundException {
         UserDto userDto = userService.getUserById(userId);
         model.addAttribute("userDto", userDto);
         return "auth/edit_profile";

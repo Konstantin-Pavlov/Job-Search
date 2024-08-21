@@ -2,7 +2,9 @@ package kg.attractor.jobsearch.service.impl;
 
 import kg.attractor.jobsearch.dao.ResumeDao;
 import kg.attractor.jobsearch.dto.ResumeDto;
+import kg.attractor.jobsearch.mapper.ResumeMapper;
 import kg.attractor.jobsearch.model.Resume;
+import kg.attractor.jobsearch.repository.ResumeRepository;
 import kg.attractor.jobsearch.service.ResumeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,13 +20,15 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ResumeServiceImpl implements ResumeService {
     private final ResumeDao resumeDao;
+    private final ResumeMapper resumeMapper = ResumeMapper.INSTANCE;
+    private final ResumeRepository resumeRepository;
 
     @Override
     public List<ResumeDto> getResumes() {
         List<Resume> resumes = resumeDao.getResumes();
         List<ResumeDto> dtos = new ArrayList<>();
         resumes.forEach(e -> dtos.add(ResumeDto.builder()
-                        .id(e.getId())
+                .id(e.getId())
                 .applicantId(e.getApplicantId())
                 .name(e.getName())
                 .categoryId(e.getCategoryId())
@@ -38,7 +42,7 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public ResumeDto getResumeById(long id) {
+    public ResumeDto getResumeById(Integer id) {
         try {
             Resume resume = resumeDao.getResumeById(id)
                     .orElseThrow(() -> new Exception("Can't find resume with id " + id));
@@ -60,25 +64,10 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public ResumeDto getResumeByCategoryId(Integer categoryId) {
-        try {
-            Resume resume = resumeDao.getResumeByCategoryId(categoryId)
-                    .orElseThrow(() -> new Exception("Can't find resume with categoryId " + categoryId));
-            log.info("found resume with categoryId {}", categoryId);
-            return ResumeDto.builder()
-                    .applicantId(resume.getApplicantId())
-                    .name(resume.getName())
-                    .categoryId(resume.getCategoryId())
-
-                    .salary(resume.getSalary())
-                    .isActive(resume.getIsActive())
-                    .createdDate(resume.getCreatedDate())
-                    .updateTime(resume.getUpdateTime())
-                    .build();
-        } catch (Exception e) {
-            log.error("Can't find resume with categoryId{}", categoryId);
-        }
-        return null;
+    public List<ResumeDto> getResumesByCategoryId(Integer categoryId) {
+        return resumeRepository.findByCategoryId(categoryId).stream()
+                .map(resumeMapper::toResumeDto)
+                .toList();
     }
 
     @Override
@@ -113,7 +102,7 @@ public class ResumeServiceImpl implements ResumeService {
     public void editResume(Integer id, ResumeDto resumeDto) {
         ResumeDto resumeDto1 = getResumeById(id);
         if (resumeDto1 == null) {
-            log.error("Can't edit resume because resume with id {} not found",  id);
+            log.error("Can't edit resume because resume with id {} not found", id);
         } else {
             deleteResume(id);
             addResume(resumeDto);

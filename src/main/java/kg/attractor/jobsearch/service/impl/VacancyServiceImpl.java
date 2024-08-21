@@ -3,8 +3,10 @@ package kg.attractor.jobsearch.service.impl;
 import kg.attractor.jobsearch.dao.VacancyDao;
 import kg.attractor.jobsearch.dto.VacancyDto;
 import kg.attractor.jobsearch.exception.VacancyNotFoundException;
+import kg.attractor.jobsearch.mapper.CustomVacancyMapper;
 import kg.attractor.jobsearch.mapper.VacancyMapper;
 import kg.attractor.jobsearch.model.Vacancy;
+import kg.attractor.jobsearch.repository.VacancyRepository;
 import kg.attractor.jobsearch.service.VacancyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,30 +20,33 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class VacancyServiceImpl implements VacancyService {
     private final VacancyDao vacancyDao;
-    private final
+    private final VacancyRepository vacancyRepository;
     private final VacancyMapper vacancyMapper = VacancyMapper.INSTANCE;
 
     @Override
     public List<VacancyDto> getVacancies() {
-        List<Vacancy> vacancies = vacancyDao.getVacancies();
+        List<Vacancy> vacancies = vacancyRepository.findAll();
         return vacancies.stream()
-                .map(vacancyMapper::toVacancyDto)
+                // for some reason doesn't work - it thinks expFrom and expTo are LocalDateTime objects,
+                // but they are integers, so we get there errors:
+                // java.lang.NoSuchMethodError: 'java.time.LocalDateTime kg.attractor.jobsearch.model.Vacancy.getExpFrom()
+//                .map(vacancyMapper::toVacancyDto)
+                .map(CustomVacancyMapper::toVacancyDto)
                 .toList();
     }
 
     @Override
     public VacancyDto getVacancyById(Integer id) {
-        return null;
-    }
-
-    @Override
-    public VacancyDto getVacancyById(long id) {
-        Vacancy vacancy = vacancyDao.getVacancyById(id)
+        Vacancy vacancy = vacancyRepository.findById(id)
                 .orElseThrow(() -> {
                     log.error("Can't find Vacancy with id {}", id);
                     return new VacancyNotFoundException("Can't find Vacancy with id " + id);
                 });
-        return vacancyMapper.toVacancyDto(vacancy);
+        // for some reason doesn't work - it thinks expFrom and expTo are LocalDateTime objects,
+        // but they are integers, so we get there errors:
+        // java.lang.NoSuchMethodError: 'java.time.LocalDateTime kg.attractor.jobsearch.model.Vacancy.getExpFrom()
+//        return vacancyMapper.toVacancyDto(vacancy);
+        return CustomVacancyMapper.toVacancyDto(vacancy);
     }
 
     @Override
@@ -93,12 +98,7 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public void editVacancy(Integer id, VacancyDto vacancyDto) {
-
-    }
-
-    @Override
-    public void editVacancy(Long id, VacancyDto vacancyDto) {
-        // todo - implement vacancy editing
+// todo - implement vacancy editing
     }
 
     @Override
@@ -111,7 +111,11 @@ public class VacancyServiceImpl implements VacancyService {
     public List<VacancyDto> getVacancyByAuthorId(Integer id) {
         List<Vacancy> vacancies = vacancyDao.getVacanciesByAuthorId(id);
         return vacancies.stream()
-                .map(vacancyMapper::toVacancyDto)
+                // for some reason doesn't work - it thinks expFrom and expTo are LocalDateTime objects,
+                // but they are integers, so we get there errors:
+                // java.lang.NoSuchMethodError: 'java.time.LocalDateTime kg.attractor.jobsearch.model.Vacancy.getExpFrom()
+//                .map(vacancyMapper::toVacancyDto)
+                .map(CustomVacancyMapper::toVacancyDto)
                 .toList();
     }
 

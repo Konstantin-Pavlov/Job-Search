@@ -44,7 +44,7 @@ public class ApiApplicantController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<?> getUserById(@PathVariable long id) throws UserNotFoundException {
+    public ResponseEntity<?> getUserById(@PathVariable Integer id) throws UserNotFoundException {
         return ResponseEntity.ok(applicantService.getUserById(id));
     }
 
@@ -54,8 +54,8 @@ public class ApiApplicantController {
             @RequestParam(name = "name")
             String name) {
         try {
-            UserDto user = applicantService.getUserByName(name);
-            return ResponseEntity.ok(user);
+            List<UserDto> users = applicantService.getUsersByName(name);
+            return ResponseEntity.ok(users);
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
@@ -89,11 +89,11 @@ public class ApiApplicantController {
     //    http://localhost:8089/resumes/category/2
     @GetMapping("category/{category_id}")
     public ResponseEntity<?> getResumeByCategoryId(@PathVariable Integer category_id) {
-        ResumeDto resume = resumeService.getResumeByCategoryId(category_id);
-        if (resume == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("resume with category_id %d not found", category_id));
+        List<ResumeDto> resumes = resumeService.getResumesByCategoryId(category_id);
+        if (resumes == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("s with category_id %d not found", category_id));
         }
-        return ResponseEntity.ok(resume);
+        return ResponseEntity.ok(resumes);
     }
 
     @GetMapping("/resumes/category/{category}")
@@ -203,7 +203,7 @@ public class ApiApplicantController {
     }
 
     @PostMapping("/vacancy/{vacancyId}/apply")
-    public ResponseEntity<String> applyForVacancy(@PathVariable Long vacancyId, @RequestBody ResumeDto resumeDto) {
+    public ResponseEntity<String> applyForVacancy(@PathVariable Integer vacancyId, @RequestBody ResumeDto resumeDto) {
         applicantService.applyForVacancy(vacancyId, resumeDto);
         return ResponseEntity.ok("Applied to vacancy successfully");
     }

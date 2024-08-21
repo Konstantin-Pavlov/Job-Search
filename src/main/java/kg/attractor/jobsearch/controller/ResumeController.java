@@ -25,7 +25,7 @@ public class ResumeController {
     }
 
     @GetMapping("resumes/{resumeId}")
-    public String getInfo(@PathVariable long resumeId, Model model, Authentication authentication) {
+    public String getInfo(@PathVariable Integer resumeId, Model model, Authentication authentication) {
         MvcControllersUtil.authCheckAndAddAttributes(
                 model,
                 authentication,

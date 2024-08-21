@@ -67,25 +67,21 @@ public class ApiEmployerController {
     @GetMapping("/{userId}/avatar")
     public ResponseEntity<Resource> getAvatar(@PathVariable Integer userId) {
         try {
-            Resource resource = employerService.getAvatarFileResource(userId);
-            String contentType = employerService.getContentType(resource);
-            log.info("get avatar : {}", contentType);
-            return ResponseEntity.ok()
-                    .contentType(MediaType.parseMediaType(contentType))
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                    .body(resource);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+            return (ResponseEntity<Resource>) employerService.getAvatar(userId);
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
     @PostMapping("/{userId}/upload-avatar")
     public ResponseEntity<String> uploadAvatar(@PathVariable Integer userId, @RequestParam("file") MultipartFile file) {
         try {
-            employerService.uploadAvatar(userId, file);
+            employerService.saveAvatar(userId, file);
             return ResponseEntity.ok("Avatar uploaded successfully");
         } catch (IOException e) {
             return ResponseEntity.status(500).body("Failed to upload avatar");
+        } catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 

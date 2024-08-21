@@ -25,7 +25,7 @@ public class VacancyController {
     }
 
     @GetMapping("vacancies/{vacancyId}")
-    public String getInfo(@PathVariable long vacancyId, Model model, Authentication authentication) {
+    public String getInfo(@PathVariable Integer vacancyId, Model model, Authentication authentication) {
         MvcControllersUtil.authCheckAndAddAttributes(
                 model,
                 authentication,

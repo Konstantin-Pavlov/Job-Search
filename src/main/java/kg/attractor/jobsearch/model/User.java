@@ -18,7 +18,7 @@ import lombok.With;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(name = "USERS")
 @With
 public class User {
     @Id

@@ -16,5 +16,7 @@ public interface VacancyMapper {
     VacancyDto toVacancyDto(Vacancy vacancy);
 
     Vacancy toVacancy(VacancyDto vacancyDto);
+
     List<VacancyDto> toVacancyDto(List<Vacancy> vacancies);
+
 }

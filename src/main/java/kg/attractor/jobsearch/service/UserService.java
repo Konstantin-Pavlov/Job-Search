@@ -13,22 +13,22 @@ import java.util.List;
 public interface UserService {
     List<UserDto> getUsers();
 
-    UserDto getUserByName(String name) throws UserNotFoundException;
+    List<UserDto> getUsersByName(String name) throws UserNotFoundException;
 
     UserDto getUserByPhone(String phoneNumber) throws UserNotFoundException;
 
     UserDto getUserByEmail(String email) throws UserNotFoundException;
 
-    UserDto getUserById(long id) throws UserNotFoundException;
+    UserDto getUserById(Integer id) throws UserNotFoundException;
 
     void addUser(UserDto userDto);
     void addUserWithAvatar(UserWithAvatarFileDto userDtoWithAvatarUploading) throws UserNotFoundException, IOException;
 
-    boolean deleteUser(Long id);
+    boolean deleteUser(Integer id);
 
     List<UserDto> getUsersRespondedToVacancy(Integer vacancyId);
 
-    void applyForVacancy(Long vacancyId, ResumeDto resumeDto);
+    void applyForVacancy(Integer vacancyId, ResumeDto resumeDto);
 
     void saveAvatar(Integer userId, MultipartFile avatar) throws IOException, UserNotFoundException;
 
