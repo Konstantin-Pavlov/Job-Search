@@ -3,14 +3,13 @@ package kg.attractor.jobsearch.service.impl;
 import kg.attractor.jobsearch.dao.VacancyDao;
 import kg.attractor.jobsearch.dto.VacancyDto;
 import kg.attractor.jobsearch.exception.VacancyNotFoundException;
-import kg.attractor.jobsearch.mapper.CustomVacancyMapper;
+import kg.attractor.jobsearch.mapper.VacancyMapper;
 import kg.attractor.jobsearch.model.Vacancy;
 import kg.attractor.jobsearch.service.VacancyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,25 +18,20 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class VacancyServiceImpl implements VacancyService {
     private final VacancyDao vacancyDao;
+    private final
+    private final VacancyMapper vacancyMapper = VacancyMapper.INSTANCE;
 
     @Override
     public List<VacancyDto> getVacancies() {
         List<Vacancy> vacancies = vacancyDao.getVacancies();
-        List<VacancyDto> dtos = new ArrayList<>();
-        vacancies.forEach(e -> dtos.add(VacancyDto.builder()
-                .id(e.getId())
-                .name(e.getName())
-                .description(e.getDescription())
-                .categoryId(e.getCategoryId())
-                .salary(e.getSalary())
-                .expFrom(e.getExpFrom())
-                .expTo(e.getExpTo())
-                .isActive(e.getIsActive())
-                .authorId(e.getAuthorId())
-                .createdDate(e.getCreatedDate())
-                .updateTime(e.getUpdateTime())
-                .build()));
-        return dtos;
+        return vacancies.stream()
+                .map(vacancyMapper::toVacancyDto)
+                .toList();
+    }
+
+    @Override
+    public VacancyDto getVacancyById(Integer id) {
+        return null;
     }
 
     @Override
@@ -47,24 +41,12 @@ public class VacancyServiceImpl implements VacancyService {
                     log.error("Can't find Vacancy with id {}", id);
                     return new VacancyNotFoundException("Can't find Vacancy with id " + id);
                 });
-        return VacancyDto.builder()
-                .id(vacancy.getId())
-                .name(vacancy.getName())
-                .description(vacancy.getDescription())
-                .categoryId(vacancy.getCategoryId())
-                .salary(vacancy.getSalary())
-                .expFrom(vacancy.getExpFrom())
-                .expTo(vacancy.getExpTo())
-                .isActive(vacancy.getIsActive())
-                .authorId(vacancy.getAuthorId())
-                .createdDate(vacancy.getCreatedDate())
-                .updateTime(vacancy.getUpdateTime())
-                .build();
+        return vacancyMapper.toVacancyDto(vacancy);
     }
 
     @Override
     public void createVacancy(VacancyDto vacancyDto) {
-        Vacancy vacancy = CustomVacancyMapper.fromDto(vacancyDto);
+        Vacancy vacancy = vacancyMapper.toVacancy(vacancyDto);
         vacancyDao.addVacancy(vacancy);
         log.info("added vacancy {}", vacancy.getName());
     }
@@ -85,7 +67,7 @@ public class VacancyServiceImpl implements VacancyService {
     public List<VacancyDto> getVacanciesUserResponded(Integer userId) {
         List<Vacancy> vacancies = vacancyDao.getVacanciesUserResponded(userId);
         List<VacancyDto> dtos = vacancies.stream()
-                .map(CustomVacancyMapper::toDto)
+                .map(vacancyMapper::toVacancyDto)
                 .toList();
         if (dtos.isEmpty()) {
             log.error("Can't find vacancies with user id {}", userId);
@@ -99,7 +81,7 @@ public class VacancyServiceImpl implements VacancyService {
     public List<VacancyDto> getVacanciesByCategoryId(Integer categoryId) {
         List<Vacancy> vacancies = vacancyDao.getVacanciesByCategoryId(categoryId);
         List<VacancyDto> dtos = vacancies.stream()
-                .map(CustomVacancyMapper::toDto)
+                .map(vacancyMapper::toVacancyDto)
                 .toList();
         if (dtos.isEmpty()) {
             log.error("Can't find vacancies with category id {}", categoryId);
@@ -107,6 +89,11 @@ public class VacancyServiceImpl implements VacancyService {
             log.info("found vacancies with category id {}", categoryId);
         }
         return dtos;
+    }
+
+    @Override
+    public void editVacancy(Integer id, VacancyDto vacancyDto) {
+
     }
 
     @Override
@@ -124,7 +111,7 @@ public class VacancyServiceImpl implements VacancyService {
     public List<VacancyDto> getVacancyByAuthorId(Integer id) {
         List<Vacancy> vacancies = vacancyDao.getVacanciesByAuthorId(id);
         return vacancies.stream()
-                .map(CustomVacancyMapper::toDto)
+                .map(vacancyMapper::toVacancyDto)
                 .toList();
     }
 
