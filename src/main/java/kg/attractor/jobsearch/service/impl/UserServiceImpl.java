@@ -17,8 +17,8 @@ import kg.attractor.jobsearch.repository.VacancyRepository;
 import kg.attractor.jobsearch.service.UserService;
 import kg.attractor.jobsearch.util.ConsoleColors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -37,7 +37,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -54,20 +53,20 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper = UserMapper.INSTANCE;
 
     @Value("${app.avatar_dir}")
-    private  String AVATAR_DIR;
+    private String AVATAR_DIR;
 
 //    private final String UPLOAD_DIR = "avatars";
 
     @Override
     public List<UserDto> getUsers() {
-       return userRepository.findAll()
-               .stream()
-               .map(userMapper::toUserDto)
-               .toList();
+        return userRepository.findAll()
+                .stream()
+                .map(userMapper::toUserDto)
+                .toList();
     }
 
     @Override
-    public List<UserDto> getUsersByName(String name)  {
+    public List<UserDto> getUsersByName(String name) {
         return userRepository.findByName(name)
                 .stream()
                 .map(userMapper::toUserDto)
@@ -107,8 +106,8 @@ public class UserServiceImpl implements UserService {
         if (userDto.getAvatar() == null || userDto.getAvatar().isEmpty()) {
             userDto.setAvatar("default_user_avatar.png");
             log.info(ConsoleColors.YELLOW +
-                    "user with email {} didn't choose avatar, so default avatar is set" +
-                    ConsoleColors.RESET,
+                            "user with email {} didn't choose avatar, so default avatar is set" +
+                            ConsoleColors.RESET,
                     userDto.getEmail());
         }
         User user = userMapper.toUser(userDto);
