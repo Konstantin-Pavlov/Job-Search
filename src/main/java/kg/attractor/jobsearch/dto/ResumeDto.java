@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
+import kg.attractor.jobsearch.util.DateTimeUtil;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ResumeDto {
+    long id;
     @Min(1)
     @JsonProperty("applicant_id")
     Integer applicantId;
@@ -41,4 +43,11 @@ public class ResumeDto {
 
     @JsonProperty("update_time")
     LocalDateTime updateTime;
+
+    public String getFormattedCreatedDate() {
+        return DateTimeUtil.getFormattedDate(createdDate);
+    }
+    public String getFormattedUpdatedDate() {
+        return DateTimeUtil.getFormattedDate(updateTime);
+    }
 }

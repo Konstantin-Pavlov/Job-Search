@@ -1,4 +1,4 @@
-package kg.attractor.jobsearch.controller.controllers_to_delete;
+package kg.attractor.jobsearch.controller.api;
 
 import kg.attractor.jobsearch.dto.CategoryDto;
 import kg.attractor.jobsearch.service.impl.CategoriesServiceImpl;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("api/categories")
 @RequiredArgsConstructor
-public class CategoryController {
+public class ApiCategoryController {
     private final CategoriesServiceImpl categoriesService;
 
     @GetMapping

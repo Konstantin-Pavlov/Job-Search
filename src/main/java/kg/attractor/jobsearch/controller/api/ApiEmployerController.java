@@ -1,4 +1,4 @@
-package kg.attractor.jobsearch.controller;
+package kg.attractor.jobsearch.controller.api;
 
 import jakarta.validation.Valid;
 import kg.attractor.jobsearch.dto.ResumeDto;
@@ -25,10 +25,10 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("employer")
+@RequestMapping("api/employer")
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-public class EmployerController {
+public class ApiEmployerController {
     //    @Autowired - no need if field is final and @RequiredArgsConstructor annotation is used
     UserService employerService;
     VacancyService vacancyService;

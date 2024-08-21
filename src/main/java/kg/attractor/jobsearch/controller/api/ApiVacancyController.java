@@ -1,4 +1,4 @@
-package kg.attractor.jobsearch.controller.controllers_to_delete;
+package kg.attractor.jobsearch.controller.api;
 
 import jakarta.validation.Valid;
 import kg.attractor.jobsearch.dto.VacancyDto;
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("vacancies")
+@RestController("apiVacancyController")
+@RequestMapping("api/vacancies")
 @RequiredArgsConstructor
-public class VacancyController {
+public class ApiVacancyController {
     private final VacancyService vacancyService;
 
     @GetMapping()

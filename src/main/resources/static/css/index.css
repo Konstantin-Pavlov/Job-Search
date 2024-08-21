@@ -1,0 +1,80 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: rgba(233, 236, 239, 0.5); /* More UI-friendly background color */
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Ensure the body takes the full height of the viewport */
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1; /* Allow the main content to grow and take up available space */
+    padding: 0; /* Remove any padding */
+    margin: 0; /* Remove any margin */
+}
+
+.welcome-container {
+    text-align: center;
+    padding: 20px; /* Adjusted padding */
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    box-sizing: border-box; /* Ensure padding is included in the element's total width and height */
+}
+
+.welcome-header {
+    margin-bottom: 20px; /* Adjusted margin */
+}
+
+.welcome-header h1 {
+    font-size: 2.5em; /* Adjusted font size */
+    color: #343a40;
+}
+
+.welcome-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 20px; /* Adjusted margin */
+}
+
+.welcome-links {
+    margin-top: 20px; /* Adjusted margin */
+}
+
+.welcome-links .btn {
+    margin: 10px; /* Adjusted margin */
+    padding: 15px 30px; /* Adjusted padding */
+    font-size: 1.2em; /* Adjusted font size */
+    text-decoration: none; /* Ensure no underline */
+    display: inline-block; /* Ensure buttons are inline-block */
+    transition: background-color 0.3s, border-color 0.3s; /* Smooth transition for hover effects */
+}
+
+.welcome-links .btn-primary {
+    background-color: #7bc323;
+    border-color: #b0ea69;
+    color: #fff;
+}
+
+.welcome-links .btn-primary:hover {
+    background-color: #1ebd2b;
+    border-color: #1ebd2b;
+}
+
+.welcome-links .btn-secondary {
+    background-color: #6c757d; /* Grey color for "View Resumes" button */
+    border-color: #6c757d;
+    color: #fff;
+}
+
+.welcome-links .btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}

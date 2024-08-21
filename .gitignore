@@ -6,6 +6,7 @@ target/
 logs
 /db/
 avatars
+images
 hs_err*
 
 ### STS ###

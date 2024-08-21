@@ -1,130 +1,151 @@
 package kg.attractor.jobsearch.service.impl;
 
+import kg.attractor.jobsearch.dao.ResumeDao;
 import kg.attractor.jobsearch.dto.ResumeDto;
-import kg.attractor.jobsearch.mapper.ResumeMapper;
-import kg.attractor.jobsearch.model.Category;
 import kg.attractor.jobsearch.model.Resume;
-import kg.attractor.jobsearch.repository.CategoryRepository;
-import kg.attractor.jobsearch.repository.ResumeRepository;
 import kg.attractor.jobsearch.service.ResumeService;
-import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class ResumeServiceImpl implements ResumeService {
-    ResumeMapper resumeMapper = ResumeMapper.INSTANCE;
-    ResumeRepository resumeRepository;
-    CategoryRepository categoryRepository;
+    private final ResumeDao resumeDao;
 
     @Override
     public List<ResumeDto> getResumes() {
-        return resumeRepository.findAll()
-                .stream()
-                .map(resumeMapper::toResumeDto)
-                .toList();
+        List<Resume> resumes = resumeDao.getResumes();
+        List<ResumeDto> dtos = new ArrayList<>();
+        resumes.forEach(e -> dtos.add(ResumeDto.builder()
+                        .id(e.getId())
+                .applicantId(e.getApplicantId())
+                .name(e.getName())
+                .categoryId(e.getCategoryId())
+                .salary(e.getSalary())
+                .isActive(e.getIsActive())
+                .createdDate(e.getCreatedDate())
+                .updateTime(e.getUpdateTime())
+                .build()
+        ));
+        return dtos;
     }
 
     @Override
-    public ResumeDto getResumeById(Integer id) {
-        Optional<Resume> resume = resumeRepository.findById(id);
-        if (resume.isPresent()) {
-            log.info("Retrieved resume with id: {}", id);
-            return resumeMapper.toResumeDto(resume.get());
+    public ResumeDto getResumeById(long id) {
+        try {
+            Resume resume = resumeDao.getResumeById(id)
+                    .orElseThrow(() -> new Exception("Can't find resume with id " + id));
+            log.info("found resume with id {}", id);
+            return ResumeDto.builder()
+                    .id(resume.getId())
+                    .applicantId(resume.getApplicantId())
+                    .name(resume.getName())
+                    .categoryId(resume.getCategoryId())
+                    .salary(resume.getSalary())
+                    .isActive(resume.getIsActive())
+                    .createdDate(resume.getCreatedDate())
+                    .updateTime(resume.getUpdateTime())
+                    .build();
+        } catch (Exception e) {
+            log.error("Can't find resume with id {}", id);
         }
-        logErrorIdMessage(id);
         return null;
     }
 
     @Override
-    public List<ResumeDto> getResumesByCategoryId(Integer categoryId) {
-        List<Resume> resumes = resumeRepository.findByCategoryId(categoryId);
-        if (resumes.isEmpty()) {
-            log.error("Can't find category with id {}", categoryId);
-//            throw new RuntimeException("Can't find resume with id " + c
-            return null;
+    public ResumeDto getResumeByCategoryId(Integer categoryId) {
+        try {
+            Resume resume = resumeDao.getResumeByCategoryId(categoryId)
+                    .orElseThrow(() -> new Exception("Can't find resume with categoryId " + categoryId));
+            log.info("found resume with categoryId {}", categoryId);
+            return ResumeDto.builder()
+                    .applicantId(resume.getApplicantId())
+                    .name(resume.getName())
+                    .categoryId(resume.getCategoryId())
+
+                    .salary(resume.getSalary())
+                    .isActive(resume.getIsActive())
+                    .createdDate(resume.getCreatedDate())
+                    .updateTime(resume.getUpdateTime())
+                    .build();
+        } catch (Exception e) {
+            log.error("Can't find resume with categoryId{}", categoryId);
         }
-        log.info("found resume with id {}", categoryId);
-        return resumes.stream().map(resumeMapper::toResumeDto).toList();
+        return null;
     }
 
     @Override
     public List<ResumeDto> getResumeByUserId(Integer userId) {
-        List<Resume> resumes = resumeRepository.findByApplicantId(userId);
-        if (resumes.isEmpty()) {
+        List<Resume> resumes = resumeDao.getResumesByUserId(userId);
+        List<ResumeDto> dtos = resumes.stream()
+                .map(e -> ResumeDto.builder()
+                        .applicantId(e.getApplicantId())
+                        .name(e.getName())
+                        .categoryId(e.getCategoryId())
+                        .salary(e.getSalary())
+                        .isActive(e.getIsActive())
+                        .createdDate(e.getCreatedDate())
+                        .updateTime(e.getUpdateTime())
+                        .build())
+                .collect(Collectors.toList());
+
+        if (dtos.isEmpty()) {
             log.error("Can't find resumes with user id {}", userId);
         } else {
             log.info("found resumes with user id {}", userId);
         }
-        return resumes.stream()
-                .map(resumeMapper::toResumeDto)
-                .toList();
+        return dtos;
     }
 
     @Override
     public List<ResumeDto> getResumeByCategory(String category) {
-        // Fetch the category by name
-        Optional<Category> optionalCategory = categoryRepository.findByName(category);
-
-        if (optionalCategory.isPresent()) {
-            // Get the category ID
-            Integer categoryId = optionalCategory.get().getId();
-
-            // Fetch resumes by category ID
-            List<Resume> resumes = resumeRepository.findByCategoryId(categoryId);
-
-            log.info("found resumes with category {}", category);
-
-            // Convert to DTOs
-            return resumeMapper.toDto(resumes);
-        } else {
-            log.error("Can't find resumes with category {}", category);
-            // If category is not found, return an empty list
-            return List.of();
-        }
+        return resumeDao.getResumeByCategory(category);
     }
 
     @Override
     public void editResume(Integer id, ResumeDto resumeDto) {
-        if (resumeRepository.findById(id).isPresent()) {
-            Resume resume = resumeMapper.toResume(resumeDto);
-            resumeRepository.save(resume);
-            log.info("edited resume with {}", resume.getName());
+        ResumeDto resumeDto1 = getResumeById(id);
+        if (resumeDto1 == null) {
+            log.error("Can't edit resume because resume with id {} not found",  id);
         } else {
-            logErrorIdMessage(id);
+            deleteResume(id);
+            addResume(resumeDto);
         }
     }
 
     @Override
     public void addResume(ResumeDto resumeDto) {
-        Resume resume = resumeMapper.toResume(resumeDto);
-        resumeRepository.save(resume);
+        Resume resume = new Resume();
+        resume.setApplicantId(resumeDto.getApplicantId());
+        resume.setName(resumeDto.getName());
+        resume.setCategoryId(resumeDto.getCategoryId());
+        resume.setSalary(resumeDto.getSalary());
+        resume.setIsActive(resumeDto.getIsActive());
+        resume.setCreatedDate(resumeDto.getCreatedDate());
+        resume.setUpdateTime(resumeDto.getUpdateTime());
+
+        resumeDao.addResume(resume);
         log.info("added resume {}", resume.getName());
     }
 
 
     @Override
     public boolean deleteResume(Integer id) {
-        Optional<Resume> resume = resumeRepository.findById(id);
+        Optional<Resume> resume = resumeDao.getResumeById(id);
         if (resume.isPresent()) {
-            resumeRepository.delete(resume.get());
+            resumeDao.delete(id);
             log.info("resume deleted: {}", resume.get().getName());
             return true;
         }
-        logErrorIdMessage(id);
+        log.info(String.format(" resume with id %d not found", id));
         return false;
-    }
-
-    private void logErrorIdMessage(Integer id) {
-        log.error("Can't find resume with id {}", id);
     }
 
 }

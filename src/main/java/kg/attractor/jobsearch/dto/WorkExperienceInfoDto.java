@@ -19,7 +19,6 @@ public class WorkExperienceInfoDto {
     @JsonProperty("applicant_id")
     Integer applicantId;
 
-
     String name;
 
     @JsonProperty("category_id")

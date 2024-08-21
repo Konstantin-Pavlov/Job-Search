@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: delete columns EXP_FROM and EXP_TO
+      author: k
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: MARK_RAN
+        - and:
+            - columnExists:
+                tableName: vacancies
+                columnName: EXP_FROM
+            - columnExists:
+                tableName: vacancies
+                columnName: EXP_TO
+      changes:
+        - dropColumn:
+            columnName: EXP_FROM
+            tableName: vacancies
+        - dropColumn:
+            columnName: EXP_TO
+            tableName: vacancies

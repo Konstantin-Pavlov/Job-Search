@@ -1,9 +1,10 @@
 package kg.attractor.jobsearch.dto;
 
-import io.swagger.annotations.ApiModel;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
+import kg.attractor.jobsearch.util.DateTimeUtil;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,22 +18,45 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE) // all fields are private
-@ApiModel(value = "Vacancy dto")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class VacancyDto {
+    Integer id;
     @NotBlank
     String name;
+
     @NotBlank
     String description;
+
     @Min(value = 1, message = "categoryId must be at least 1")
+    @JsonProperty("category_id")
     Integer categoryId;
+
     @Positive
     Integer salary;
-    LocalDateTime expFrom;
-    LocalDateTime expTo;
+
+    @JsonProperty("exp_from")
+    Integer expFrom;
+
+    @JsonProperty("exp_to")
+    Integer expTo;
+
+    @JsonProperty("is_active")
     Boolean isActive;
+
     @Min(1)
+    @JsonProperty("author_id")
     Integer authorId;
+
+    @JsonProperty("created_date")
     LocalDateTime createdDate;
+
+    @JsonProperty("update_time")
     LocalDateTime updateTime;
+
+    public String getFormattedCreatedDate() {
+        return DateTimeUtil.getFormattedDate(createdDate);
+    }
+    public String getFormattedUpdatedDate() {
+        return DateTimeUtil.getFormattedDate(updateTime);
+    }
 }
