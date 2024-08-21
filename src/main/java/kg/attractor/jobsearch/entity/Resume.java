@@ -1,4 +1,4 @@
-package kg.attractor.jobsearch.model;
+package kg.attractor.jobsearch.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,23 +10,24 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.With;
 
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "users")
+@Table(name = "resumes")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @With
-public class User {
+public class Resume {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private int applicantId;
     private String name;
-    private Integer age;
-    private String email;
-    private String password;
-    private String phoneNumber;
-    private String avatar;
-    private String accountType;
-    private boolean enabled;
+    private Integer categoryId;
+    private double salary;
+    private Boolean isActive;
+    private LocalDateTime createdDate;
+    private LocalDateTime updateTime;
+
 }

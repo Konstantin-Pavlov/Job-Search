@@ -1,7 +1,7 @@
 package kg.attractor.jobsearch.dao;
 
 import kg.attractor.jobsearch.dto.ResumeDto;
-import kg.attractor.jobsearch.model.Resume;
+import kg.attractor.jobsearch.entity.Resume;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;

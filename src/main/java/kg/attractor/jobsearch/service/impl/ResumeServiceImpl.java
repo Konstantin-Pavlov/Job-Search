@@ -2,8 +2,8 @@ package kg.attractor.jobsearch.service.impl;
 
 import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.mapper.ResumeMapper;
-import kg.attractor.jobsearch.model.Category;
-import kg.attractor.jobsearch.model.Resume;
+import kg.attractor.jobsearch.entity.Category;
+import kg.attractor.jobsearch.entity.Resume;
 import kg.attractor.jobsearch.repository.CategoryRepository;
 import kg.attractor.jobsearch.repository.ResumeRepository;
 import kg.attractor.jobsearch.service.ResumeService;

@@ -2,7 +2,7 @@ package kg.attractor.jobsearch.mapper;
 
 
 import kg.attractor.jobsearch.dto.UserDto;
-import kg.attractor.jobsearch.model.User;
+import kg.attractor.jobsearch.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;

@@ -1,7 +1,7 @@
 package kg.attractor.jobsearch.mapper;
 
 import kg.attractor.jobsearch.dto.ResumeDto;
-import kg.attractor.jobsearch.model.Resume;
+import kg.attractor.jobsearch.entity.Resume;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;

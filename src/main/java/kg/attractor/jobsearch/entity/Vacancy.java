@@ -1,4 +1,4 @@
-package kg.attractor.jobsearch.model;
+package kg.attractor.jobsearch.entity;
 
 
 import jakarta.persistence.Entity;

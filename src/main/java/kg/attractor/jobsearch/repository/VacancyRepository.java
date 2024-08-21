@@ -1,6 +1,6 @@
 package kg.attractor.jobsearch.repository;
 
-import kg.attractor.jobsearch.model.Vacancy;
+import kg.attractor.jobsearch.entity.Vacancy;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

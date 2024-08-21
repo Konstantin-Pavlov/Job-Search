@@ -1,7 +1,7 @@
 package kg.attractor.jobsearch.mapper;
 
 import kg.attractor.jobsearch.dto.VacancyDto;
-import kg.attractor.jobsearch.model.Vacancy;
+import kg.attractor.jobsearch.entity.Vacancy;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;

@@ -3,7 +3,7 @@ package kg.attractor.jobsearch.service.impl;
 import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.exception.UserNotFoundException;
 import kg.attractor.jobsearch.mapper.UserMapper;
-import kg.attractor.jobsearch.model.User;
+import kg.attractor.jobsearch.entity.User;
 import kg.attractor.jobsearch.repository.UserRepository;
 import kg.attractor.jobsearch.service.UserService;
 import lombok.AccessLevel;
