@@ -42,7 +42,7 @@
 .create-resume, .responses {
     margin-left: 20px;
 }
-.create-resume-btn, .responses-count {
+.create-btn, .responses-count {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -55,7 +55,7 @@
     font-size: 1.2em;
     white-space: nowrap; /* Prevent text wrapping */
 }
-.create-resume-btn {
+.create-btn {
     white-space: normal; /* Allow text wrapping */
     text-align: center;
 }

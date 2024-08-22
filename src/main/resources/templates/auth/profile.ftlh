@@ -2,25 +2,25 @@
 <#--<@layout.layout isAuthenticated=isAuthenticated username=username>-->
 <@layout.layout>
     <!-- Link to the external CSS file -->
-    <link rel="stylesheet" type="text/css" href="/static/css/profile.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/profile.css" xmlns="http://www.w3.org/1999/html">
 
     <div class="profile-container">
         <h1 class="profile-header" id="profile-header"></h1>
 
         <div class="profile-section">
             <div class="profile-info">
-<#--                <img id="profile-avatar"-->
-<#--                     src="/avatars/${userDto.avatar}"-->
-<#--                     alt="User Avatar"-->
-<#--                     class="profile-avatar"-->
-<#--                     onerror="this.onerror=null;this.src='/avatars/<#if userDto.accountType == 'employer'>default_company_avatar.png<#else>ava.png</#if>';">-->
+                <#--                <img id="profile-avatar"-->
+                <#--                     src="/avatars/${userDto.avatar}"-->
+                <#--                     alt="User Avatar"-->
+                <#--                     class="profile-avatar"-->
+                <#--                     onerror="this.onerror=null;this.src='/avatars/<#if userDto.accountType == 'employer'>default_company_avatar.png<#else>ava.png</#if>';">-->
 
                 <img id="profile-avatar"
                      src="/avatars/${userDto.avatar}"
                      alt="User Avatar"
                      class="profile-avatar"
                      onerror="this.onerror=null; this.src='/avatars/<#if userDto.accountType == 'employer'>default_company_avatar.png<#else>default_user_avatar.png</#if>';
-                     this.onerror=function(){ this.src='/static/images/avatars/<#if userDto.accountType == 'employer'>default_company_avatar.png<#else>default_user_avatar.png</#if>'; };">
+                             this.onerror=function(){ this.src='/static/images/avatars/<#if userDto.accountType == 'employer'>default_company_avatar.png<#else>default_user_avatar.png</#if>'; };">
 
                 <div id="profile-details">
                     <#if userDto.accountType == "employer">
@@ -37,22 +37,24 @@
             <div class="profile-actions">
                 <div class="create-resume">
                     <#if userDto.accountType == "employer">
-                        <button class="create-resume-btn" id="create-resume-btn">
-                            Создать<br>вакансию
-                        </button>
+                        <form action="/vacancies/create" method="get">
+                            <button class="create-btn" id="create-btn">
+                                Создать<br>вакансию
+                            </button>
+                        </form>
                     <#else>
                         <form action="/resumes/create" method="get">
-                            <button type="submit" class="create-resume-btn" id="create-resume-btn">
+                            <button type="submit" class="create-btn" id="create-btn">
                                 Создать<br>резюме
                             </button>
                         </form>
                     </#if>
                 </div>
-            <div class="responses">
-                <button class="create-resume-btn">отклики: 42</button>
+                <div class="responses">
+                    <button class="create-btn">отклики: 42</button>
+                </div>
             </div>
         </div>
-    </div>
 
         <div class="resume-section">
             <h2 id="resume-section-title">

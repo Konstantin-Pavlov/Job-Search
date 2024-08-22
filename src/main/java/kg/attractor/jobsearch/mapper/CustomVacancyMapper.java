@@ -4,10 +4,11 @@ import kg.attractor.jobsearch.dto.VacancyDto;
 import kg.attractor.jobsearch.model.Vacancy;
 
 public class CustomVacancyMapper {
-    private CustomVacancyMapper() {}
+    private CustomVacancyMapper() {
+    }
 
-    public static VacancyDto toVacancyDto(Vacancy vacancy){
-        if(vacancy == null) return null;
+    public static VacancyDto toVacancyDto(Vacancy vacancy) {
+        if (vacancy == null) return null;
         return VacancyDto.builder()
                 .id(vacancy.getId())
                 .name(vacancy.getName())
@@ -23,8 +24,8 @@ public class CustomVacancyMapper {
                 .build();
     }
 
-    Vacancy toVacancy(VacancyDto vacancyDto){
-        if(vacancyDto == null) return null;
+    public static Vacancy toVacancy(VacancyDto vacancyDto) {
+        if (vacancyDto == null) return null;
         return Vacancy.builder()
                 .id(vacancyDto.getId())
                 .name(vacancyDto.getName())

@@ -55,7 +55,7 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public void createVacancy(VacancyDto vacancyDto) {
-        Vacancy vacancy = vacancyMapper.toVacancy(vacancyDto);
+        Vacancy vacancy = CustomVacancyMapper.toVacancy(vacancyDto);
         vacancyRepository.save(vacancy);
         log.info("added vacancy {}", vacancy.getName());
     }
