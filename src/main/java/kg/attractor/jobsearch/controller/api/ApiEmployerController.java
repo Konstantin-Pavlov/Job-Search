@@ -98,9 +98,9 @@ public class ApiEmployerController {
         //  return ResponseEntity.ok("vacancy is valid");
     }
 
-    @PutMapping("/vacancy/{id}")
-    public ResponseEntity<String> editVacancy(@PathVariable Integer id, @RequestBody VacancyDto vacancyDto) {
-        vacancyService.editVacancy(id, vacancyDto);
+    @PutMapping("/vacancy/{vacancyId}")
+    public ResponseEntity<String> editVacancy(@PathVariable Integer vacancyId, @RequestBody VacancyDto vacancyDto) {
+        vacancyService.editVacancy(vacancyId, vacancyDto);
         return ResponseEntity.ok("Vacancy edited successfully");
     }
 

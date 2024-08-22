@@ -18,6 +18,7 @@ public interface VacancyRepository extends JpaRepository<Vacancy, Integer> {
     List<Vacancy> findVacanciesUserResponded(@Param("userId") Integer userId);
 
     List<Vacancy> findVacanciesByCategoryId(@Param("categoryId") Integer categoryId);
+    List<Vacancy> findVacanciesByAuthorId(@Param("authorId") Integer authorId);
 
 
 }

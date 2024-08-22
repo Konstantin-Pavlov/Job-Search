@@ -111,7 +111,8 @@ public class UserServiceImpl implements UserService {
                     userDto.getEmail());
         }
         User user = userMapper.toUser(userDto);
-        userDao.addUser(user);
+//        userDao.addUser(user);
+        userRepository.save(user);
         if (user.getAccountType().equals("applicant")) {
             log.info("added applicant with email {}", user.getEmail());
         } else {
@@ -194,7 +195,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<Resource> getAvatar(Integer userId) throws UserNotFoundException {
-        Optional<User> user = userDao.getUserById(userId);
+//        Optional<User> user = userDao.getUserById(userId);
+        Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
             try {
                 byte[] image = Files.readAllBytes(Paths.get(AVATAR_DIR + user.get().getAvatar()));

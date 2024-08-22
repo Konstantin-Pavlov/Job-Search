@@ -39,4 +39,17 @@ public class CustomVacancyMapper {
                 .updateTime(vacancyDto.getUpdateTime())
                 .build();
     }
+
+    public static void updateVacancyFromDto(VacancyDto vacancyDto, Vacancy existingVacancy) {
+        existingVacancy.setName(vacancyDto.getName());
+        existingVacancy.setDescription(vacancyDto.getDescription());
+        existingVacancy.setCategoryId(vacancyDto.getCategoryId());
+        existingVacancy.setSalary(vacancyDto.getSalary());
+        existingVacancy.setExpFrom(vacancyDto.getExpFrom());
+        existingVacancy.setExpTo(vacancyDto.getExpTo());
+        existingVacancy.setIsActive(vacancyDto.getIsActive());
+        existingVacancy.setAuthorId(vacancyDto.getAuthorId());
+        existingVacancy.setCreatedDate(vacancyDto.getCreatedDate());
+        existingVacancy.setUpdateTime(vacancyDto.getUpdateTime());
+    }
 }

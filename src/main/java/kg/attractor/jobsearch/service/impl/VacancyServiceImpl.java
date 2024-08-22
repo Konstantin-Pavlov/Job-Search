@@ -2,10 +2,13 @@ package kg.attractor.jobsearch.service.impl;
 
 import kg.attractor.jobsearch.dao.VacancyDao;
 import kg.attractor.jobsearch.dto.VacancyDto;
+import kg.attractor.jobsearch.exception.CategoryNotFoundException;
 import kg.attractor.jobsearch.exception.VacancyNotFoundException;
 import kg.attractor.jobsearch.mapper.CustomVacancyMapper;
 import kg.attractor.jobsearch.mapper.VacancyMapper;
+import kg.attractor.jobsearch.model.Category;
 import kg.attractor.jobsearch.model.Vacancy;
+import kg.attractor.jobsearch.repository.CategoryRepository;
 import kg.attractor.jobsearch.repository.VacancyRepository;
 import kg.attractor.jobsearch.service.VacancyService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +24,7 @@ import java.util.Optional;
 public class VacancyServiceImpl implements VacancyService {
     private final VacancyDao vacancyDao;
     private final VacancyRepository vacancyRepository;
+    private final CategoryRepository categoryRepository;
     private final VacancyMapper vacancyMapper = VacancyMapper.INSTANCE;
 
     @Override
@@ -52,15 +56,15 @@ public class VacancyServiceImpl implements VacancyService {
     @Override
     public void createVacancy(VacancyDto vacancyDto) {
         Vacancy vacancy = vacancyMapper.toVacancy(vacancyDto);
-        vacancyDao.addVacancy(vacancy);
+        vacancyRepository.save(vacancy);
         log.info("added vacancy {}", vacancy.getName());
     }
 
     @Override
     public boolean deleteVacancy(Integer id) {
-        Optional<Vacancy> vacancy = vacancyDao.getVacancyById(id);
+        Optional<Vacancy> vacancy = vacancyRepository.findById(id);
         if (vacancy.isPresent()) {
-            vacancyDao.delete(id);
+            vacancyRepository.delete(vacancy.get());
             log.info("vacancy deleted: {}", vacancy.get().getName());
             return true;
         }
@@ -70,9 +74,10 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public List<VacancyDto> getVacanciesUserResponded(Integer userId) {
-        List<Vacancy> vacancies = vacancyDao.getVacanciesUserResponded(userId);
+        List<Vacancy> vacancies = vacancyRepository.findVacanciesUserResponded(userId);
+//        List<Vacancy> vacancies = vacancyDao.getVacanciesUserResponded(userId);
         List<VacancyDto> dtos = vacancies.stream()
-                .map(vacancyMapper::toVacancyDto)
+                .map(CustomVacancyMapper::toVacancyDto)
                 .toList();
         if (dtos.isEmpty()) {
             log.error("Can't find vacancies with user id {}", userId);
@@ -84,7 +89,7 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public List<VacancyDto> getVacanciesByCategoryId(Integer categoryId) {
-        List<Vacancy> vacancies = vacancyDao.getVacanciesByCategoryId(categoryId);
+        List<Vacancy> vacancies = vacancyRepository.findVacanciesByCategoryId(categoryId);
         List<VacancyDto> dtos = vacancies.stream()
                 .map(vacancyMapper::toVacancyDto)
                 .toList();
@@ -98,18 +103,43 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public void editVacancy(Integer id, VacancyDto vacancyDto) {
-// todo - implement vacancy editing
+        Vacancy existingVacancy = vacancyRepository.findById(id)
+                .orElseThrow(() -> {
+                    log.error("Can't find Vacancy with id {}", id);
+                    return new VacancyNotFoundException("Can't find Vacancy with id " + id);
+                });
+        CustomVacancyMapper.updateVacancyFromDto(vacancyDto, existingVacancy);
+        vacancyRepository.save(existingVacancy);
+        log.info("updated vacancy {}", existingVacancy.getName());
     }
 
     @Override
     public List<VacancyDto> getVacanciesByCategory(String category) {
-        // todo - implement
-        return List.of();
+        Optional<Category> categoryOptional = categoryRepository.findByName(category);
+        if (categoryOptional.isEmpty()) {
+            log.error("Can't find category with name {}", category);
+            throw new CategoryNotFoundException(
+                    String.format("Can't find category with name %s", category)
+            );
+        }
+
+        Integer categoryId = categoryOptional.get().getId();
+        List<Vacancy> vacancies = vacancyRepository.findVacanciesByCategoryId(categoryId);
+        List<VacancyDto> dtos = vacancies.stream()
+                .map(CustomVacancyMapper::toVacancyDto)
+                .toList();
+        if (dtos.isEmpty()) {
+            log.error("Can't find vacancies with category name {}", category);
+        } else {
+            log.info("found vacancies with category name {}", category);
+        }
+        return dtos;
     }
 
     @Override
     public List<VacancyDto> getVacancyByAuthorId(Integer id) {
-        List<Vacancy> vacancies = vacancyDao.getVacanciesByAuthorId(id);
+        List<Vacancy> vacancies = vacancyRepository.findVacanciesByAuthorId(id);
+//        List<Vacancy> vacancies = vacancyDao.getVacanciesByAuthorId(id);
         return vacancies.stream()
                 // for some reason doesn't work - it thinks expFrom and expTo are LocalDateTime objects,
                 // but they are integers, so we get there errors:
