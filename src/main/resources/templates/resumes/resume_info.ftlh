@@ -6,9 +6,9 @@
         <div class="card mb-3">
             <div class="card-body">
                 <h1 class="card-title">${resume.name}</h1>
-                <p class="card-text"><strong>vacancy ID:</strong> ${resume.id}</p>
-                <p class="card-text"><strong>Description:</strong> ${resume.applicantId}</p>
-                <p class="card-text"><strong>Category:</strong> ${resume.categoryId}</p>
+                <p class="card-text"><strong>Resume ID:</strong> ${resume.id}</p>
+                <p class="card-text"><strong>Author:</strong> ${userDto.name}</p>
+                <p class="card-text"><strong>Category:</strong> ${categoryDto.name}</p>
                 <p class="card-text"><strong>Salary:</strong> ${resume.salary}</p>
                 <p class="card-text"><strong>Active:</strong> ${resume.isActive?string('Yes', 'No')}</p>
                 <p class="card-text"><strong>Created Date:</strong> ${resume.getFormattedCreatedDate()}</p>

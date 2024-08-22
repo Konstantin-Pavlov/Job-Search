@@ -9,12 +9,12 @@
 
                 <p class="card-text"><strong>vacancy ID:</strong> ${vacancy.id}</p>
                 <p class="card-text"><strong>Description:</strong> ${vacancy.description}</p>
-                <p class="card-text"><strong>Category:</strong> ${vacancy.categoryId}</p>
+                <p class="card-text"><strong>Category:</strong> ${category.name}</p>
                 <p class="card-text"><strong>Salary:</strong> ${vacancy.salary}</p>
                 <p class="card-text">
                     <strong>Work Experience:</strong> From ${vacancy.expFrom} to ${vacancy.expTo} years</p>
                 <p class="card-text"><strong>Active:</strong> ${vacancy.isActive?string('Yes', 'No')}</p>
-                <p class="card-text"><strong>Author ID:</strong> ${vacancy.authorId}</p>
+                <p class="card-text"><strong>Author:</strong> ${user.name}</p>
                 <p class="card-text"><strong>Created Date:</strong> ${vacancy.getFormattedCreatedDate()}</p>
                 <p class="card-text"><strong>Updated Time:</strong> ${vacancy.getFormattedUpdatedDate()}</p>
             </div>
