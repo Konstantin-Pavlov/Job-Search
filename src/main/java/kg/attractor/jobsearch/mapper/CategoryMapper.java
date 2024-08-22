@@ -3,6 +3,7 @@ package kg.attractor.jobsearch.mapper;
 import kg.attractor.jobsearch.dto.CategoryDto;
 import kg.attractor.jobsearch.model.Category;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 

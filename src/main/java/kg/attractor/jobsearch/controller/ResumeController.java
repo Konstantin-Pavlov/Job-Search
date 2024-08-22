@@ -1,18 +1,36 @@
 package kg.attractor.jobsearch.controller;
 
+import jakarta.validation.Valid;
+import kg.attractor.jobsearch.dto.CategoryDto;
+import kg.attractor.jobsearch.dto.ResumeDto;
+import kg.attractor.jobsearch.dto.UserDto;
+import kg.attractor.jobsearch.security.CustomUserDetails;
+import kg.attractor.jobsearch.service.CategoriesService;
 import kg.attractor.jobsearch.service.ResumeService;
+import kg.attractor.jobsearch.service.UserService;
 import kg.attractor.jobsearch.util.MvcControllersUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
+
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class ResumeController {
     private final ResumeService resumeService;
+    private final UserService userService;
+    private final CategoriesService categoriesService;
 
     @GetMapping("resumes")
     public String getResumes(Model model, Authentication authentication) {
@@ -26,13 +44,56 @@ public class ResumeController {
 
     @GetMapping("resumes/{resumeId}")
     public String getInfo(@PathVariable Integer resumeId, Model model, Authentication authentication) {
+        ResumeDto resumeDto = resumeService.getResumeById(resumeId);
+        UserDto userDto = userService.getUserById(resumeDto.getApplicantId());
+        CategoryDto categoryDto = categoriesService.getCategoryById(resumeDto.getCategoryId());
+        model.addAttribute("userDto", userDto);
+        model.addAttribute("categoryDto", categoryDto);
         MvcControllersUtil.authCheckAndAddAttributes(
                 model,
                 authentication,
-                resumeService.getResumeById(resumeId),
+                resumeDto,
                 "resume"
         );
         return "resumes/resume_info";
+    }
+
+    @GetMapping("resumes/create")
+    public String showCreateResumeForm(Model model, Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            List<CategoryDto> categories = categoriesService.getCategories();
+            model.addAttribute("categories", categories);
+            model.addAttribute("resumeDto", new ResumeDto());
+            return "resumes/create_resume";
+        }
+        return "redirect:/login"; // Redirect to login if not authenticated
+    }
+
+    @PostMapping("resumes/create")
+    public String createResume(
+            @Valid
+            @ModelAttribute("resumeDto")
+            ResumeDto resumeDto,
+            Authentication authentication,
+            BindingResult bindingResult,
+            Model model) {
+        if (bindingResult.hasErrors()) {
+            log.error(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
+            model.addAttribute("bindingResult", bindingResult);
+            model.addAttribute("resumeDto", resumeDto); // Keep the form fields with the entered values
+            return "resumes/create_resume";
+        }
+        if (authentication != null && authentication.isAuthenticated()) {
+            UserDto userDto = userService.getUserByEmail(authentication.getName());
+            resumeDto.setApplicantId(userDto.getId());
+            resumeDto.setCreatedDate(LocalDateTime.now());
+            resumeDto.setUpdateTime(LocalDateTime.now());
+            resumeService.addResume(resumeDto);
+            model.addAttribute("successMessage", "Resume added successfully");
+            return "redirect:/auth/profile"; // Redirect to the profile
+        }
+
+        return "redirect:/login"; // Redirect to login if not authenticated
     }
 
 }

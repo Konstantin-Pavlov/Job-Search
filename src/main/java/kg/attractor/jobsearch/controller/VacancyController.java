@@ -1,5 +1,10 @@
 package kg.attractor.jobsearch.controller;
 
+import kg.attractor.jobsearch.dto.CategoryDto;
+import kg.attractor.jobsearch.dto.UserDto;
+import kg.attractor.jobsearch.dto.VacancyDto;
+import kg.attractor.jobsearch.service.CategoriesService;
+import kg.attractor.jobsearch.service.UserService;
 import kg.attractor.jobsearch.service.VacancyService;
 import kg.attractor.jobsearch.util.MvcControllersUtil;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequiredArgsConstructor
 public class VacancyController {
     private final VacancyService vacancyService;
+    private final UserService userService;
+    private final CategoriesService categoriesService;
 
     @GetMapping("vacancies")
     public String getVacancies(Model model, Authentication authentication) {
@@ -26,10 +33,16 @@ public class VacancyController {
 
     @GetMapping("vacancies/{vacancyId}")
     public String getInfo(@PathVariable Integer vacancyId, Model model, Authentication authentication) {
+        VacancyDto vacancy = vacancyService.getVacancyById(vacancyId);
+        UserDto userDto = userService.getUserById(vacancy.getAuthorId());
+        CategoryDto categoryDto = categoriesService.getCategoryById(vacancy.getCategoryId());
+
+        model.addAttribute("user", userDto);
+        model.addAttribute("category", categoryDto);
         MvcControllersUtil.authCheckAndAddAttributes(
                 model,
                 authentication,
-                vacancyService.getVacancyById(vacancyId),
+                vacancy,
                 "vacancy"
         );
         return "vacancies/vacancy_info";

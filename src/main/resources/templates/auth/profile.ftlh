@@ -36,19 +36,23 @@
 
             <div class="profile-actions">
                 <div class="create-resume">
-                    <button class="create-resume-btn" id="create-resume-btn">
-                        <#if userDto.accountType == "employer">
+                    <#if userDto.accountType == "employer">
+                        <button class="create-resume-btn" id="create-resume-btn">
                             Создать<br>вакансию
-                        <#else>
-                            Создать<br>резюме
-                        </#if>
-                    </button>
+                        </button>
+                    <#else>
+                        <form action="/resumes/create" method="get">
+                            <button type="submit" class="create-resume-btn" id="create-resume-btn">
+                                Создать<br>резюме
+                            </button>
+                        </form>
+                    </#if>
                 </div>
-                <div class="responses">
-                    <button class="create-resume-btn">отклики: 42</button>
-                </div>
+            <div class="responses">
+                <button class="create-resume-btn">отклики: 42</button>
             </div>
         </div>
+    </div>
 
         <div class="resume-section">
             <h2 id="resume-section-title">
