@@ -129,7 +129,7 @@ public class AuthController {
     }
 
     @GetMapping("profile")
-    public String profile(Model model, Principal principal, Authentication authentication) throws IOException, UserNotFoundException {
+    public String profile(Model model, Principal principal, Authentication authentication) throws IOException {
         if (principal == null) {
             log.error("Principal is null. User is not authenticated.");
             return "redirect:/auth/login";

@@ -12,6 +12,7 @@ import org.springframework.context.annotation.FilterType;
 // CategoryMapperImpl is in another branch (hibernate branch) at the moment
 @ComponentScan(basePackages = "kg.attractor.jobsearch",
 		excludeFilters = @ComponentScan.Filter(type = FilterType.REGEX, pattern = "kg\\.attractor\\.jobsearch\\.mapper\\..*"))
+//@MapperScan("kg.attractor.jobsearch.mapper")
 public class JobSearchApplication {
 
 	public static void main(String[] args) {

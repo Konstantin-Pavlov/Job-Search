@@ -34,11 +34,10 @@ public class UserWithAvatarFileDto {
     @NotBlank
     @Email
     String email;
-    @NotBlank
+
 //    @Pattern(regexp = "^(?=.\\d)(?=.[a-z])(?=.[A-Z])(?=.[a-zA-Z]).+$", message = "Should contain at least one uppercase letter, one number")
-    @NotBlank(message = "Password must not be blank")
-    @Size(min = 3, max = 60, message = "Password length must be from {min} to {max} characters")
-    @NotBlank
+//    @NotBlank(message = "Password must not be blank")
+//    @Size(min = 3, max = 60, message = "Password length must be from {min} to {max} characters")
     String password;
 
     @Pattern(regexp = "^\\+996\\d{7}$", message = "phone number is invalid. Valid phone number format example: +9961112222")

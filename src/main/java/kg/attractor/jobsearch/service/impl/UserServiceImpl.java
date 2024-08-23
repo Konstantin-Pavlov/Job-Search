@@ -7,6 +7,7 @@ import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.dto.UserWithAvatarFileDto;
 import kg.attractor.jobsearch.exception.UserNotFoundException;
+import kg.attractor.jobsearch.mapper.CustomUserMapper;
 import kg.attractor.jobsearch.mapper.UserMapper;
 import kg.attractor.jobsearch.model.Resume;
 import kg.attractor.jobsearch.model.User;
@@ -108,9 +109,10 @@ public class UserServiceImpl implements UserService {
             log.info(ConsoleColors.YELLOW +
                             "user with email {} didn't choose avatar, so default avatar is set" +
                             ConsoleColors.RESET,
-                    userDto.getEmail());
+                    userDto.getEmail()
+            );
         }
-        User user = userMapper.toUser(userDto);
+        User user = CustomUserMapper.toUser(userDto);
 //        userDao.addUser(user);
         userRepository.save(user);
         if (user.getAccountType().equals("applicant")) {
@@ -123,9 +125,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addUserWithAvatar(UserWithAvatarFileDto userWithAvatarFileDto) throws UserNotFoundException, IOException {
         if (userWithAvatarFileDto.getAvatar().isEmpty()) {
-            addUser(userMapper.toUserDto(userWithAvatarFileDto));
+            addUser(CustomUserMapper.toUserDto(userWithAvatarFileDto));
         } else {
-            addUser(userMapper.toUserDto(userWithAvatarFileDto));
+            addUser(CustomUserMapper.toUserDto(userWithAvatarFileDto));
             Optional<User> user = userRepository.findByEmail(userWithAvatarFileDto.getEmail());
             if (user.isPresent()) {
                 saveAvatar(
@@ -145,7 +147,7 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> getUsersRespondedToVacancy(Integer vacancyId) {
         List<UserDto> users = userRepository.findUsersRespondedToVacancy(vacancyId)
                 .stream()
-                .map(userMapper::toUserDto)
+                .map(CustomUserMapper::toUserDto)
                 .toList();
         if (users.isEmpty()) {
             log.error("Can't find users with vacancy id {}", vacancyId);
@@ -216,8 +218,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(UserDto userDto) {
-        // todo - implement
+    public void updateUser(UserWithAvatarFileDto userWithAvatarFileDto) throws IOException {
+        UserDto existingUser = getUserByEmail(userWithAvatarFileDto.getEmail());
+
+        if (userWithAvatarFileDto.getAvatar() == null || userWithAvatarFileDto.getAvatar().isEmpty()) {
+            log.info(ConsoleColors.YELLOW +
+                            "user with email {} didn't choose new avatar, so previous avatar is used" +
+                            ConsoleColors.RESET,
+                    userWithAvatarFileDto.getEmail()
+            );
+            UserDto updatedUser = CustomUserMapper.toUserDto(userWithAvatarFileDto);
+            updatedUser.setAvatar(existingUser.getAvatar());
+            addUser(updatedUser);
+        } else {
+            addUserWithAvatar(userWithAvatarFileDto);
+        }
     }
 
     @Override

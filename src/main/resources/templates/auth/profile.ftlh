@@ -25,11 +25,11 @@
                 <div id="profile-details">
                     <#if userDto.accountType == "employer">
                         <p class="profile-name" id="profile-name">company name</p><br>
-                        <button class="edit-profile-btn">Редактировать</button>
+                        <a href="/profile/edit" class="btn btn-primary edit-profile-btn">Редактировать</a>
                     <#else>
                         <p class="profile-name" id="profile-name">${userDto.name}</p>
                         <p class="profile-age" id="profile-age">Возраст: ${userDto.age}</p>
-                        <button class="edit-profile-btn">Редактировать</button>
+                        <a href="/profile/edit" class="btn btn-primary edit-profile-btn">Редактировать</a>
                     </#if>
                 </div>
             </div>

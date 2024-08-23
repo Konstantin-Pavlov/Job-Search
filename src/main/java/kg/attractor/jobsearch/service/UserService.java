@@ -34,6 +34,6 @@ public interface UserService {
 
     ResponseEntity<?> getAvatar(Integer userId) throws UserNotFoundException;
 
-    void updateUser(UserDto userDto);
+    void updateUser(UserWithAvatarFileDto userDto) throws IOException;
 }
 
