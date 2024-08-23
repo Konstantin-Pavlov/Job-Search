@@ -87,6 +87,7 @@
                         <#list userResumes as resume>
                             <div class="vacancy-or-resume-card">
                                 <p class="vacancy-or-resume-title">${resume.name}</p>
+                                <p class="vacancy-or-resume-title">${resume.id}</p>
                                 <p class="vacancy-or-resume-date">Дата обновления: ${resume.getFormattedUpdatedDate()}</p>
                                 <div class="vacancy-or-resume-actions">
                                     <button class="update-vacancy-or-resume-btn" onclick="location.href='/resumes/update/${resume.id}'">Обновить</button>

@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ResumeDto {
-    long id;
+    Integer id;
     @Min(1)
     @JsonProperty("applicant_id")
     Integer applicantId;

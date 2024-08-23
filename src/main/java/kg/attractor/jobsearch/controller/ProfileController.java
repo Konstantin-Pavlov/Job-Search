@@ -33,7 +33,7 @@ public class ProfileController {
             model.addAttribute("user", userDto);
             return "auth/profile-edit";
         }
-        return "redirect:/login"; // Redirect to login if not authenticated
+        return "redirect:/auth/login"; // Redirect to login if not authenticated
     }
 
     @PostMapping("edit")
@@ -56,6 +56,6 @@ public class ProfileController {
             model.addAttribute("successMessage", "Profile updated successfully");
             return "redirect:/auth/profile"; // Redirect to the profile
         }
-        return "redirect:/login"; // Redirect to login if not authenticated
+        return "redirect:/auth/login"; // Redirect to login if not authenticated
     }
 }

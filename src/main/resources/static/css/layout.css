@@ -116,3 +116,31 @@
 .custom-switch-green .form-check-input:checked:focus {
     box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25); /* Green shadow */
 }
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.button-group .btn {
+    padding: 10px 20px;
+    font-size: 1em;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #fff;
+}
+
+.button-group .btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+.button-group .btn-secondary {
+    background-color: #6c757d;
+    border: none;
+}
+
+.button-group .btn:hover {
+    opacity: 0.8;
+}

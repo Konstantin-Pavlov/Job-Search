@@ -1,5 +1,6 @@
 package kg.attractor.jobsearch.service;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import kg.attractor.jobsearch.dto.ResumeDto;
 
 import java.util.List;
@@ -21,4 +22,5 @@ public interface ResumeService {
 
     boolean deleteResume(Integer id);
 
+    void updateResume(ResumeDto resumeDto);
 }

@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -75,6 +76,7 @@ public class ResumeServiceImpl implements ResumeService {
         List<Resume> resumes = resumeDao.getResumesByUserId(userId);
         List<ResumeDto> dtos = resumes.stream()
                 .map(e -> ResumeDto.builder()
+                        .id(e.getId())
                         .applicantId(e.getApplicantId())
                         .name(e.getName())
                         .categoryId(e.getCategoryId())
@@ -135,6 +137,15 @@ public class ResumeServiceImpl implements ResumeService {
         }
         log.info(String.format(" resume with id %d not found", id));
         return false;
+    }
+
+    @Override
+    public void updateResume(ResumeDto resumeDto) {
+        ResumeDto existingResume = getResumeById(resumeDto.getId());
+        resumeDto.setCreatedDate(existingResume.getCreatedDate());
+        resumeDto.setUpdateTime(LocalDateTime.now());
+        Resume resume = resumeMapper.toResume(resumeDto);
+        resumeRepository.save(resume);
     }
 
 }

@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import kg.attractor.jobsearch.dto.CategoryDto;
 import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.UserDto;
-import kg.attractor.jobsearch.security.CustomUserDetails;
 import kg.attractor.jobsearch.service.CategoriesService;
 import kg.attractor.jobsearch.service.ResumeService;
 import kg.attractor.jobsearch.service.UserService;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,13 +26,14 @@ import java.util.Objects;
 
 @Slf4j
 @Controller
+@RequestMapping("resumes")
 @RequiredArgsConstructor
 public class ResumeController {
     private final ResumeService resumeService;
     private final UserService userService;
     private final CategoriesService categoriesService;
 
-    @GetMapping("resumes")
+    @GetMapping()
     public String getResumes(Model model, Authentication authentication) {
         MvcControllersUtil.authCheckAndAddAttributes(
                 model,
@@ -42,7 +43,7 @@ public class ResumeController {
         return "resumes/resumes";
     }
 
-    @GetMapping("resumes/{resumeId}")
+    @GetMapping("{resumeId}")
     public String getInfo(@PathVariable Integer resumeId, Model model, Authentication authentication) {
         ResumeDto resumeDto = resumeService.getResumeById(resumeId);
         UserDto userDto = userService.getUserById(resumeDto.getApplicantId());
@@ -58,7 +59,7 @@ public class ResumeController {
         return "resumes/resume_info";
     }
 
-    @GetMapping("resumes/create")
+    @GetMapping("create")
     public String showCreateResumeForm(Model model, Authentication authentication) {
         if (authentication != null && authentication.isAuthenticated()) {
             List<CategoryDto> categories = categoriesService.getCategories();
@@ -66,10 +67,10 @@ public class ResumeController {
             model.addAttribute("resumeDto", new ResumeDto());
             return "resumes/create_resume";
         }
-        return "redirect:/login"; // Redirect to login if not authenticated
+        return "redirect:/auth/login"; // Redirect to login if not authenticated
     }
 
-    @PostMapping("resumes/create")
+    @PostMapping("create")
     public String createResume(
             @Valid
             @ModelAttribute("resumeDto")
@@ -93,7 +94,58 @@ public class ResumeController {
             return "redirect:/auth/profile"; // Redirect to the profile
         }
 
-        return "redirect:/login"; // Redirect to login if not authenticated
+        return "redirect:/auth/login"; // Redirect to login if not authenticated
+    }
+
+    @GetMapping("edit/{resumeId}")
+    public String showEditResumeForm(
+            @PathVariable Integer resumeId,
+            Model model,
+            Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            ResumeDto resumeDto = resumeService.getResumeById(resumeId);
+            UserDto userDto = userService.getUserById(resumeDto.getApplicantId());
+            List<CategoryDto> categories = categoriesService.getCategories();
+            model.addAttribute("categories", categories);
+            model.addAttribute("resumeDto", resumeDto);
+            model.addAttribute("userDto", userDto);
+            return "resumes/edit_resume";
+        }
+        return "redirect:/auth/login"; // Redirect to login if not authenticated
+    }
+
+    @PostMapping("edit/{resumeId}")
+    public String editResume(
+            @PathVariable Integer resumeId,
+            @Valid @ModelAttribute("resumeDto") ResumeDto resumeDto,
+            BindingResult bindingResult,
+            Authentication authentication,
+            Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("bindingResult", bindingResult);
+            model.addAttribute("resumeDto", resumeDto);
+            return "resumes/edit_resume";
+        }
+        if (authentication != null && authentication.isAuthenticated()) {
+            UserDto userDto = userService.getUserByEmail(authentication.getName());
+            resumeDto.setApplicantId(userDto.getId());
+            resumeDto.setId(resumeId);
+            resumeService.updateResume(resumeDto);
+            model.addAttribute("successMessage", "Profile updated successfully");
+            return "redirect:/auth/profile"; // Redirect to the profile
+        }
+        return "redirect:/auth/login"; // Redirect to login if not authenticated
+    }
+
+    @GetMapping("update")
+    public String showUpdateResumeForm(Model model, Authentication authentication) {
+        return "resumes/update_resume";
+    }
+
+    @PostMapping("update")
+    public String updateResume(Model model, Authentication authentication) {
+        return "resumes/update_resume";
     }
 
 }
