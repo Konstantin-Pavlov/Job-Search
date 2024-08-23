@@ -70,12 +70,12 @@
                         <p class="no-resumes">No vacancies added yet</p>
                     <#else>
                         <#list userVacancies as vacancy>
-                            <div class="resume-card">
-                                <p class="resume-title">${vacancy.name}</p>
-                                <p class="resume-date">Дата обновления: ${vacancy.getFormattedUpdatedDate()}</p>
-                                <div class="resume-actions">
-                                    <button class="update-resume-btn">Обновить</button>
-                                    <button class="edit-resume-btn">Ред.</button>
+                            <div class="vacancy-or-resume-card">
+                                <p class="vacancy-or-resume-title">${vacancy.name}</p>
+                                <p class="vacancy-or-resume-date">Дата обновления: ${vacancy.getFormattedUpdatedDate()}</p>
+                                <div class="vacancy-or-resume-actions">
+                                    <button class="update-vacancy-or-resume-btn" onclick="location.href='/vacancies/update/${vacancy.id}'">Обновить</button>
+                                    <button class="edit-vacancy-or-resume-btn" onclick="location.href='/vacancies/edit/${vacancy.id}'">Ред.</button>
                                 </div>
                             </div>
                         </#list>
@@ -85,12 +85,12 @@
                         <p class="no-resumes">No resume added yet</p>
                     <#else>
                         <#list userResumes as resume>
-                            <div class="resume-card">
-                                <p class="resume-title">${resume.name}</p>
-                                <p class="resume-date">Дата обновления: ${resume.getFormattedUpdatedDate()}</p>
-                                <div class="resume-actions">
-                                    <button class="update-resume-btn">Обновить</button>
-                                    <button class="edit-resume-btn">Ред.</button>
+                            <div class="vacancy-or-resume-card">
+                                <p class="vacancy-or-resume-title">${resume.name}</p>
+                                <p class="vacancy-or-resume-date">Дата обновления: ${resume.getFormattedUpdatedDate()}</p>
+                                <div class="vacancy-or-resume-actions">
+                                    <button class="update-vacancy-or-resume-btn" onclick="location.href='/resumes/update/${resume.id}'">Обновить</button>
+                                    <button class="edit-vacancy-or-resume-btn" onclick="location.href='/resumes/edit/${resume.id}'">Ред.</button>
                                 </div>
                             </div>
                         </#list>

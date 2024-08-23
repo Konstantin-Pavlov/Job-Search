@@ -69,7 +69,7 @@
     display: flex;
     flex-wrap: wrap;
 }
-.resume-card {
+.vacancy-or-resume-card {
     width: 30%;
     border: 1px solid #ccc;
     border-radius: 10px;
@@ -80,7 +80,7 @@
     text-overflow: ellipsis; /* Add ellipsis for overflow text */
     word-wrap: break-word; /* Break long words to fit within the card */
 }
-.resume-title {
+.vacancy-or-resume-title {
     margin: 0;
     font-weight: bold;
     color: #1c1c1e; /* Highlight color */
@@ -88,7 +88,7 @@
     text-overflow: ellipsis; /* Add ellipsis for overflow text */
     white-space: nowrap; /* Prevent text wrapping */
 }
-.resume-date {
+.vacancy-or-resume-date {
     margin: 0;
     font-weight: bold;
     color: rgba(50, 50, 50, 0.5); /* Different color for date */
@@ -97,10 +97,10 @@
     white-space: nowrap; /* Prevent text wrapping */
     font-size: 0.9em; /* Smaller font size */
 }
-.resume-actions {
+.vacancy-or-resume-actions {
     margin-top: 10px;
 }
-.update-resume-btn, .edit-resume-btn {
+.update-vacancy-or-resume-btn, .edit-vacancy-or-resume-btn {
     margin-right: 10px;
     font-size: 1em;
     padding: 10px 20px;
