@@ -114,7 +114,7 @@
                     <span class="error-message">${bindingResult.getFieldError("isActive").defaultMessage}</span>
                 </#if>
             </div>
-            <button type="submit" class="btn btn-primary">Create Resume</button>
+            <button type="submit" class="btn btn-primary">Create Vacancy</button>
         </form>
     </div>
 
