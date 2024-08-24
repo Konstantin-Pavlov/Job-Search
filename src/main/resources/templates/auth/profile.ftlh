@@ -1,10 +1,19 @@
 <#import "../layout.ftlh" as layout>
+<#import "../modal.ftlh" as modalTemplates>
 <#--<@layout.layout isAuthenticated=isAuthenticated username=username>-->
 <@layout.layout>
     <!-- Link to the external CSS file -->
     <link rel="stylesheet" type="text/css" href="/static/css/profile.css" xmlns="http://www.w3.org/1999/html">
 
-    <p>updated: <#if entityUpdated??>yes<#else>no</#if></p>
+    <#assign title = entityTitle!"Default Title">
+    <#assign name = entityName!"Default Name">
+    <#assign updated = entityUpdated!false>
+
+    <p>updated: <#if updated>yes<#else>no</#if></p>
+
+    <!-- Include the modal template and pass variables -->
+    <@modalTemplates.modal modalTitle=title modalName=name />
+
 
     <div class="profile-container">
         <h1 class="profile-header" id="profile-header"></h1>
@@ -118,23 +127,23 @@
     </div>
 
 
-    <!-- Modal -->
-    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="successModalLabel">Success</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Test message
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
+<#--    <!-- Modal &ndash;&gt;-->
+<#--    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">-->
+<#--        <div class="modal-dialog">-->
+<#--            <div class="modal-content">-->
+<#--                <div class="modal-header">-->
+<#--                    <h5 class="modal-title" id="successModalLabel">Success</h5>-->
+<#--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<#--                </div>-->
+<#--                <div class="modal-body">-->
+<#--                    Test message-->
+<#--                </div>-->
+<#--                <div class="modal-footer">-->
+<#--                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
+<#--                </div>-->
+<#--            </div>-->
+<#--        </div>-->
+<#--    </div>-->
 
 
     <script>
