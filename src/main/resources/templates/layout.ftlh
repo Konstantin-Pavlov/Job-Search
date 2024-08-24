@@ -74,7 +74,7 @@
                     </#list>
 <#--                </a>-->
             </div>
-                <a href="/auth/profile" class="btn btn-outline-info ms-2">Profile</a>
+                <a href="/profile" class="btn btn-outline-info ms-2">Profile</a>
                 <a href="/logout" class="btn btn-outline-info m-2" id="logout">Logout</a>
 
             <#else>

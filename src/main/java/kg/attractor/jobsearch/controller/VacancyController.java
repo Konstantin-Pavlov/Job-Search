@@ -93,7 +93,7 @@ public class VacancyController {
             vacancyDto.setUpdateTime(LocalDateTime.now());
             vacancyService.createVacancy(vacancyDto);
             model.addAttribute("successMessage", "vacancy added successfully");
-            return "redirect:/auth/profile"; // Redirect to the profile
+            return "redirect:/profile"; // Redirect to the profile
         }
 
         return "redirect:/login"; // Redirect to login if not authenticated
@@ -135,7 +135,7 @@ public class VacancyController {
             vacancyDto.setId(vacancyId);
             vacancyService.editVacancy(vacancyDto);
             model.addAttribute("successMessage", "Profile updated successfully");
-            return "redirect:/auth/profile"; // Redirect to the profile
+            return "redirect:/profile"; // Redirect to the profile
         }
         return "redirect:/auth/login"; // Redirect to login if not authenticated
     }
@@ -154,7 +154,7 @@ public class VacancyController {
             redirectAttributes.addFlashAttribute("ifEntityUpdated", true);
             redirectAttributes.addFlashAttribute("entityTitle", "vacancy");
             redirectAttributes.addFlashAttribute("entityName", vacancyDto.getName());
-            return "redirect:/auth/profile";
+            return "redirect:/profile";
         }
         return "redirect:/auth/login";
     }

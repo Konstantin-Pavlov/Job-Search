@@ -125,7 +125,7 @@
                 const toast = new bootstrap.Toast(successToast);
                 toast.show();
                 setTimeout(() => {
-                    window.location.href = '/auth/profile'; // Redirect to profile page
+                    window.location.href = '/profile'; // Redirect to profile page
                 }, 3000); // Redirect after 3 seconds
             }
         });

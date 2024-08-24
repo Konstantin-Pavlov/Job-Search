@@ -42,8 +42,6 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class AuthController {
     private final UserService userService;
-    private final ResumeService resumeService;
-    private final VacancyService vacancyService;
     private final AuthenticationManager authenticationManager;
     private final CustomUserDetailsServiceImpl customUserDetails;
 
@@ -140,43 +138,4 @@ public class AuthController {
         return "auth/register";
     }
 
-    @GetMapping("profile")
-    public String profile(
-            Model model,
-            Principal principal,
-            Authentication authentication) throws IOException {
-
-        // Add the flag to the model if it exists
-        Boolean ifEntityUpdated = (Boolean) model.asMap().get("ifEntityUpdated");
-        log.info("ifEntityUpdated: {}", ifEntityUpdated);
-        if (ifEntityUpdated != null) {
-            String entityTitle = (String) model.asMap().get("entityTitle");
-            String entityName = (String) model.asMap().get("entityName");
-
-            model.addAttribute("entityUpdated", ifEntityUpdated);
-            model.addAttribute("entityTitle", entityTitle);
-            model.addAttribute("entityName", entityName);
-        }
-
-        if (principal == null) {
-            log.error("Principal is null. User is not authenticated.");
-            return "redirect:/auth/login";
-        }
-        boolean isAuthenticated = authentication != null && authentication.isAuthenticated();
-        model.addAttribute("isAuthenticated", isAuthenticated);
-        if (isAuthenticated && authentication.getPrincipal() instanceof UserDetails) {
-            String username = ((UserDetails) authentication.getPrincipal()).getUsername();
-            model.addAttribute("username", username);
-        }
-        log.info("isAuthenticated: {}", isAuthenticated);
-        log.info("Fetching profile for user: {}", principal.getName());
-
-        UserDto userDto = userService.getUserByEmail(principal.getName());
-        List<ResumeDto> resumes = resumeService.getResumeByUserId(userDto.getId());
-        List<VacancyDto> vacancies = vacancyService.getVacancyByAuthorId(userDto.getId());
-        model.addAttribute("userVacancies", vacancies);
-        model.addAttribute("userResumes", resumes);
-        model.addAttribute("userDto", userDto);
-        return "auth/profile";
-    }
 }

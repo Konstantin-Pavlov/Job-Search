@@ -151,7 +151,7 @@
                 setTimeout(() => {
                     successModal.hide();
                     // Redirect to the profile page after the modal is closed
-                    window.location.href = "/auth/profile";
+                    window.location.href = "/profile";
                 }, 3000);
             }
         });

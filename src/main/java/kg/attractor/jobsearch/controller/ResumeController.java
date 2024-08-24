@@ -134,7 +134,7 @@ public class ResumeController {
             resumeDto.setId(resumeId);
             resumeService.editResume(resumeDto);
             model.addAttribute("successMessage", "Profile updated successfully");
-            return "redirect:/auth/profile"; // Redirect to the profile
+            return "redirect:/profile"; // Redirect to the profile
         }
         return "redirect:/auth/login"; // Redirect to login if not authenticated
     }
@@ -153,7 +153,7 @@ public class ResumeController {
             redirectAttributes.addFlashAttribute("ifEntityUpdated", true);
             redirectAttributes.addFlashAttribute("entityTitle", "resume");
             redirectAttributes.addFlashAttribute("entityName", resumeDto.getName());
-            return "redirect:/auth/profile";
+            return "redirect:/profile";
         }
         return "redirect:/auth/login";
     }

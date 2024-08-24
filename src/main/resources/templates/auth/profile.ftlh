@@ -78,7 +78,7 @@
                                 <p class="vacancy-or-resume-date">Дата
                                     обновления: ${vacancy.getFormattedUpdatedDate()}</p>
                                 <div class="vacancy-or-resume-actions">
-                                    <form action="/resumes/update/${vacancy.id}" method="post" style="display:inline;">
+                                    <form action="/vacancies/update/${vacancy.id}" method="post" style="display:inline;">
                                         <button type="submit" class="update-vacancy-or-resume-btn">Обновить</button>
                                     </form>
                                     <button class="edit-vacancy-or-resume-btn"
