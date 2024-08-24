@@ -1,5 +1,7 @@
 package kg.attractor.jobsearch.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.UserDto;
@@ -18,6 +20,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -63,7 +66,9 @@ public class AuthController {
     @PostMapping("register")
     public String registerUser(@Valid @ModelAttribute("userDto") UserWithAvatarFileDto userDto,
                                BindingResult bindingResult,
-                               Model model) {
+                               Model model,
+                               HttpServletRequest request,
+                               HttpServletResponse response) {
         if (bindingResult.hasErrors()) {
             log.error(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
             model.addAttribute("bindingResult", bindingResult);
@@ -98,6 +103,10 @@ public class AuthController {
 
             Authentication authentication = authenticationManager.authenticate(authToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            // Create a new session and set the authentication context
+            request.getSession(true).setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
+
 
             log.info("User authenticated successfully: {}", userDto.getEmail());
         } catch (IOException | UserNotFoundException e) {

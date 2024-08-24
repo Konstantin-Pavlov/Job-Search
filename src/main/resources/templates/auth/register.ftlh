@@ -113,6 +113,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const successToast = document.getElementById('successToast');
+            console.log(successToast + " found");
             if (successToast) {
                 const toast = new bootstrap.Toast(successToast);
                 toast.show();
@@ -121,7 +122,8 @@
                 // }, 3000); // Redirect after 3 seconds
 
                 setTimeout(() => {
-                    window.location.href = '/auth/profile'; // Redirect to profile page
+                    //  Redirect to profile page didn't work
+                    window.location.href = '/auth/register';
                 }, 3000); // Redirect after 3 seconds
             }
         });

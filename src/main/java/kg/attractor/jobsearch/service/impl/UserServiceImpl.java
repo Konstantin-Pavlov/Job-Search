@@ -10,9 +10,11 @@ import kg.attractor.jobsearch.exception.UserNotFoundException;
 import kg.attractor.jobsearch.mapper.CustomUserMapper;
 import kg.attractor.jobsearch.mapper.UserMapper;
 import kg.attractor.jobsearch.model.Resume;
+import kg.attractor.jobsearch.model.Role;
 import kg.attractor.jobsearch.model.User;
 import kg.attractor.jobsearch.model.Vacancy;
 import kg.attractor.jobsearch.repository.ResumeRepository;
+import kg.attractor.jobsearch.repository.RoleRepository;
 import kg.attractor.jobsearch.repository.UserRepository;
 import kg.attractor.jobsearch.repository.VacancyRepository;
 import kg.attractor.jobsearch.service.UserService;
@@ -27,6 +29,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,7 +37,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
@@ -50,11 +55,21 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final VacancyRepository vacancyRepository;
     private final ResumeRepository resumeRepository;
+    private final RoleRepository roleRepository;
 
     private final UserMapper userMapper = UserMapper.INSTANCE;
+    private final PasswordEncoder encoder;
 
     @Value("${app.avatar_dir}")
     private String AVATAR_DIR;
+
+    private final Map<String, Integer> userAuthorityMap = new HashMap<>() {{
+        put("ADMIN", 1);
+        put("USER", 2);
+        put("MANAGER", 3);
+        put("GUEST", 4);
+        put("SUPERUSER", 5);
+    }};
 
 //    private final String UPLOAD_DIR = "avatars";
 
@@ -114,7 +129,16 @@ public class UserServiceImpl implements UserService {
         }
         User user = CustomUserMapper.toUser(userDto);
 //        userDao.addUser(user);
+
+        user.setPassword(encoder.encode(user.getPassword()));
+
         userRepository.save(user);
+        roleRepository.save(new Role(
+                null,
+                user.getId(),
+                userAuthorityMap.get("USER")
+        ));
+
         if (user.getAccountType().equals("applicant")) {
             log.info("added applicant with email {}", user.getEmail());
         } else {
