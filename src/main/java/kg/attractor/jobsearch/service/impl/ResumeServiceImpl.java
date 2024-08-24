@@ -146,6 +146,7 @@ public class ResumeServiceImpl implements ResumeService {
         resumeDto.setUpdateTime(LocalDateTime.now());
         Resume resume = resumeMapper.toResume(resumeDto);
         resumeRepository.save(resume);
+        log.info("edited resume {}", resume.getName());
     }
 
     @Override
@@ -154,6 +155,7 @@ public class ResumeServiceImpl implements ResumeService {
         existingResume.setUpdateTime(LocalDateTime.now());
         Resume resume = resumeMapper.toResume(existingResume);
         resumeRepository.save(resume);
+        log.info("updated resume {}", resume.getName());
     }
 
 }

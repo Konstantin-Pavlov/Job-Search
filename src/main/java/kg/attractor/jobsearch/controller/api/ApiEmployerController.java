@@ -100,7 +100,7 @@ public class ApiEmployerController {
 
     @PutMapping("/vacancy/{vacancyId}")
     public ResponseEntity<String> editVacancy(@PathVariable Integer vacancyId, @RequestBody VacancyDto vacancyDto) {
-        vacancyService.editVacancy(vacancyId, vacancyDto);
+        vacancyService.editVacancy(vacancyDto);
         return ResponseEntity.ok("Vacancy edited successfully");
     }
 

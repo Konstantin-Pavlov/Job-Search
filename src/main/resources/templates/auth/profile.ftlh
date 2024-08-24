@@ -74,12 +74,13 @@
                         <#list userVacancies as vacancy>
                             <div class="vacancy-or-resume-card">
                                 <p class="vacancy-or-resume-title">${vacancy.name}</p>
+                                <p class="vacancy-or-resume-title">${vacancy.id}</p>
                                 <p class="vacancy-or-resume-date">Дата
                                     обновления: ${vacancy.getFormattedUpdatedDate()}</p>
                                 <div class="vacancy-or-resume-actions">
-                                    <button class="update-vacancy-or-resume-btn"
-                                            onclick="location.href='/vacancies/update/${vacancy.id}'">Обновить
-                                    </button>
+                                    <form action="/resumes/update/${vacancy.id}" method="post" style="display:inline;">
+                                        <button type="submit" class="update-vacancy-or-resume-btn">Обновить</button>
+                                    </form>
                                     <button class="edit-vacancy-or-resume-btn"
                                             onclick="location.href='/vacancies/edit/${vacancy.id}'">Ред.
                                     </button>
@@ -177,28 +178,7 @@
                 }, 3000);
             }
 
-
-
-            // in js console we see "Toast should be showing now." message
-            // but toast message is not shown
-            // const successToast = document.getElementById('successToast');
-            // if (successToast) {
-            //     console.log("Success toast element found.");
-            //     const toast = new bootstrap.Toast(successToast, {
-            //         autohide: false  // Ensure it stays visible
-            //     });
-            //     toast.show();
-            //     console.log("Toast should be showing now.");
-            // } else {
-            //     console.log("Success toast element NOT found.");
-            // }
-            //
-            // // Delay the redirect to allow the toast to be visible
-            // setTimeout(function() {
-            //     window.location.href = "/auth/profile";
-            // }, 3000);
         });
-
 
     </script>
 </@layout.layout>

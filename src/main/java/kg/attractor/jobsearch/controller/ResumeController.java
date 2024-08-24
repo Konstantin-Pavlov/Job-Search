@@ -139,11 +139,6 @@ public class ResumeController {
         return "redirect:/auth/login"; // Redirect to login if not authenticated
     }
 
-//    @GetMapping("update")
-//    public String showUpdateResumeForm(Model model, Authentication authentication) {
-//        return "resumes/update_resume";
-//    }
-
     @PostMapping("update/{resumeId}")
     public String updateResume(
             @PathVariable Integer resumeId,

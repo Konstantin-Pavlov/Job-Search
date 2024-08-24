@@ -17,9 +17,11 @@ public interface VacancyService {
 
     List<VacancyDto> getVacanciesByCategoryId(Integer categoryId);
 
-    void editVacancy(Integer id, VacancyDto vacancyDto);
+    void editVacancy(VacancyDto vacancyDto);
 
     List<VacancyDto> getVacanciesByCategory(String category);
 
     List<VacancyDto> getVacancyByAuthorId(Integer id);
+
+    void updateVacancy(Integer vacancyId);
 }

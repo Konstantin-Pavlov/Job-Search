@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -102,18 +103,6 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public void editVacancy(Integer id, VacancyDto vacancyDto) {
-        Vacancy existingVacancy = vacancyRepository.findById(id)
-                .orElseThrow(() -> {
-                    log.error("Can't find Vacancy with id {}", id);
-                    return new VacancyNotFoundException("Can't find Vacancy with id " + id);
-                });
-        CustomVacancyMapper.updateVacancyFromDto(vacancyDto, existingVacancy);
-        vacancyRepository.save(existingVacancy);
-        log.info("updated vacancy {}", existingVacancy.getName());
-    }
-
-    @Override
     public List<VacancyDto> getVacanciesByCategory(String category) {
         Optional<Category> categoryOptional = categoryRepository.findByName(category);
         if (categoryOptional.isEmpty()) {
@@ -147,6 +136,25 @@ public class VacancyServiceImpl implements VacancyService {
 //                .map(vacancyMapper::toVacancyDto)
                 .map(CustomVacancyMapper::toVacancyDto)
                 .toList();
+    }
+
+    @Override
+    public void editVacancy(VacancyDto vacancyDto) {
+        VacancyDto existingVacancy = getVacancyById(vacancyDto.getId());
+        vacancyDto.setCreatedDate(existingVacancy.getCreatedDate());
+        vacancyDto.setUpdateTime(LocalDateTime.now());
+        Vacancy vacancy = vacancyMapper.toVacancy(vacancyDto);
+        vacancyRepository.save(vacancy);
+        log.info("edited vacancy {}", existingVacancy.getName());
+    }
+
+    @Override
+    public void updateVacancy(Integer vacancyId) {
+        VacancyDto existingVacancy = getVacancyById(vacancyId);
+        existingVacancy.setUpdateTime(LocalDateTime.now());
+        Vacancy vacancy = vacancyMapper.toVacancy(existingVacancy);
+        vacancyRepository.save(vacancy);
+        log.info("updated vacancy {}", vacancy.getName());
     }
 
 }

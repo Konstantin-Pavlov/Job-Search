@@ -19,19 +19,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 @Slf4j
 @Controller
+@RequestMapping("vacancies")
 @RequiredArgsConstructor
 public class VacancyController {
     private final VacancyService vacancyService;
     private final UserService userService;
     private final CategoriesService categoriesService;
 
-    @GetMapping("vacancies")
+    @GetMapping()
     public String getVacancies(Model model, Authentication authentication) {
         MvcControllersUtil.authCheckAndAddAttributes(
                 model,
@@ -41,7 +44,7 @@ public class VacancyController {
         return "vacancies/vacancies";
     }
 
-    @GetMapping("vacancies/{vacancyId}")
+    @GetMapping("{vacancyId}")
     public String getInfo(@PathVariable Integer vacancyId, Model model, Authentication authentication) {
         VacancyDto vacancy = vacancyService.getVacancyById(vacancyId);
         UserDto userDto = userService.getUserById(vacancy.getAuthorId());
@@ -58,7 +61,7 @@ public class VacancyController {
         return "vacancies/vacancy_info";
     }
 
-    @GetMapping("vacancies/create")
+    @GetMapping("create")
     public String showCreateResumeForm(Model model, Authentication authentication) {
         if (authentication != null && authentication.isAuthenticated()) {
             List<CategoryDto> categories = categoriesService.getCategories();
@@ -69,7 +72,7 @@ public class VacancyController {
         return "redirect:/login"; // Redirect to login if not authenticated
     }
 
-    @PostMapping("vacancies/create")
+    @PostMapping("create")
     public String createResume(
             @Valid
             @ModelAttribute("vacancyDto")
@@ -94,6 +97,66 @@ public class VacancyController {
         }
 
         return "redirect:/login"; // Redirect to login if not authenticated
+    }
+
+    @GetMapping("edit/{vacancyId}")
+    public String showEditVacancyForm(
+            @PathVariable Integer vacancyId,
+            Model model,
+            Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            VacancyDto vacancyDto = vacancyService.getVacancyById(vacancyId);
+            UserDto userDto = userService.getUserById(vacancyDto.getAuthorId());
+            List<CategoryDto> categories = categoriesService.getCategories();
+            model.addAttribute("categories", categories);
+            model.addAttribute("vacancyDto", vacancyDto);
+            model.addAttribute("userDto", userDto);
+            return "vacancies/edit_vacancy";
+        }
+        return "redirect:/auth/login"; // Redirect to login if not authenticated
+    }
+
+    @PostMapping("edit/{vacancyId}")
+    public String editVacancy(
+            @PathVariable Integer vacancyId,
+            @Valid @ModelAttribute("vacancyDto") VacancyDto vacancyDto,
+            BindingResult bindingResult,
+            Authentication authentication,
+            Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("bindingResult", bindingResult);
+            model.addAttribute("vacancyDto", vacancyDto);
+            return "vacancies/edit_vacancy";
+        }
+        if (authentication != null && authentication.isAuthenticated()) {
+            UserDto userDto = userService.getUserByEmail(authentication.getName());
+            vacancyDto.setAuthorId(userDto.getId());
+            vacancyDto.setId(vacancyId);
+            vacancyService.editVacancy(vacancyDto);
+            model.addAttribute("successMessage", "Profile updated successfully");
+            return "redirect:/auth/profile"; // Redirect to the profile
+        }
+        return "redirect:/auth/login"; // Redirect to login if not authenticated
+    }
+
+    @PostMapping("update/{vacancyId}")
+    public String updateVacancy(
+            @PathVariable Integer vacancyId,
+            Authentication authentication,
+            Model model,
+            RedirectAttributes redirectAttributes) {
+
+        if (authentication != null && authentication.isAuthenticated()) {
+            VacancyDto vacancyDto = vacancyService.getVacancyById(vacancyId);
+            vacancyService.updateVacancy(vacancyId);
+
+            redirectAttributes.addFlashAttribute("ifEntityUpdated", true);
+            redirectAttributes.addFlashAttribute("entityTitle", "vacancy");
+            redirectAttributes.addFlashAttribute("entityName", vacancyDto.getName());
+            return "redirect:/auth/profile";
+        }
+        return "redirect:/auth/login";
     }
 
 }
