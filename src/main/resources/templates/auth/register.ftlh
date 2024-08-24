@@ -1,5 +1,6 @@
 <#import "../layout.ftlh" as main>
 <@main.layout>
+    <p>ok: <#if okay??>yes<#else>no</#if></p>
     <div class="container mt-4">
         <h2>Register</h2>
         <#if errorMessage??>
@@ -110,21 +111,48 @@
         </form>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Success</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Test message
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const successToast = document.getElementById('successToast');
-            console.log(successToast + " found");
-            if (successToast) {
-                const toast = new bootstrap.Toast(successToast);
-                toast.show();
-                // setTimeout(() => {
-                //     window.location.href = '/';
-                // }, 3000); // Redirect after 3 seconds
+            <#assign ok = okay!false>
 
+
+            const isOkay = ${ok?c};
+            if (isOkay) {
+                // Set the title and body text of the modal dynamically
+                const successModalElement = document.getElementById('successModal');
+
+                // Set the modal title and body content
+                successModalElement.querySelector('.modal-title').textContent = `success!`;
+                successModalElement.querySelector('.modal-body').textContent = `${userDto.name!"no name"} (${userDto.email!"no email"}) successfully registered`;
+
+                // Initialize and show the modal
+                const successModal = new bootstrap.Modal(successModalElement);
+                successModal.show();
+
+                // Auto-close the modal after 3 seconds (3000 milliseconds)
                 setTimeout(() => {
-                    //  Redirect to profile page didn't work
-                    window.location.href = '/auth/register';
-                }, 3000); // Redirect after 3 seconds
+                    successModal.hide();
+                    // Redirect to the profile page after the modal is closed
+                    window.location.href = "/auth/profile";
+                }, 3000);
             }
         });
     </script>

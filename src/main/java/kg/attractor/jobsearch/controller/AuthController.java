@@ -132,9 +132,12 @@ public class AuthController {
         }
 
         model.addAttribute("successMessage", "Registration successful! Redirecting to the main page...");
+        model.addAttribute("okay", true);
         // Redirect to the profile page after successful registration
-//        return "auth/profile";
-        return "redirect:/auth/profile";
+//        return "redirect:/auth/profile";
+
+        // Return the registration page with the success message
+        return "auth/register";
     }
 
     @GetMapping("profile")
