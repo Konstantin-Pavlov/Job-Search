@@ -37,9 +37,9 @@
         <div class="mb-3 form-check form-switch">
             <input type="checkbox" class="form-check-input" id="is_active" name="isActive" <#if resumeDto.isActive?? && resumeDto.isActive == true || !resumeDto.isActive??>checked</#if>>
             <label class="form-check-label" for="is_active">Is Active</label>
-<#--            <#if bindingResult?has_content && bindingResult.hasFieldErrors("isActive")>-->
-<#--                <span class="error-message">${bindingResult.getFieldError("isActive").defaultMessage}</span>-->
-<#--            </#if>-->
+            <#if bindingResult?has_content && bindingResult.hasFieldErrors("isActive")>
+                <span class="error-message">${bindingResult.getFieldError("isActive").defaultMessage}</span>
+            </#if>
         </div>
 
         <div class="button-group">

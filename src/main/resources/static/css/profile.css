@@ -129,3 +129,13 @@
 .home-btn:hover {
     background-color: #0056b3;
 }
+
+.toast {
+    display: block !important;
+    opacity: 1 !important;
+}
+
+#successToast {
+    display: block !important;
+    opacity: 1 !important;
+}

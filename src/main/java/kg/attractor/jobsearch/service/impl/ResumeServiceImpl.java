@@ -140,11 +140,19 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public void updateResume(ResumeDto resumeDto) {
+    public void editResume(ResumeDto resumeDto) {
         ResumeDto existingResume = getResumeById(resumeDto.getId());
         resumeDto.setCreatedDate(existingResume.getCreatedDate());
         resumeDto.setUpdateTime(LocalDateTime.now());
         Resume resume = resumeMapper.toResume(resumeDto);
+        resumeRepository.save(resume);
+    }
+
+    @Override
+    public void updateResume(Integer resumeId) {
+        ResumeDto existingResume = getResumeById(resumeId);
+        existingResume.setUpdateTime(LocalDateTime.now());
+        Resume resume = resumeMapper.toResume(existingResume);
         resumeRepository.save(resume);
     }
 

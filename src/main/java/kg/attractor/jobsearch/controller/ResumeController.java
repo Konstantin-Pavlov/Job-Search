@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -131,21 +132,35 @@ public class ResumeController {
             UserDto userDto = userService.getUserByEmail(authentication.getName());
             resumeDto.setApplicantId(userDto.getId());
             resumeDto.setId(resumeId);
-            resumeService.updateResume(resumeDto);
+            resumeService.editResume(resumeDto);
             model.addAttribute("successMessage", "Profile updated successfully");
             return "redirect:/auth/profile"; // Redirect to the profile
         }
         return "redirect:/auth/login"; // Redirect to login if not authenticated
     }
 
-    @GetMapping("update")
-    public String showUpdateResumeForm(Model model, Authentication authentication) {
-        return "resumes/update_resume";
-    }
+//    @GetMapping("update")
+//    public String showUpdateResumeForm(Model model, Authentication authentication) {
+//        return "resumes/update_resume";
+//    }
 
-    @PostMapping("update")
-    public String updateResume(Model model, Authentication authentication) {
-        return "resumes/update_resume";
+    @PostMapping("update/{resumeId}")
+    public String updateResume(
+            @PathVariable Integer resumeId,
+            Authentication authentication,
+            Model model,
+            RedirectAttributes redirectAttributes) {
+
+        if (authentication != null && authentication.isAuthenticated()) {
+            ResumeDto resumeDto = resumeService.getResumeById(resumeId);
+            resumeService.updateResume(resumeId);
+
+            redirectAttributes.addFlashAttribute("ifEntityUpdated", true);
+            redirectAttributes.addFlashAttribute("entityTitle", "resume");
+            redirectAttributes.addFlashAttribute("entityName", resumeDto.getName());
+            return "redirect:/auth/profile";
+        }
+        return "redirect:/auth/login";
     }
 
 }

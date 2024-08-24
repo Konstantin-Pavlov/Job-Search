@@ -77,7 +77,7 @@ public class AuthController {
             if (avatar != null) {
                 log.info("Received avatar: name={}, size={}, originalFilename={}",
                         avatar.getName(), avatar.getSize(), avatar.getOriginalFilename());
-                if(avatar.getOriginalFilename() == null || avatar.getOriginalFilename().isEmpty()){
+                if (avatar.getOriginalFilename() == null || avatar.getOriginalFilename().isEmpty()) {
                     log.info("Received empty avatar, default avatar will be used");
                 }
             } else {
@@ -129,7 +129,23 @@ public class AuthController {
     }
 
     @GetMapping("profile")
-    public String profile(Model model, Principal principal, Authentication authentication) throws IOException {
+    public String profile(
+            Model model,
+            Principal principal,
+            Authentication authentication) throws IOException {
+
+        // Add the flag to the model if it exists
+        Boolean ifEntityUpdated = (Boolean) model.asMap().get("ifEntityUpdated");
+        log.info("ifEntityUpdated: {}", ifEntityUpdated);
+        if (ifEntityUpdated != null) {
+            String entityTitle = (String) model.asMap().get("entityTitle");
+            String entityName = (String) model.asMap().get("entityName");
+
+            model.addAttribute("entityUpdated", ifEntityUpdated);
+            model.addAttribute("entityTitle", entityTitle);
+            model.addAttribute("entityName", entityName);
+        }
+
         if (principal == null) {
             log.error("Principal is null. User is not authenticated.");
             return "redirect:/auth/login";
