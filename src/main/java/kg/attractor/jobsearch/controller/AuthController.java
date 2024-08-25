@@ -131,6 +131,7 @@ public class AuthController {
 
         model.addAttribute("successMessage", "Registration successful! Redirecting to the main page...");
         model.addAttribute("okay", true);
+        model.addAttribute("entityName", userDto.getName());
         // Redirect to the profile page after successful registration
 //        return "redirect:/auth/profile";
 

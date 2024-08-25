@@ -1,5 +1,15 @@
 <#import "../layout.ftlh" as main>
+<#import "../modal.ftlh" as modalTemplates>
 <@main.layout>
+
+    <#assign title = successMessage!"Default Title">
+    <#assign name = vacancyDto.name!"Default Name">
+    <#assign updated = entityUpdated!false>
+
+    <p>updated: <#if updated>yes<#else>no</#if></p>
+
+    <!-- Include the modal template and pass variables -->
+    <@modalTemplates.modal modalTitle=title modalName=name />
 
     <div class="container mt-4">
         <h2>Create Vacancy</h2>
@@ -8,18 +18,18 @@
                 ${errorMessage}
             </div>
         </#if>
-        <#if successMessage??>
-            <div class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive"
-                 aria-atomic="true" id="successToast">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        ${successMessage}
-                    </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                            aria-label="Close"></button>
-                </div>
-            </div>
-        </#if>
+<#--        <#if successMessage??>-->
+<#--            <div class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive"-->
+<#--                 aria-atomic="true" id="successToast">-->
+<#--                <div class="d-flex">-->
+<#--                    <div class="toast-body">-->
+<#--                        ${successMessage}-->
+<#--                    </div>-->
+<#--                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"-->
+<#--                            aria-label="Close"></button>-->
+<#--                </div>-->
+<#--            </div>-->
+<#--        </#if>-->
 
         <!-- Display the list of errors in a styled alert box with a title -->
         <#if bindingResult?has_content>
@@ -119,15 +129,36 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const successToast = document.getElementById('successToast');
-            if (successToast) {
-                const toast = new bootstrap.Toast(successToast);
-                toast.show();
+        document.addEventListener("DOMContentLoaded", function () {
+            console.log("JavaScript is running on create_vacancy.ftlh");
+
+            <#assign updated = entityUpdated!false>
+<#--            <#assign title = entityTitle!"">-->
+<#--            <#assign name = entityName!"">-->
+
+            const vacancyUpdated = ${updated?c};
+            if (vacancyUpdated) {
+                // Set the title and body text of the modal dynamically
+                const title = "${title}";
+                const name = "${name}";
+                const successModalElement = document.getElementById('successModal');
+
+                // Set the modal title and body content
+                successModalElement.querySelector('.modal-title').textContent = `${title}`;
+                successModalElement.querySelector('.modal-body').textContent = `Vacancy ${name} successfully created`;
+
+                // Initialize and show the modal
+                const successModal = new bootstrap.Modal(successModalElement);
+                successModal.show();
+
+                // Auto-close the modal after 3 seconds (3000 milliseconds)
                 setTimeout(() => {
-                    window.location.href = '/profile'; // Redirect to profile page
-                }, 3000); // Redirect after 3 seconds
+                    successModal.hide();
+                    // Redirect to the profile page after the modal is closed
+                    window.location.href = "/profile";
+                }, 3000);
             }
+
         });
     </script>
 </@main.layout>

@@ -1,8 +1,20 @@
 <#import "../layout.ftlh" as layout>
+<#import "../modal.ftlh" as modalTemplates>
 <@layout.layout>
+
+    <#assign title = successMessage!"Default Title">
+    <#assign name = vacancyDto.name!"Default Name">
+    <#assign updated = entityUpdated!false>
+
+    <p>updated: <#if updated>yes<#else>no</#if></p>
+
+    <!-- Include the modal template and pass variables -->
+    <@modalTemplates.modal modalTitle=title modalName=name />
+
     <h1>Edit Vacancy</h1>
     <p>Salary: ${vacancyDto.salary}</p>
-    <p>ID: ${vacancyDto.id}</p>
+    <p>Vacancy ID: ${vacancyDto.id}</p>
+
     <form action="/vacancies/edit/${vacancyDto.id}" method="post">
 
         <div class="mb-3">
@@ -72,9 +84,44 @@
         </div>
 
         <div class="button-group">
-            <button type="submit" class="btn btn-primary">Update Vacancy</button>
+            <button type="submit" class="btn btn-primary">Confirm Changes</button>
             <a href="/profile" class="btn btn-secondary">Back to Profile</a>
             <a href="/" class="btn btn-secondary">Home</a>
         </div>
     </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            console.log("JavaScript is running on create_vacancy.ftlh");
+
+            <#assign updated = entityUpdated!false>
+            <#--            <#assign title = entityTitle!"">-->
+            <#--            <#assign name = entityName!"">-->
+
+            const vacancyUpdated = ${updated?c};
+            if (vacancyUpdated) {
+                // Set the title and body text of the modal dynamically
+                <#--const title = "${title}";-->
+                <#--const name = "${name}";-->
+                const successModalElement = document.getElementById('successModal');
+
+                // Set the modal title and body content
+                successModalElement.querySelector('.modal-title').textContent = "${title}";
+                successModalElement.querySelector('.modal-body').textContent = `Vacancy ${name} successfully edited`;
+
+                // Initialize and show the modal
+                const successModal = new bootstrap.Modal(successModalElement);
+                successModal.show();
+
+                // Auto-close the modal after 3 seconds (3000 milliseconds)
+                setTimeout(() => {
+                    successModal.hide();
+                    // Redirect to the profile page after the modal is closed
+                    window.location.href = "/profile";
+                }, 3000);
+            }
+
+        });
+    </script>
+
 </@layout.layout>

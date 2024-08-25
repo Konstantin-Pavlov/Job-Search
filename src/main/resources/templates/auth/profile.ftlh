@@ -161,7 +161,6 @@
                 profileHeader.textContent = "Личный кабинет Соискателя";
             }
 
-
             <#assign updated = entityUpdated!false>
             <#assign title = entityTitle!"">
             <#assign name = entityName!"">
@@ -188,6 +187,5 @@
             }
 
         });
-
     </script>
 </@layout.layout>

@@ -1,6 +1,15 @@
 <#import "../layout.ftlh" as main>
+<#import "../modal.ftlh" as modalTemplates>
 <@main.layout>
+
+    <#assign title = successMessage!"Default Title">
+    <#assign name = entityName!"Default Name">
+    <#assign ok = okay!false>
     <p>ok: <#if okay??>yes<#else>no</#if></p>
+
+    <!-- Include the modal template and pass variables -->
+    <@modalTemplates.modal modalTitle=title modalName=name />
+
     <div class="container mt-4">
         <h2>Register</h2>
         <#if errorMessage??>
@@ -60,7 +69,7 @@
                 <label for="age" class="form-label">Age</label>
                 <input type="number" class="form-control" id="age" name="age" value="${userDto.age!'42'}" required>
                 <#if bindingResult?has_content && bindingResult.hasFieldErrors("age")>
-<#--                    <div class="text-danger">${bindingResult.getFieldError("age").defaultMessage}</div>-->
+                <#--                    <div class="text-danger">${bindingResult.getFieldError("age").defaultMessage}</div>-->
                     <span class="error-message">${bindingResult.getFieldError("age").defaultMessage}</span>
                 </#if>
             </div>
@@ -111,36 +120,33 @@
         </form>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="successModalLabel">Success</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Test message
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
+<#--    <!-- Modal &ndash;&gt;-->
+<#--    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">-->
+<#--        <div class="modal-dialog">-->
+<#--            <div class="modal-content">-->
+<#--                <div class="modal-header">-->
+<#--                    <h5 class="modal-title" id="successModalLabel">Success</h5>-->
+<#--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<#--                </div>-->
+<#--                <div class="modal-body">-->
+<#--                    Test message-->
+<#--                </div>-->
+<#--                <div class="modal-footer">-->
+<#--                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
+<#--                </div>-->
+<#--            </div>-->
+<#--        </div>-->
+<#--    </div>-->
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            <#assign ok = okay!false>
-
-
             const isOkay = ${ok?c};
             if (isOkay) {
                 // Set the title and body text of the modal dynamically
                 const successModalElement = document.getElementById('successModal');
 
                 // Set the modal title and body content
-                successModalElement.querySelector('.modal-title').textContent = `success!`;
+                successModalElement.querySelector('.modal-title').textContent = `${title}`;
                 successModalElement.querySelector('.modal-body').textContent = `${userDto.name!"no name"} (${userDto.email!"no email"}) successfully registered`;
 
                 // Initialize and show the modal

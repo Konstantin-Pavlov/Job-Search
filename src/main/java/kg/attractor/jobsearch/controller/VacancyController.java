@@ -80,6 +80,8 @@ public class VacancyController {
             Authentication authentication,
             BindingResult bindingResult,
             Model model) {
+        List<CategoryDto> categories = categoriesService.getCategories();
+        model.addAttribute("categories", categories);
         if (bindingResult.hasErrors()) {
             log.error(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
             model.addAttribute("bindingResult", bindingResult);
@@ -93,7 +95,9 @@ public class VacancyController {
             vacancyDto.setUpdateTime(LocalDateTime.now());
             vacancyService.createVacancy(vacancyDto);
             model.addAttribute("successMessage", "vacancy added successfully");
-            return "redirect:/profile"; // Redirect to the profile
+            model.addAttribute("entityUpdated", true);
+//            return "redirect:/profile"; // Redirect to the profile
+            return "vacancies/create_vacancy";
         }
 
         return "redirect:/login"; // Redirect to login if not authenticated
@@ -123,7 +127,8 @@ public class VacancyController {
             BindingResult bindingResult,
             Authentication authentication,
             Model model) {
-
+        List<CategoryDto> categories = categoriesService.getCategories();
+        model.addAttribute("categories", categories);
         if (bindingResult.hasErrors()) {
             model.addAttribute("bindingResult", bindingResult);
             model.addAttribute("vacancyDto", vacancyDto);
@@ -134,8 +139,10 @@ public class VacancyController {
             vacancyDto.setAuthorId(userDto.getId());
             vacancyDto.setId(vacancyId);
             vacancyService.editVacancy(vacancyDto);
-            model.addAttribute("successMessage", "Profile updated successfully");
-            return "redirect:/profile"; // Redirect to the profile
+            model.addAttribute("successMessage", "vacancy edited successfully");
+            model.addAttribute("entityUpdated", true);
+//            return "redirect:/profile"; // Redirect to the profile
+            return "vacancies/edit_vacancy";
         }
         return "redirect:/auth/login"; // Redirect to login if not authenticated
     }
