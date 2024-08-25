@@ -1,5 +1,14 @@
 <#import "../layout.ftlh" as main>
+<#import "../modal.ftlh" as modalTemplates>
 <@main.layout>
+
+    <#assign title = successMessage!"Default Title">
+    <#assign name = entityName!"Default Name">
+    <#assign updated = hasUpdated!false>
+    <p>updated: <#if hasUpdated??>yes<#else>no</#if></p>
+
+    <!-- Include the modal template and pass variables -->
+    <@modalTemplates.modal modalTitle=title modalName=name />
 
     <div class="container mt-4">
         <h2>Edit Profile</h2>
@@ -97,13 +106,25 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const successToast = document.getElementById('successToast');
-            if (successToast) {
-                const toast = new bootstrap.Toast(successToast);
-                toast.show();
+            <#--const isOkay = ${updated?c};-->
+            if (${updated?c}) {
+                // Set the title and body text of the modal dynamically
+                const successModalElement = document.getElementById('successModal');
+
+                // Set the modal title and body content
+                successModalElement.querySelector('.modal-title').textContent = `${title}`;
+                successModalElement.querySelector('.modal-body').textContent = `${userDto.name!"no name"} (${userDto.email!"no email"}) successfully updated their profile`;
+
+                // Initialize and show the modal
+                const successModal = new bootstrap.Modal(successModalElement);
+                successModal.show();
+
+                // Auto-close the modal after 3 seconds (3000 milliseconds)
                 setTimeout(() => {
-                    window.location.href = '/auth/profile'; // Redirect to profile page
-                }, 3000); // Redirect after 3 seconds
+                    successModal.hide();
+                    // Redirect to the profile page after the modal is closed
+                    window.location.href = "/profile";
+                }, 3000);
             }
         });
     </script>

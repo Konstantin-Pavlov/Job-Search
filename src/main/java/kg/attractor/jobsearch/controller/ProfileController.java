@@ -91,9 +91,9 @@ public class ProfileController {
             BindingResult bindingResult,
             Authentication authentication,
             Model model) throws IOException {
+            model.addAttribute("userDto", userWithAvatarFileDto);
         if (bindingResult.hasErrors()) {
             model.addAttribute("bindingResult", bindingResult);
-            model.addAttribute("userDto", userWithAvatarFileDto);
             return "auth/profile-edit";
         }
         if (authentication != null && authentication.isAuthenticated()) {
@@ -102,7 +102,10 @@ public class ProfileController {
             userWithAvatarFileDto.setId(userDto.getId());
             userService.updateUser(userWithAvatarFileDto);
             model.addAttribute("successMessage", "Profile updated successfully");
-            return "redirect:/profile"; // Redirect to the profile
+            model.addAttribute("hasUpdated", true);
+            model.addAttribute("entityName", userDto.getName());
+//            return "redirect:/profile"; // Redirect to the profile
+            return "auth/profile-edit";
         }
         return "redirect:/auth/login"; // Redirect to login if not authenticated
     }
