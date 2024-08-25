@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -36,8 +35,6 @@ public class SecurityConfig {
         return new HttpSessionEventPublisher();
     }
 
-
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -55,19 +52,19 @@ public class SecurityConfig {
                         .permitAll())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/swagger-ui/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/").permitAll() // Allow access to the root URL
-                        .requestMatchers("/static/**").permitAll() // Allow access to static resources
-                        .requestMatchers("/avatars/**").permitAll()
-                        .requestMatchers("/username").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/vacancies").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                                .requestMatchers("/swagger-ui/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/").permitAll() // Allow access to the root URL
+                                .requestMatchers("/static/**").permitAll() // Allow access to static resources
+                                .requestMatchers("/avatars/**").permitAll()
+                                .requestMatchers("/username").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/vacancies").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/auth/register").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
 //                        .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/auth/profile").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/auth/profile").permitAll()
 //                        .requestMatchers(HttpMethod.GET, "/auth/profile").hasAuthority("USER")
-                        .requestMatchers("/error").permitAll() // Allow access to error page
-                        .anyRequest().permitAll()
+                                .requestMatchers("/error").permitAll() // Allow access to error page
+                                .anyRequest().permitAll()
                 );
         return http.build();
     }

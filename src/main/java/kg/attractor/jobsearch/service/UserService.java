@@ -22,6 +22,7 @@ public interface UserService {
     UserDto getUserById(Integer id) throws UserNotFoundException;
 
     void addUser(UserDto userDto);
+
     void addUserWithAvatar(UserWithAvatarFileDto userDtoWithAvatarUploading) throws UserNotFoundException, IOException;
 
     boolean deleteUser(Integer id);

@@ -132,8 +132,8 @@ public class ApiApplicantController {
         return ResponseEntity.ok(vacancies);
     }
 
-    // http://localhost:8089/vacancies/get-user-vacancies/2
-    @GetMapping("get-user-vacancies/{user_id}")
+    //  http://localhost:8089/api/applicant/get-user-vacancies/1
+    @GetMapping("get-vacancies-user-responded/{user_id}")
     public ResponseEntity<?> getVacanciesUserResponded(@PathVariable Integer user_id) {
         List<VacancyDto> vacancies = vacancyService.getVacanciesUserResponded(user_id);
         if (vacancies.isEmpty()) {
