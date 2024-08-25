@@ -16,6 +16,9 @@
                 crossorigin="anonymous"></script>
         <!-- Link to the external CSS file -->
         <link rel="stylesheet" type="text/css" href="/static/css/layout.css">
+        <!-- Link to the favicon -->
+        <link rel="icon" type="image/png" href="/static/images/favicon.png">
+
         <title>Document</title>
     </head>
 
