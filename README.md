@@ -1,8 +1,10 @@
 # Spring MVC Project
 
-This is a Spring MVC project job search application.   
-Currently has login, registration functionality, display of vacancies and resumes, profile display changes depending on the type of user (employer or applicant)  
-Under developing  
+This is a Spring MVC project for a job search application. Currently, it includes functionality for login and registration, as well as the display of job vacancies and resumes. The profile display changes depending on the type of user (employer or applicant).
+* If the user is an applicant, the profile shows their resumes. If the user is an employer, the profile displays job vacancies.
+* Users can also update or edit their resumes or vacancies, as well as modify their profiles.
+
+This application is currently under development.
 
 ## Technologies Used
 
