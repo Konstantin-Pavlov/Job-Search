@@ -135,11 +135,15 @@ public class UserServiceImpl implements UserService {
         }
 
         userRepository.save(user);
-        roleRepository.save(new Role(
-                null,
-                user.getId(),
-                userAuthorityMap.get("USER")
-        ));
+
+        // if user edits their profile, no need to add role
+        if (roleRepository.findRolesByUserId(user.getId()).isEmpty()) {
+            roleRepository.save(new Role(
+                    null,
+                    user.getId(),
+                    userAuthorityMap.get("USER")
+            ));
+        }
 
         if (user.getAccountType().equals("applicant")) {
             log.info("added applicant with email {}", user.getEmail());
