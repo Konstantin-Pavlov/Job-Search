@@ -19,7 +19,7 @@
         <!-- Link to the favicon -->
         <link rel="icon" type="image/png" href="/static/images/favicon.png">
 
-        <title>Document</title>
+        <title>Job Search Application</title>
     </head>
 
     <body>
