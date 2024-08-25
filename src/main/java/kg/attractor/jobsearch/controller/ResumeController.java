@@ -122,7 +122,8 @@ public class ResumeController {
             BindingResult bindingResult,
             Authentication authentication,
             Model model) {
-
+        List<CategoryDto> categories = categoriesService.getCategories();
+        model.addAttribute("categories", categories);
         if (bindingResult.hasErrors()) {
             model.addAttribute("bindingResult", bindingResult);
             model.addAttribute("resumeDto", resumeDto);
@@ -133,8 +134,10 @@ public class ResumeController {
             resumeDto.setApplicantId(userDto.getId());
             resumeDto.setId(resumeId);
             resumeService.editResume(resumeDto);
-            model.addAttribute("successMessage", "Profile updated successfully");
-            return "redirect:/profile"; // Redirect to the profile
+            model.addAttribute("successMessage", "Resume edited successfully");
+            model.addAttribute("entityUpdated", true);
+//            return "redirect:/profile"; // Redirect to the profile
+            return "resumes/edit_resume";
         }
         return "redirect:/auth/login"; // Redirect to login if not authenticated
     }
