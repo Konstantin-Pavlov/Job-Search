@@ -27,7 +27,6 @@ public class UserDto {
     @NotBlank
     @Pattern(regexp = "^(?=.*[a-zA-Z])[a-zA-Z]+(?: [a-zA-Z]+)?$", message = "should only contain letters")
     String name;
-    @Positive
     @Min(value = 18, message = "Age must be at least {value}")
     @Max(value = 70, message = "Age must be at most {value}")
     Integer age;

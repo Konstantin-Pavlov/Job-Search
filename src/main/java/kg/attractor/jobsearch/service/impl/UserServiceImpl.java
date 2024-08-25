@@ -129,8 +129,10 @@ public class UserServiceImpl implements UserService {
         }
         User user = CustomUserMapper.toUser(userDto);
 //        userDao.addUser(user);
-
-        user.setPassword(encoder.encode(user.getPassword()));
+        // if user updated their profile we don't need to encode already encoded password
+        if (user.getPassword().length() < 20) {
+            user.setPassword(encoder.encode(user.getPassword()));
+        }
 
         userRepository.save(user);
         roleRepository.save(new Role(
@@ -244,7 +246,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUser(UserWithAvatarFileDto userWithAvatarFileDto) throws IOException {
         UserDto existingUser = getUserByEmail(userWithAvatarFileDto.getEmail());
-
+        userWithAvatarFileDto.setPassword(existingUser.getPassword());
         if (userWithAvatarFileDto.getAvatar() == null || userWithAvatarFileDto.getAvatar().isEmpty()) {
             log.info(ConsoleColors.YELLOW +
                             "user with email {} didn't choose new avatar, so previous avatar is used" +

@@ -21,6 +21,30 @@
             </div>
         </#if>
 
+        <!-- Display the list of errors in a styled alert box with a title -->
+        <#if bindingResult?has_content>
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Please correct the following errors:</h4>
+                <hr>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>Field Name</th>
+                        <th>Error Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <#list bindingResult.fieldErrors as fieldError>
+                        <tr>
+                            <td><strong>${fieldError.field}</strong></td>
+                            <td>${fieldError.defaultMessage}</td>
+                        </tr>
+                    </#list>
+                    </tbody>
+                </table>
+            </div>
+        </#if>
+
         <form action="/profile/edit" method="post" enctype="multipart/form-data">
             <#if _csrf??>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
@@ -28,19 +52,31 @@
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
                 <input type="text" class="form-control" id="name" name="name" value="${user.name}" required>
+                <#if bindingResult?has_content && bindingResult.hasFieldErrors("name")>
+                    <span class="error-message">${bindingResult.getFieldError("name").defaultMessage}</span>
+                </#if>
             </div>
             <div class="mb-3">
                 <label for="age" class="form-label">Age</label>
                 <input type="number" class="form-control" id="age" name="age" value="${user.age}" required>
+                <#if bindingResult?has_content && bindingResult.hasFieldErrors("age")>
+                    <span class="error-message">${bindingResult.getFieldError("age").defaultMessage}</span>
+                </#if>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control" id="email" name="email" value="${user.email}" required>
+                <#if bindingResult?has_content && bindingResult.hasFieldErrors("email")>
+                    <span class="error-message">${bindingResult.getFieldError("email").defaultMessage}</span>
+                </#if>
             </div>
             <div class="mb-3">
                 <label for="phoneNumber" class="form-label">Phone Number</label>
-                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" value="${user.phoneNumber}"
-                       required>
+                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber"
+                       value="${user.phoneNumber}" required>
+                <#if bindingResult?has_content && bindingResult.hasFieldErrors("phoneNumber")>
+                    <span class="error-message">${bindingResult.getFieldError("phoneNumber").defaultMessage}</span>
+                </#if>
             </div>
 
             <div class="mb-3">

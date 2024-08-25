@@ -99,11 +99,10 @@ public class ProfileController {
         if (authentication != null && authentication.isAuthenticated()) {
             UserDto userDto = userService.getUserByEmail(authentication.getName());
             userWithAvatarFileDto.setEnabled(userDto.isEnabled());
-            userWithAvatarFileDto.setPassword(userDto.getPassword());
             userWithAvatarFileDto.setId(userDto.getId());
             userService.updateUser(userWithAvatarFileDto);
             model.addAttribute("successMessage", "Profile updated successfully");
-            return "redirect:/auth/profile"; // Redirect to the profile
+            return "redirect:/profile"; // Redirect to the profile
         }
         return "redirect:/auth/login"; // Redirect to login if not authenticated
     }
