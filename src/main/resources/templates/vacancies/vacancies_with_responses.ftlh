@@ -1,16 +1,17 @@
 <#import "../layout.ftlh" as main>
 <@main.layout>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/static/css/vacancies_with_responses.css">
     <div class="container mt-4">
         <h1 class="text-center mb-4">List of Vacancies with Responded Resumes</h1>
 
         <#if vacanciesWithResumesEntries?size == 0>
-            <p class="text-center">No vacancies have responded resumes.</p>
+            <p class="text-center">No vacancies added yet.</p>
         <#else>
             <#list vacanciesWithResumesEntries as entry>
                 <div class="card mb-4 vacancy-card">
                     <div class="card-header">
-                        <h2 class="card-title">${entry.key.name}</h2>
+                        <h2 class="card-title">Vacancy ${entry.key.name}</h2>
                     </div>
                     <div class="card-body">
                         <p class="card-text"><strong>Description:</strong> ${entry.key.description}</p>
@@ -26,7 +27,7 @@
                                     <div class="card resume-card">
                                         <div class="card-header" id="heading${resume.id}">
                                             <h5 class="mb-0">
-                                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${resume.id}" aria-expanded="true" aria-controls="collapse${resume.id}">
+                                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse${resume.id}" aria-expanded="false" aria-controls="collapse${resume.id}">
                                                     ${resume.name}
                                                 </button>
                                             </h5>
@@ -57,5 +58,7 @@
             <a href="/" class="btn btn-secondary">Home</a>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </@main.layout>
-

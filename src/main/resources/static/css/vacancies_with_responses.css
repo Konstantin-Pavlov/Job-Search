@@ -1,0 +1,43 @@
+.vacancy-card {
+    transition: transform 0.2s ease-in-out;
+}
+
+.vacancy-card:hover {
+    transform: scale(1.05);
+    z-index: 1;
+}
+
+.resume-card {
+    margin-bottom: 1rem;
+}
+
+.btn-link {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.btn-link:hover {
+    text-decoration: underline;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    margin-bottom: 0;
+}
+
+.card-body p {
+    margin: 0.5rem 0;
+}
+
+.card-footer {
+    background-color: #f8f9fa;
+    padding-top: 1rem;
+}
+
+.accordion .card-header {
+    background-color: #e9ecef;
+}
+
+.accordion .card-body {
+    background-color: #ffffff;
+}
