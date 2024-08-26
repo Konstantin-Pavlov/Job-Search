@@ -61,9 +61,18 @@
                         </form>
                     </#if>
                 </div>
-                <div class="responses">
-                    <button class="create-btn">отклики: 42</button>
-                </div>
+
+
+                <#if userDto.accountType == "employer">
+                    <div class="responses">
+                        <button class="create-btn">отклики на ваши вакансии: ${resumesRespondedToEmployerVacancies?size}</button>
+                    </div>
+                <#else>
+                    <div class="responses">
+                        <button class="create-btn">вы откликнулись на вакансии: ${vacanciesUserResponded?size}</button>
+                    </div>
+                </#if>
+
             </div>
         </div>
 
@@ -87,7 +96,8 @@
                                 <p class="vacancy-or-resume-date">Дата
                                     обновления: ${vacancy.getFormattedUpdatedDate()}</p>
                                 <div class="vacancy-or-resume-actions">
-                                    <form action="/vacancies/update/${vacancy.id}" method="post" style="display:inline;">
+                                    <form action="/vacancies/update/${vacancy.id}" method="post"
+                                          style="display:inline;">
                                         <button type="submit" class="update-vacancy-or-resume-btn">Обновить</button>
                                     </form>
                                     <button class="edit-vacancy-or-resume-btn"

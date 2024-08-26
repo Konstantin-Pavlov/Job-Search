@@ -67,11 +67,19 @@ public class ProfileController {
         log.info("Fetching profile for user: {}", principal.getName());
 
         UserDto userDto = userService.getUserByEmail(principal.getName());
+
+
         List<ResumeDto> resumes = resumeService.getResumeByUserId(userDto.getId());
+        List<ResumeDto> resumesRespondedToEmployerVacancies = vacancyService.findResumesRespondedToEmployerVacancies(userDto.getId());
+
+        List<VacancyDto> vacanciesUserResponded = vacancyService.getVacanciesUserResponded(userDto.getId());
         List<VacancyDto> vacancies = vacancyService.getVacancyByAuthorId(userDto.getId());
-        model.addAttribute("userVacancies", vacancies);
-        model.addAttribute("userResumes", resumes);
+
         model.addAttribute("userDto", userDto);
+        model.addAttribute("resumesRespondedToEmployerVacancies", resumesRespondedToEmployerVacancies);
+        model.addAttribute("userResumes", resumes);
+        model.addAttribute("userVacancies", vacancies);
+        model.addAttribute("vacanciesUserResponded", vacanciesUserResponded);
         return "auth/profile";
     }
 

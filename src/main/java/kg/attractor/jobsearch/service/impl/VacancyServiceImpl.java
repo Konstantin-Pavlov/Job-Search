@@ -1,14 +1,17 @@
 package kg.attractor.jobsearch.service.impl;
 
 import kg.attractor.jobsearch.dao.VacancyDao;
+import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.VacancyDto;
 import kg.attractor.jobsearch.exception.CategoryNotFoundException;
 import kg.attractor.jobsearch.exception.VacancyNotFoundException;
 import kg.attractor.jobsearch.mapper.CustomVacancyMapper;
+import kg.attractor.jobsearch.mapper.ResumeMapper;
 import kg.attractor.jobsearch.mapper.VacancyMapper;
 import kg.attractor.jobsearch.model.Category;
 import kg.attractor.jobsearch.model.Vacancy;
 import kg.attractor.jobsearch.repository.CategoryRepository;
+import kg.attractor.jobsearch.repository.ResumeRepository;
 import kg.attractor.jobsearch.repository.VacancyRepository;
 import kg.attractor.jobsearch.service.VacancyService;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +27,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class VacancyServiceImpl implements VacancyService {
     private final VacancyDao vacancyDao;
+
     private final VacancyRepository vacancyRepository;
     private final CategoryRepository categoryRepository;
+    private final ResumeRepository resumeRepository;
+
     private final VacancyMapper vacancyMapper = VacancyMapper.INSTANCE;
+    private final ResumeMapper resumeMapper = ResumeMapper.INSTANCE;
 
     @Override
     public List<VacancyDto> getVacancies() {
@@ -155,6 +162,14 @@ public class VacancyServiceImpl implements VacancyService {
         Vacancy vacancy = vacancyMapper.toVacancy(existingVacancy);
         vacancyRepository.save(vacancy);
         log.info("updated vacancy {}", vacancy.getName());
+    }
+
+    @Override
+    public List<ResumeDto> findResumesRespondedToEmployerVacancies(Integer id) {
+        return resumeRepository.findResumesRespondedToEmployerVacancies(id)
+                .stream()
+                .map(resumeMapper::toResumeDto)
+                .toList();
     }
 
 }
