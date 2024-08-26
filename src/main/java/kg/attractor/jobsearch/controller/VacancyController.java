@@ -2,7 +2,6 @@ package kg.attractor.jobsearch.controller;
 
 import jakarta.validation.Valid;
 import kg.attractor.jobsearch.dto.CategoryDto;
-import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.dto.VacancyDto;
 import kg.attractor.jobsearch.service.CategoriesService;
@@ -25,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+
 @Slf4j
 @Controller
 @RequestMapping("vacancies")
@@ -42,6 +42,14 @@ public class VacancyController {
                 vacancyService.getVacancies(),
                 "vacancies");
         return "vacancies/vacancies";
+    }
+
+    @GetMapping("vacancies-user-responded")
+    public String getVacanciesUserResponded(Model model, Authentication authentication) {
+        UserDto userDto = userService.getUserByEmail(authentication.getName());
+        List<VacancyDto> vacanciesUserResponded = vacancyService.getVacanciesUserResponded(userDto.getId());
+        model.addAttribute("vacanciesUserResponded", vacanciesUserResponded);
+        return "vacancies/vacancies_user_responded";
     }
 
     @GetMapping("{vacancyId}")

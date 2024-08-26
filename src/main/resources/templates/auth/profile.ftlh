@@ -68,9 +68,14 @@
                         <button class="create-btn">отклики на ваши вакансии: ${resumesRespondedToEmployerVacancies?size}</button>
                     </div>
                 <#else>
-                    <div class="responses">
-                        <button class="create-btn">вы откликнулись на вакансии: ${vacanciesUserResponded?size}</button>
-                    </div>
+<#--                    <div class="responses">-->
+<#--                        <button class="create-btn">вы откликнулись на вакансии: ${vacanciesUserResponded?size}</button>-->
+<#--                    </div>-->
+                    <form action="/vacancies/vacancies-user-responded" method="get">
+                        <button type="submit" class="create-btn" id="create-btn">
+                            вы откликнулись на вакансии: ${vacanciesUserResponded?size}
+                        </button>
+                    </form>
                 </#if>
 
             </div>
