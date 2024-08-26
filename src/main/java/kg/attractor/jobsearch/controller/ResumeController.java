@@ -2,9 +2,12 @@ package kg.attractor.jobsearch.controller;
 
 import jakarta.validation.Valid;
 import kg.attractor.jobsearch.dto.CategoryDto;
+import kg.attractor.jobsearch.dto.RespondedApplicantDto;
 import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.UserDto;
+import kg.attractor.jobsearch.dto.VacancyDto;
 import kg.attractor.jobsearch.service.CategoriesService;
+import kg.attractor.jobsearch.service.RespondedApplicantService;
 import kg.attractor.jobsearch.service.ResumeService;
 import kg.attractor.jobsearch.service.UserService;
 import kg.attractor.jobsearch.service.VacancyService;
@@ -25,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Slf4j
@@ -36,6 +40,7 @@ public class ResumeController {
     private final UserService userService;
     private final CategoriesService categoriesService;
     private final VacancyService vacancyService;
+    private final RespondedApplicantService respondedApplicantService;
 
     @GetMapping()
     public String getResumes(Model model, Authentication authentication) {
@@ -50,9 +55,17 @@ public class ResumeController {
     @GetMapping("resumes-responded-to-employer-vacancies")
     public String getResumesRespondedToEmployerVacancies(Model model, Authentication authentication) {
         UserDto userDto = userService.getUserByEmail(authentication.getName());
+        List<ResumeDto> resumes = resumeService.getResumes();
+        List<VacancyDto> vacancies = vacancyService.getVacancies();
+        List<VacancyDto> vacanciesByAuthorId = vacancyService.getVacancyByAuthorId(userDto.getId());
         List<ResumeDto> resumesRespondedToEmployerVacancies = resumeService.getResumesRespondedToEmployerVacancies(userDto.getId());
+        List<RespondedApplicantDto> respondedApplicants = respondedApplicantService.getRespondedApplicants();
         //todo - implement map(?) -> vacancy : responded resumes
-//        vacancyService.getVacancyByRespondedResumeId();
+        Map<VacancyDto, List<ResumeDto>> respondedToVacanciesResumesMap = MvcControllersUtil.getRespondedToVacanciesResumesMap(
+                vacanciesByAuthorId,
+                resumesRespondedToEmployerVacancies,
+                respondedApplicants
+        );
         model.addAttribute("resumesRespondedToEmployerVacancies", resumesRespondedToEmployerVacancies);
         return "resumes/resumes_responded_to_employer_vacancies";
     }

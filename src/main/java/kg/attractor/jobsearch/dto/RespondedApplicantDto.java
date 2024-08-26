@@ -13,7 +13,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class RespondedApplicantsDto {
+public class RespondedApplicantDto {
     @JsonProperty("resume_id")
     Integer resumeId;
     @JsonProperty("vacancy_id")

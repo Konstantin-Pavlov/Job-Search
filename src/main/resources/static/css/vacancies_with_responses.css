@@ -41,3 +41,68 @@
 .accordion .card-body {
     background-color: #ffffff;
 }
+
+.spoiler-button {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+.spoiler-button:hover {
+    background-color: #0056b3;
+}
+.spoiler-content {
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+}
+.resume-button {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background-color: #6c757d;
+    color: white;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+.resume-button:hover {
+    background-color: #5a6268;
+}
+.resume-content {
+    border: 1px solid #6c757d;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 5px;
+}
+
+.home-btn {
+    text-decoration: none;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    background-color: #7bc323;
+    border-color: #b0ea69;
+    color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 1.5em;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+.home-btn:hover {
+    background-color: #1ebd2b;
+    border-color: #1ebd2b;
+}

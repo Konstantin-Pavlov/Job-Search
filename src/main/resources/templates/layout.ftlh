@@ -24,7 +24,7 @@
 
     <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-2">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-2 fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">Job Search</a>
 <#--            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"-->
@@ -90,7 +90,7 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container  mt-5 pt-5">
 
         <#nested spring>
 

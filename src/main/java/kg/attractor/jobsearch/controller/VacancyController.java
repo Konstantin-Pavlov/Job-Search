@@ -2,11 +2,16 @@ package kg.attractor.jobsearch.controller;
 
 import jakarta.validation.Valid;
 import kg.attractor.jobsearch.dto.CategoryDto;
+import kg.attractor.jobsearch.dto.RespondedApplicantDto;
+import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.dto.VacancyDto;
 import kg.attractor.jobsearch.service.CategoriesService;
+import kg.attractor.jobsearch.service.RespondedApplicantService;
+import kg.attractor.jobsearch.service.ResumeService;
 import kg.attractor.jobsearch.service.UserService;
 import kg.attractor.jobsearch.service.VacancyService;
+import kg.attractor.jobsearch.util.ConsoleColors;
 import kg.attractor.jobsearch.util.MvcControllersUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Slf4j
@@ -30,9 +36,11 @@ import java.util.Objects;
 @RequestMapping("vacancies")
 @RequiredArgsConstructor
 public class VacancyController {
-    private final VacancyService vacancyService;
+    private final ResumeService resumeService;
     private final UserService userService;
     private final CategoriesService categoriesService;
+    private final VacancyService vacancyService;
+    private final RespondedApplicantService respondedApplicantService;
 
     @GetMapping()
     public String getVacancies(Model model, Authentication authentication) {
@@ -50,6 +58,28 @@ public class VacancyController {
         List<VacancyDto> vacanciesUserResponded = vacancyService.getVacanciesUserResponded(userDto.getId());
         model.addAttribute("vacanciesUserResponded", vacanciesUserResponded);
         return "vacancies/vacancies_user_responded";
+    }
+
+    @GetMapping("vacancies-with-responses")
+    public String getVacanciesWithResponses(Model model) {
+        List<ResumeDto> resumes = resumeService.getResumes();
+        List<VacancyDto> vacancies = vacancyService.getVacancies();
+        List<RespondedApplicantDto> respondedApplicants = respondedApplicantService.getRespondedApplicants();
+
+        Map<VacancyDto, List<ResumeDto>> respondedToVacanciesResumesMap = MvcControllersUtil.getRespondedToVacanciesResumesMap(
+                vacancies,
+                resumes,
+                respondedApplicants
+        );
+
+        // Debugging output
+        respondedToVacanciesResumesMap.forEach((vacancy, resumeList) -> {
+            log.info(ConsoleColors.BLUE_UNDERLINED + "Vacancy: {}" + ConsoleColors.RESET, vacancy);
+            resumeList.forEach(resume -> log.info("\t\t" + ConsoleColors.ANSI_PURPLE + "Resume: {}" + ConsoleColors.RESET, resume));
+        });
+
+        model.addAttribute("vacanciesWithResumesEntries", respondedToVacanciesResumesMap.entrySet());
+        return "vacancies/vacancies_with_responses";
     }
 
     @GetMapping("{vacancyId}")

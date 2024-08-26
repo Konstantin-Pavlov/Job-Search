@@ -20,7 +20,6 @@ import java.util.Map;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-
 public class ErrorServiceImpl implements ErrorService {
 
     @Override

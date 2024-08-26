@@ -13,6 +13,7 @@
             <div class="welcome-links">
                 <a href="/vacancies" class="btn btn-primary">View Vacancies</a>
                 <a href="/resumes" class="btn btn-primary">View Resumes</a>
+                <a href="/vacancies/vacancies-with-responses" class="btn btn-primary">View Vacancies with responses</a>
             </div>
         </div>
     </div>
