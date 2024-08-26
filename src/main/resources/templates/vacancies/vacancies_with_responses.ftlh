@@ -19,9 +19,7 @@
                     </div>
                     <div class="card-footer">
                         <h3>Responded Resumes</h3>
-                        <#if vacanciesWithResumes[vacancy]?size == 0>
-                            <p>No resumes have responded to this vacancy.</p>
-                        <#else>
+                        <#if (vacanciesWithResumes[vacancy]??) && (vacanciesWithResumes[vacancy]?size > 0)>
                             <ul class="list-group">
                                 <#list vacanciesWithResumes[vacancy] as resume>
                                     <li class="list-group-item">
@@ -34,6 +32,8 @@
                                     </li>
                                 </#list>
                             </ul>
+                        <#else>
+                            <p>No resumes have responded to this vacancy.</p>
                         </#if>
                     </div>
                 </div>
