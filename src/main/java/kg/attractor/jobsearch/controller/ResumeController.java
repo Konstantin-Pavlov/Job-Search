@@ -7,6 +7,8 @@ import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.service.CategoriesService;
 import kg.attractor.jobsearch.service.ResumeService;
 import kg.attractor.jobsearch.service.UserService;
+import kg.attractor.jobsearch.service.VacancyService;
+import kg.attractor.jobsearch.service.impl.VacancyServiceImpl;
 import kg.attractor.jobsearch.util.MvcControllersUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +35,7 @@ public class ResumeController {
     private final ResumeService resumeService;
     private final UserService userService;
     private final CategoriesService categoriesService;
+    private final VacancyService vacancyService;
 
     @GetMapping()
     public String getResumes(Model model, Authentication authentication) {
@@ -42,6 +45,16 @@ public class ResumeController {
                 resumeService.getResumes(),
                 "resumes");
         return "resumes/resumes";
+    }
+
+    @GetMapping("resumes-responded-to-employer-vacancies")
+    public String getResumesRespondedToEmployerVacancies(Model model, Authentication authentication) {
+        UserDto userDto = userService.getUserByEmail(authentication.getName());
+        List<ResumeDto> resumesRespondedToEmployerVacancies = resumeService.getResumesRespondedToEmployerVacancies(userDto.getId());
+        //todo - implement map(?) -> vacancy : responded resumes
+//        vacancyService.getVacancyByRespondedResumeId();
+        model.addAttribute("resumesRespondedToEmployerVacancies", resumesRespondedToEmployerVacancies);
+        return "resumes/resumes_responded_to_employer_vacancies";
     }
 
     @GetMapping("{resumeId}")

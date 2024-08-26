@@ -21,8 +21,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ResumeServiceImpl implements ResumeService {
     private final ResumeDao resumeDao;
-    private final ResumeMapper resumeMapper = ResumeMapper.INSTANCE;
+
     private final ResumeRepository resumeRepository;
+
+    private final ResumeMapper resumeMapper = ResumeMapper.INSTANCE;
 
     @Override
     public List<ResumeDto> getResumes() {
@@ -98,6 +100,14 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     public List<ResumeDto> getResumeByCategory(String category) {
         return resumeDao.getResumeByCategory(category);
+    }
+
+    @Override
+    public List<ResumeDto> getResumesRespondedToEmployerVacancies(Integer userId) {
+        return resumeRepository.findResumesRespondedToEmployerVacancies(userId)
+                .stream()
+                .map(resumeMapper::toResumeDto)
+                .toList();
     }
 
     @Override

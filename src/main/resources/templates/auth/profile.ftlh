@@ -62,15 +62,18 @@
                     </#if>
                 </div>
 
-
                 <#if userDto.accountType == "employer">
-                    <div class="responses">
-                        <button class="create-btn">отклики на ваши вакансии: ${resumesRespondedToEmployerVacancies?size}</button>
-                    </div>
-                <#else>
 <#--                    <div class="responses">-->
-<#--                        <button class="create-btn">вы откликнулись на вакансии: ${vacanciesUserResponded?size}</button>-->
+<#--                        <button class="create-btn">отклики на ваши вакансии: ${resumesRespondedToEmployerVacancies?size}</button>-->
 <#--                    </div>-->
+                    <form action="/resumes/resumes-responded-to-employer-vacancies" method="get">
+                        <button type="submit" class="create-btn" id="create-btn">
+                            отклики на ваши вакансии: ${resumesRespondedToEmployerVacancies?size}
+                        </button>
+                    </form>
+
+                <#else>
+
                     <form action="/vacancies/vacancies-user-responded" method="get">
                         <button type="submit" class="create-btn" id="create-btn">
                             вы откликнулись на вакансии: ${vacanciesUserResponded?size}

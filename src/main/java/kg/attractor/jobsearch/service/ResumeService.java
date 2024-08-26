@@ -15,6 +15,8 @@ public interface ResumeService {
 
     List<ResumeDto> getResumeByCategory(String category);
 
+    List<ResumeDto> getResumesRespondedToEmployerVacancies(Integer userId);
+
     void addResume(ResumeDto resumeDto);
 
     void editResume(Integer id, ResumeDto resumeDto);

@@ -1,5 +1,4 @@
 <#import "../layout.ftlh" as main>
-<#--<@main.layout isAuthenticated=isAuthenticated username=username>-->
 <@main.layout>
     <div class="container mt-4">
         <#if vacanciesUserResponded?size == 0>

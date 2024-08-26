@@ -25,6 +25,4 @@ public interface VacancyService {
     List<VacancyDto> getVacancyByAuthorId(Integer id);
 
     void updateVacancy(Integer vacancyId);
-
-    List<ResumeDto> findResumesRespondedToEmployerVacancies(Integer id);
 }

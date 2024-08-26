@@ -5,7 +5,6 @@ import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.dto.UserWithAvatarFileDto;
 import kg.attractor.jobsearch.dto.VacancyDto;
-import kg.attractor.jobsearch.exception.UserNotFoundException;
 import kg.attractor.jobsearch.service.ResumeService;
 import kg.attractor.jobsearch.service.UserService;
 import kg.attractor.jobsearch.service.VacancyService;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -70,7 +68,7 @@ public class ProfileController {
 
 
         List<ResumeDto> resumes = resumeService.getResumeByUserId(userDto.getId());
-        List<ResumeDto> resumesRespondedToEmployerVacancies = vacancyService.findResumesRespondedToEmployerVacancies(userDto.getId());
+        List<ResumeDto> resumesRespondedToEmployerVacancies = resumeService.getResumesRespondedToEmployerVacancies(userDto.getId());
 
         List<VacancyDto> vacanciesUserResponded = vacancyService.getVacanciesUserResponded(userDto.getId());
         List<VacancyDto> vacancies = vacancyService.getVacancyByAuthorId(userDto.getId());
