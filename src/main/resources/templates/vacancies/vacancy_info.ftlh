@@ -1,5 +1,4 @@
 <#import "../layout.ftlh" as main>
-<#--<@main.layout isAuthenticated=isAuthenticated username=username>-->
 <@main.layout>
     <body>
     <div class="container">
@@ -7,22 +6,23 @@
             <div class="card-body">
                 <h1 class="card-title">${vacancy.name}</h1>
 
-                <p class="card-text"><strong>vacancy ID:</strong> ${vacancy.id}</p>
-                <p class="card-text"><strong>Description:</strong> ${vacancy.description}</p>
-                <p class="card-text"><strong>Category:</strong> ${category.name}</p>
-                <p class="card-text"><strong>Salary:</strong> ${vacancy.salary}</p>
+                <p class="card-text"><strong>Описание:</strong> ${vacancy.description}</p>
+                <p class="card-text"><strong>Категория:</strong> ${category.name}</p>
+                <p class="card-text"><strong>Зарплата:</strong> ${vacancy.salary}</p>
                 <p class="card-text">
-                    <strong>Work Experience:</strong> From ${vacancy.expFrom} to ${vacancy.expTo} years</p>
-                <p class="card-text"><strong>Active:</strong> ${vacancy.isActive?string('Yes', 'No')}</p>
-                <p class="card-text"><strong>Author:</strong> ${user.name}</p>
-                <p class="card-text"><strong>Created Date:</strong> ${vacancy.getFormattedCreatedDate()}</p>
-                <p class="card-text"><strong>Updated Time:</strong> ${vacancy.getFormattedUpdatedDate()}</p>
+                    <strong>Опыт работы:</strong> От ${vacancy.expFrom} до ${vacancy.expTo} лет</p>
+                <p class="card-text"><strong>Активно:</strong> ${vacancy.isActive?string('Да', 'Нет')}</p>
+                <p class="card-text">
+                    <strong>Компания:</strong>
+                    <a href="/company/${user.email}">${user.email}</a>
+                </p>
+                <p class="card-text"><strong>Дата создания:</strong> ${vacancy.getFormattedCreatedDate()}</p>
+                <p class="card-text"><strong>Время обновления:</strong> ${vacancy.getFormattedUpdatedDate()}</p>
             </div>
         </div>
-        <!-- Centering the Home button -->
         <div class="row">
-            <div class="col text-center"> <!-- This div centers the button -->
-                <a href="/" class="btn btn-primary">Home</a>
+            <div class="col text-center">
+                <a href="/" class="btn btn-primary">Домой</a>
             </div>
         </div>
     </div>

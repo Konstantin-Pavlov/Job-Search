@@ -1,0 +1,51 @@
+.company-info {
+    margin-bottom: 20px;
+}
+
+.vacancies-list {
+    margin-top: 20px;
+}
+
+.vacancy-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    background-color: #fff; /* Белый цвет фона */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Плавный переход для анимации */
+}
+
+.vacancy-card h4 {
+    margin-top: 0;
+}
+
+.vacancy-actions {
+    margin-top: 10px;
+}
+
+/* Анимация при наведении */
+.vacancy-card:hover {
+    transform: translateY(-10px); /* Поднимаем карточку вверх */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Добавляем тень */
+}
+
+/* Стили для кнопок внизу страницы */
+.bottom-buttons {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.bottom-buttons .btn {
+    margin: 5px;
+    padding: 10px 20px; /* Увеличиваем размер кнопок */
+    font-size: 18px; /* Увеличиваем размер текста */
+    background-color: #28a745; /* Зеленый цвет фона */
+    color: #fff; /* Белый цвет текста */
+    border: none; /* Убираем границу */
+    border-radius: 5px; /* Скругленные углы */
+    transition: background-color 0.3s ease; /* Плавный переход для изменения цвета */
+}
+
+.bottom-buttons .btn:hover {
+    background-color: #218838; /* Темно-зеленый цвет при наведении */
+}
