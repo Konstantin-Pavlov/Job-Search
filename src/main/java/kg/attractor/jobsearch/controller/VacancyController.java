@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
@@ -80,23 +81,6 @@ public class VacancyController {
 
         model.addAttribute("vacanciesWithResumesEntries", respondedToVacanciesResumesMap.entrySet());
         return "vacancies/vacancies_with_responses";
-    }
-
-    @GetMapping("{vacancyId}")
-    public String getInfo(@PathVariable Integer vacancyId, Model model, Authentication authentication) {
-        VacancyDto vacancy = vacancyService.getVacancyById(vacancyId);
-        UserDto userDto = userService.getUserById(vacancy.getAuthorId());
-        CategoryDto categoryDto = categoriesService.getCategoryById(vacancy.getCategoryId());
-
-        model.addAttribute("user", userDto);
-        model.addAttribute("category", categoryDto);
-        MvcControllersUtil.authCheckAndAddAttributes(
-                model,
-                authentication,
-                vacancy,
-                "vacancy"
-        );
-        return "vacancies/vacancy_info";
     }
 
     @GetMapping("create")
@@ -199,6 +183,54 @@ public class VacancyController {
             redirectAttributes.addFlashAttribute("ifEntityUpdated", true);
             redirectAttributes.addFlashAttribute("entityTitle", "vacancy");
             redirectAttributes.addFlashAttribute("entityName", vacancyDto.getName());
+            return "redirect:/profile";
+        }
+        return "redirect:/auth/login";
+    }
+
+
+    @GetMapping("{vacancyId}")
+    public String getInfo(@PathVariable Integer vacancyId, Model model, Authentication authentication) {
+        VacancyDto vacancy = vacancyService.getVacancyById(vacancyId);
+        UserDto userDto = userService.getUserById(vacancy.getAuthorId());
+        CategoryDto categoryDto = categoriesService.getCategoryById(vacancy.getCategoryId());
+
+        model.addAttribute("user", userDto);
+        model.addAttribute("category", categoryDto);
+        MvcControllersUtil.authCheckAndAddAttributes(
+                model,
+                authentication,
+                vacancy,
+                "vacancy"
+        );
+
+        if (authentication != null && authentication.isAuthenticated()) {
+            UserDto currentUser = userService.getUserByEmail(authentication.getName());
+            List<ResumeDto> userResumes = resumeService.getResumeByUserId(currentUser.getId());
+            boolean ifUserRespondedToVacancy =
+                    respondedApplicantService.checkIfUserRespondedToVacancy(userResumes, vacancyId);
+            model.addAttribute("userRespondedToVacancy", ifUserRespondedToVacancy);
+            model.addAttribute("userResumes", userResumes);
+            model.addAttribute("user", currentUser);
+        }
+
+        return "vacancies/vacancy_info";
+    }
+
+    @PostMapping("apply/{vacancyId}")
+    public String applyForVacancy(
+            @PathVariable Integer vacancyId,
+            @RequestParam Integer resumeId,
+            Authentication authentication,
+            Model model,
+            RedirectAttributes redirectAttributes) {
+
+        if (authentication != null && authentication.isAuthenticated()) {
+            UserDto userDto = userService.getUserByEmail(authentication.getName());
+            ResumeDto resumeDto = resumeService.getResumeById(resumeId);
+            userService.applyForVacancy(vacancyId, resumeDto);
+
+            redirectAttributes.addFlashAttribute("successMessage", "Successfully applied for the vacancy.");
             return "redirect:/profile";
         }
         return "redirect:/auth/login";

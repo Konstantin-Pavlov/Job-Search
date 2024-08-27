@@ -1,6 +1,7 @@
 package kg.attractor.jobsearch.service.impl;
 
 import kg.attractor.jobsearch.dao.VacancyDao;
+import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.VacancyDto;
 import kg.attractor.jobsearch.exception.CategoryNotFoundException;
 import kg.attractor.jobsearch.exception.VacancyNotFoundException;
@@ -9,6 +10,7 @@ import kg.attractor.jobsearch.mapper.VacancyMapper;
 import kg.attractor.jobsearch.model.Category;
 import kg.attractor.jobsearch.model.Vacancy;
 import kg.attractor.jobsearch.repository.CategoryRepository;
+import kg.attractor.jobsearch.repository.RespondedApplicantRepository;
 import kg.attractor.jobsearch.repository.VacancyRepository;
 import kg.attractor.jobsearch.service.VacancyService;
 import lombok.RequiredArgsConstructor;

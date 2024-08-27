@@ -1,6 +1,7 @@
 package kg.attractor.jobsearch.service.impl;
 
 import kg.attractor.jobsearch.dto.RespondedApplicantDto;
+import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.mapper.RespondedApplicantMapper;
 import kg.attractor.jobsearch.repository.RespondedApplicantRepository;
 import kg.attractor.jobsearch.service.RespondedApplicantService;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -23,5 +25,15 @@ public class RespondedApplicantServiceImpl implements RespondedApplicantService 
                 .stream()
                 .map(respondedApplicantMapper::toRespondedApplicantDto)
                 .toList();
+    }
+
+    @Override
+    public boolean checkIfUserRespondedToVacancy(List<ResumeDto> userResumes, Integer vacancyId) {
+        return userResumes.stream()
+                .map(resumeDto ->
+                        respondedApplicantRepository.findByResumeIdAndVacancyId(
+                                resumeDto.getId(),
+                                vacancyId))
+                .anyMatch(Objects::isNull);
     }
 }

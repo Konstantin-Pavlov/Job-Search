@@ -9,10 +9,12 @@ import kg.attractor.jobsearch.dto.UserWithAvatarFileDto;
 import kg.attractor.jobsearch.exception.UserNotFoundException;
 import kg.attractor.jobsearch.mapper.CustomUserMapper;
 import kg.attractor.jobsearch.mapper.UserMapper;
+import kg.attractor.jobsearch.model.RespondedApplicant;
 import kg.attractor.jobsearch.model.Resume;
 import kg.attractor.jobsearch.model.Role;
 import kg.attractor.jobsearch.model.User;
 import kg.attractor.jobsearch.model.Vacancy;
+import kg.attractor.jobsearch.repository.RespondedApplicantRepository;
 import kg.attractor.jobsearch.repository.ResumeRepository;
 import kg.attractor.jobsearch.repository.RoleRepository;
 import kg.attractor.jobsearch.repository.UserRepository;
@@ -56,6 +58,7 @@ public class UserServiceImpl implements UserService {
     private final VacancyRepository vacancyRepository;
     private final ResumeRepository resumeRepository;
     private final RoleRepository roleRepository;
+    private final RespondedApplicantRepository respondedApplicantRepository;
 
     private final UserMapper userMapper = UserMapper.INSTANCE;
     private final PasswordEncoder encoder;
@@ -189,7 +192,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void applyForVacancy(Integer vacancyId, ResumeDto resumeDto) {
-        Resume resume = resumeRepository.findById(resumeDto.getApplicantId()).orElseThrow(
+        Resume resume = resumeRepository.findById(resumeDto.getId()).orElseThrow(
                 () -> new UsernameNotFoundException(
                         "Can't find resume with applicant id: " + resumeDto.getApplicantId()
                 )
@@ -197,7 +200,15 @@ public class UserServiceImpl implements UserService {
         Vacancy vacancy = vacancyRepository.findById(vacancyId).orElseThrow(
                 () -> new NoSuchElementException("Can't find vacancy with ID: " + vacancyId)
         );
-        vacancyDao.applyForVacancy(resume.getId(), vacancy.getId());
+//        vacancyDao.applyForVacancy(resume.getId(), vacancy.getId());
+        respondedApplicantRepository.save(
+                new RespondedApplicant(
+                        null,
+                        resume.getId(),
+                        vacancyId,
+                        true
+                )
+        );
         log.info("apply for vacancy {} successfully", vacancy.getName());
     }
 

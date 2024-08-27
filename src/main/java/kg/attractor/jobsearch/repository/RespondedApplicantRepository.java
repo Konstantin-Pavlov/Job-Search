@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RespondedApplicantRepository extends JpaRepository<RespondedApplicant, Integer> {
+    RespondedApplicant findByResumeIdAndVacancyId(Integer resumeId, Integer vacancyId);
 }
