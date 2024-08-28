@@ -34,6 +34,6 @@ public class RespondedApplicantServiceImpl implements RespondedApplicantService 
                         respondedApplicantRepository.findByResumeIdAndVacancyId(
                                 resumeDto.getId(),
                                 vacancyId))
-                .anyMatch(Objects::isNull);
+                .anyMatch(Objects::nonNull);
     }
 }
