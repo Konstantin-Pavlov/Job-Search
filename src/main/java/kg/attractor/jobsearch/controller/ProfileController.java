@@ -75,9 +75,9 @@ public class ProfileController {
 
         model.addAttribute("userDto", userDto);
         model.addAttribute("resumesRespondedToEmployerVacancies", resumesRespondedToEmployerVacancies);
+        model.addAttribute("vacanciesUserResponded", vacanciesUserResponded);
         model.addAttribute("userResumes", resumes);
         model.addAttribute("userVacancies", vacancies);
-        model.addAttribute("vacanciesUserResponded", vacanciesUserResponded);
         return "auth/profile";
     }
 
