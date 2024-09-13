@@ -17,7 +17,7 @@
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title">${resume.name}</h5>
                                 <p class="card-text mb-2"><strong>Salary:</strong> ${resume.getFormattedCreatedDate()}</p>
-<#--                                <p class="card-text mb-2"><strong>this resume responded to vacancy:</strong> ${resume.getFormattedCreatedDate()}</p>-->
+<#--                                <p class="card-text mb-2"><strong>this resumes responded to vacancy:</strong> ${resumes.getFormattedCreatedDate()}</p>-->
                                 <a href="/resumes/${resume.id}" class="btn btn-primary mt-auto">More Info</a>
                             </div>
                         </div>

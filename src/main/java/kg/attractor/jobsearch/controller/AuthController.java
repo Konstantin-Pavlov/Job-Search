@@ -3,15 +3,11 @@ package kg.attractor.jobsearch.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import kg.attractor.jobsearch.dto.ResumeDto;
-import kg.attractor.jobsearch.dto.UserDto;
 import kg.attractor.jobsearch.dto.UserWithAvatarFileDto;
-import kg.attractor.jobsearch.dto.VacancyDto;
 import kg.attractor.jobsearch.exception.UserNotFoundException;
-import kg.attractor.jobsearch.service.ResumeService;
 import kg.attractor.jobsearch.service.UserService;
-import kg.attractor.jobsearch.service.VacancyService;
 import kg.attractor.jobsearch.service.impl.CustomUserDetailsServiceImpl;
+import kg.attractor.jobsearch.util.MvcControllersUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -29,12 +25,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.security.Principal;
-import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 @Slf4j
 @Controller
@@ -46,8 +43,13 @@ public class AuthController {
     private final CustomUserDetailsServiceImpl customUserDetails;
 
     @ModelAttribute
-    public void addAttributes(Model model, CsrfToken csrfToken) {
+    public void addAttributes(Model model,
+                              CsrfToken csrfToken,
+                              @SessionAttribute(name = "currentLocale", required = false) Locale locale
+    ) {
         model.addAttribute("_csrf", csrfToken);
+
+        ResourceBundle bundle = MvcControllersUtil.getResourceBundleSetLocaleSetProperties(model, locale);
     }
 
     @GetMapping("login")

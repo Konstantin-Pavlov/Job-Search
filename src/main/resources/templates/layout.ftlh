@@ -1,5 +1,6 @@
 <#import "spring.ftl" as spring>
-<#macro layout>
+<#macro layout title home create profile logout login register
+        loggedInMessage roleMessage notLoggedInMessage availableActions>
 
     <!doctype html>
     <html lang="en">
@@ -19,14 +20,14 @@
         <!-- Link to the favicon -->
         <link rel="icon" type="image/png" href="/static/images/favicon.png">
 
-        <title>Job Search Application</title>
+        <title>${title}</title> <!-- Dynamically set title -->
     </head>
 
     <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-2 fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">Job Search</a>
+            <a class="navbar-brand" href="/">${title}</a>
 <#--            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"-->
 <#--                    data-bs-target="#navbarSupportedContent"-->
 <#--                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
@@ -68,25 +69,35 @@
                 >
             <div class="navbar-text">
 <#--                <a href="/profile/${name}" class="text-light m-2 m-sm-0"> link to the profile by email-->
-                    <span class="navbar-text">you are logged in as ${name}!</span>
+                    <span class="navbar-text">${loggedInMessage} ${name}!</span>
                     <#list user.authorities as auth>
-                        <span class=navbar-text">your role is ${auth}</span>
+                        <span class=navbar-text">${roleMessage} ${auth}</span>
                         <#if auth?has_next>
                             /
                         </#if>
                     </#list>
 <#--                </a>-->
             </div>
-                <a href="/profile" class="btn btn-outline-info ms-2">Profile</a>
-                <a href="/logout" class="btn btn-outline-info m-2" id="logout">Logout</a>
+                <a href="/profile" class="btn btn-outline-info ms-2">${profile}</a>
+                <a href="/logout" class="btn btn-outline-info m-2" id="logout">${logout}</a>
 
             <#else>
-                <span class="navbar-text">you are not logged in</span>
+                <span class="navbar-text">${notLoggedInMessage}</span>
                 <a href="/auth/login"
-                   class="btn btn-outline-info m-2">Login</a>
+                   class="btn btn-outline-info m-2">${login}</a>
                 <a href="/auth/register"
-                   class="btn btn-outline-info m-2">Register</a>
+                   class="btn btn-outline-info m-2">${register}</a>
             </#if>
+
+            <!-- Language Selection Buttons -->
+            <div class="ms-auto">
+                <form action="/setLanguage" method="post" class="d-inline">
+                    <button type="submit" name="lang" value="en" class="btn btn-outline-light">EN</button>
+                    <button type="submit" name="lang" value="ru" class="btn btn-outline-light">RU</button>
+                    <button type="submit" name="lang" value="kg" class="btn btn-outline-light">KG</button>
+                </form>
+            </div>
+
         </div>
     </nav>
 

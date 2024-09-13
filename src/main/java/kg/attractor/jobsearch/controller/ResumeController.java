@@ -81,7 +81,7 @@ public class ResumeController {
                 model,
                 authentication,
                 resumeDto,
-                "resume"
+                "resumes"
         );
         return "resumes/resume_info";
     }
@@ -180,7 +180,7 @@ public class ResumeController {
             resumeService.updateResume(resumeId);
 
             redirectAttributes.addFlashAttribute("ifEntityUpdated", true);
-            redirectAttributes.addFlashAttribute("entityTitle", "resume");
+            redirectAttributes.addFlashAttribute("entityTitle", "resumes");
             redirectAttributes.addFlashAttribute("entityName", resumeDto.getName());
             return "redirect:/profile";
         }

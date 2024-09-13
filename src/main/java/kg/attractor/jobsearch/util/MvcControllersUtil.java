@@ -13,8 +13,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 @Slf4j
 public class MvcControllersUtil {
@@ -68,6 +70,49 @@ public class MvcControllersUtil {
         return map;
     }
 
+    // todo - add to context?
+    public static ResourceBundle getResourceBundleSetLocaleSetProperties(Model model, Locale locale) {
+        // If locale is null, set it to English
+//        MvcControllersUtil.setLocale(locale);
+
+        if (locale == null) {
+            locale = Locale.ENGLISH; // Default to English if no locale is set
+        }
+
+        // Load the resource bundle based on the current locale
+//        ResourceBundle bundle = MvcControllersUtil.getResourceBundle(locale);
+        ResourceBundle bundle = ResourceBundle.getBundle("resource", locale);
+        // Retrieve and add translations to the model for the layout.ftlh
+        MvcControllersUtil.setPropertiesForLayout(model, bundle);
+        return bundle;
+    }
+
+    // Retrieve and add translations to the model for the layout.ftlh
+    public static void setPropertiesForLayout(Model model, ResourceBundle bundle) {
+        model.addAttribute("home", bundle.getString("layout.home"));
+        model.addAttribute("create", bundle.getString("layout.create"));
+        model.addAttribute("profile", bundle.getString("layout.profile"));
+        model.addAttribute("logout", bundle.getString("layout.logout"));
+        model.addAttribute("login", bundle.getString("layout.login"));
+        model.addAttribute("register", bundle.getString("layout.register"));
+        model.addAttribute("loggedInMessage", bundle.getString("layout.logged.in"));
+        model.addAttribute("roleMessage", bundle.getString("layout.roles"));
+        model.addAttribute("notLoggedInMessage", bundle.getString("layout.not.logged.in"));
+        model.addAttribute("availableActions", bundle.getString("layout.actions.available"));
+        model.addAttribute("title", bundle.getString("layout.title"));
+    }
+
+    public static void setLocale(Locale locale) {
+        // If locale is null, set it to English
+        if (locale == null) {
+            locale = Locale.ENGLISH; // Default to English if no locale is set
+        }
+    }
+
+    public static ResourceBundle getResourceBundle(Locale locale) {
+        return ResourceBundle.getBundle("resource", locale);
+    }
+
     private static <T> Optional<T> getById(List<T> tList, Integer id) {
         if (tList == null || id == null) {
             return Optional.empty();
@@ -86,5 +131,6 @@ public class MvcControllersUtil {
         }
         return Optional.empty();
     }
+
 
 }

@@ -194,13 +194,13 @@ public class UserServiceImpl implements UserService {
     public void applyForVacancy(Integer vacancyId, ResumeDto resumeDto) {
         Resume resume = resumeRepository.findById(resumeDto.getId()).orElseThrow(
                 () -> new UsernameNotFoundException(
-                        "Can't find resume with applicant id: " + resumeDto.getApplicantId()
+                        "Can't find resumes with applicant id: " + resumeDto.getApplicantId()
                 )
         );
         Vacancy vacancy = vacancyRepository.findById(vacancyId).orElseThrow(
                 () -> new NoSuchElementException("Can't find vacancy with ID: " + vacancyId)
         );
-//        vacancyDao.applyForVacancy(resume.getId(), vacancy.getId());
+//        vacancyDao.applyForVacancy(resumes.getId(), vacancy.getId());
         respondedApplicantRepository.save(
                 new RespondedApplicant(
                         null,

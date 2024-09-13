@@ -48,8 +48,8 @@ public class ResumeServiceImpl implements ResumeService {
     public ResumeDto getResumeById(Integer id) {
         try {
             Resume resume = resumeDao.getResumeById(id)
-                    .orElseThrow(() -> new Exception("Can't find resume with id " + id));
-            log.info("found resume with id {}", id);
+                    .orElseThrow(() -> new Exception("Can't find resumes with id " + id));
+            log.info("found resumes with id {}", id);
             return ResumeDto.builder()
                     .id(resume.getId())
                     .applicantId(resume.getApplicantId())
@@ -61,7 +61,7 @@ public class ResumeServiceImpl implements ResumeService {
                     .updateTime(resume.getUpdateTime())
                     .build();
         } catch (Exception e) {
-            log.error("Can't find resume with id {}", id);
+            log.error("Can't find resumes with id {}", id);
         }
         return null;
     }
@@ -114,7 +114,7 @@ public class ResumeServiceImpl implements ResumeService {
     public void editResume(Integer id, ResumeDto resumeDto) {
         ResumeDto resumeDto1 = getResumeById(id);
         if (resumeDto1 == null) {
-            log.error("Can't edit resume because resume with id {} not found", id);
+            log.error("Can't edit resumes because resumes with id {} not found", id);
         } else {
             deleteResume(id);
             addResume(resumeDto);
@@ -133,7 +133,7 @@ public class ResumeServiceImpl implements ResumeService {
         resume.setUpdateTime(resumeDto.getUpdateTime());
 
         resumeDao.addResume(resume);
-        log.info("added resume {}", resume.getName());
+        log.info("added resumes {}", resume.getName());
     }
 
 
@@ -142,10 +142,10 @@ public class ResumeServiceImpl implements ResumeService {
         Optional<Resume> resume = resumeDao.getResumeById(id);
         if (resume.isPresent()) {
             resumeDao.delete(id);
-            log.info("resume deleted: {}", resume.get().getName());
+            log.info("resumes deleted: {}", resume.get().getName());
             return true;
         }
-        log.info(String.format(" resume with id %d not found", id));
+        log.info(String.format(" resumes with id %d not found", id));
         return false;
     }
 
@@ -156,7 +156,7 @@ public class ResumeServiceImpl implements ResumeService {
         resumeDto.setUpdateTime(LocalDateTime.now());
         Resume resume = resumeMapper.toResume(resumeDto);
         resumeRepository.save(resume);
-        log.info("edited resume {}", resume.getName());
+        log.info("edited resumes {}", resume.getName());
     }
 
     @Override
@@ -165,7 +165,7 @@ public class ResumeServiceImpl implements ResumeService {
         existingResume.setUpdateTime(LocalDateTime.now());
         Resume resume = resumeMapper.toResume(existingResume);
         resumeRepository.save(resume);
-        log.info("updated resume {}", resume.getName());
+        log.info("updated resumes {}", resume.getName());
     }
 
 }
