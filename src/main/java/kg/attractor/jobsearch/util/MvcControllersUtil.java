@@ -20,7 +20,6 @@ import java.util.ResourceBundle;
 
 @Slf4j
 public class MvcControllersUtil {
-    RespondedApplicantRepository respondedApplicantRepository;
 
     private MvcControllersUtil() {
     }
