@@ -1,7 +1,18 @@
 <#import "../layout.ftlh" as layout>
 <#import "../modal.ftlh" as modalTemplates>
-<#--<@layout.layout isAuthenticated=isAuthenticated username=username>-->
-<@layout.layout>
+<@layout.layout
+title=title
+home=home
+create=create
+profile=profile
+logout=logout
+login=login
+register=register
+loggedInMessage=loggedInMessage
+roleMessage=roleMessage
+notLoggedInMessage=notLoggedInMessage
+availableActions=availableActions
+>
     <!-- Link to the external CSS file -->
     <link rel="stylesheet" type="text/css" href="/static/css/profile.css" xmlns="http://www.w3.org/1999/html">
 

@@ -102,17 +102,6 @@ public class MvcControllersUtil {
         model.addAttribute("title", bundle.getString("layout.title"));
     }
 
-    public static void setLocale(Locale locale) {
-        // If locale is null, set it to English
-        if (locale == null) {
-            locale = Locale.ENGLISH; // Default to English if no locale is set
-        }
-    }
-
-    public static ResourceBundle getResourceBundle(Locale locale) {
-        return ResourceBundle.getBundle("resource", locale);
-    }
-
     private static <T> Optional<T> getById(List<T> tList, Integer id) {
         if (tList == null || id == null) {
             return Optional.empty();

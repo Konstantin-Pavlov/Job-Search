@@ -92,11 +92,17 @@
             <!-- Language Selection Buttons -->
             <div class="ms-auto">
                 <form action="/setLanguage" method="post" class="d-inline">
+                    <input type="hidden" name="currentUrl" id="currentUrl" value="">
                     <button type="submit" name="lang" value="en" class="btn btn-outline-light">EN</button>
                     <button type="submit" name="lang" value="ru" class="btn btn-outline-light">RU</button>
                     <button type="submit" name="lang" value="kg" class="btn btn-outline-light">KG</button>
                 </form>
             </div>
+
+            <script>
+                // Set the current URL in the hidden input field
+                document.getElementById('currentUrl').value = window.location.href;
+            </script>
 
         </div>
     </nav>
