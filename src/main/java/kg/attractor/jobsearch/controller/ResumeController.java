@@ -11,7 +11,6 @@ import kg.attractor.jobsearch.service.RespondedApplicantService;
 import kg.attractor.jobsearch.service.ResumeService;
 import kg.attractor.jobsearch.service.UserService;
 import kg.attractor.jobsearch.service.VacancyService;
-import kg.attractor.jobsearch.service.impl.VacancyServiceImpl;
 import kg.attractor.jobsearch.util.MvcControllersUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -226,7 +226,6 @@ public class VacancyController {
             RedirectAttributes redirectAttributes) {
 
         if (authentication != null && authentication.isAuthenticated()) {
-            UserDto userDto = userService.getUserByEmail(authentication.getName());
             ResumeDto resumeDto = resumeService.getResumeById(resumeId);
             userService.applyForVacancy(vacancyId, resumeDto);
 
