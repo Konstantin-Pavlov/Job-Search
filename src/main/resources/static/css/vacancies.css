@@ -6,3 +6,7 @@
 .card {
     min-height: 300px; /* Ensures all cards have the same height */
 }
+
+.pagination {
+    justify-content: center; /* Center the pagination items */
+}
