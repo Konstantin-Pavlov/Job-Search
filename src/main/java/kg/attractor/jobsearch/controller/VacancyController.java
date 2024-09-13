@@ -15,6 +15,9 @@ import kg.attractor.jobsearch.util.ConsoleColors;
 import kg.attractor.jobsearch.util.MvcControllersUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,12 +47,21 @@ public class VacancyController {
     private final RespondedApplicantService respondedApplicantService;
 
     @GetMapping()
-    public String getVacancies(Model model, Authentication authentication) {
-        MvcControllersUtil.authCheckAndAddAttributes(
-                model,
-                authentication,
-                vacancyService.getVacancies(),
-                "vacancies");
+    public String getVacancies(Model model,
+                               @PageableDefault(size = 6) Pageable pageable,
+                               Authentication authentication) {
+//        MvcControllersUtil.authCheckAndAddAttributes(
+//                model,
+//                authentication,
+//                vacancyService.getVacancies(),
+//                "vacancies");
+        Page<VacancyDto> vacancies = vacancyService.getVacancies(pageable);
+        int currentPage = pageable.getPageNumber();
+        int totalPages = vacancies.getTotalPages();
+        model.addAttribute("vacancies", vacancies);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("pageSize", pageable.getPageSize());
         return "vacancies/vacancies";
     }
 
