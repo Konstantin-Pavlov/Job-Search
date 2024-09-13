@@ -60,7 +60,6 @@ public class ResumeController {
         List<VacancyDto> vacanciesByAuthorId = vacancyService.getVacancyByAuthorId(userDto.getId());
         List<ResumeDto> resumesRespondedToEmployerVacancies = resumeService.getResumesRespondedToEmployerVacancies(userDto.getId());
         List<RespondedApplicantDto> respondedApplicants = respondedApplicantService.getRespondedApplicants();
-        //todo - implement map(?) -> vacancy : responded resumes
         Map<VacancyDto, List<ResumeDto>> respondedToVacanciesResumesMap = MvcControllersUtil.getRespondedToVacanciesResumesMap(
                 vacanciesByAuthorId,
                 resumesRespondedToEmployerVacancies,
