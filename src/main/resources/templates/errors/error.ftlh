@@ -1,5 +1,5 @@
-<#import "../layout.ftlh" as main>
-<@main.layout>
+<#import "../layout.ftlh" as layout>
+<@layout.layout>
     <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
     <link rel="dns-prefetch" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito+Sans" rel="stylesheet">
@@ -257,4 +257,4 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script src="/static/js/error.js"></script>
-</@main.layout>
+</@layout.layout>
