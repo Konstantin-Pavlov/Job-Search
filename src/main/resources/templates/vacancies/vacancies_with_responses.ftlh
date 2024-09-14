@@ -1,5 +1,17 @@
 <#import "../layout.ftlh" as main>
-<@main.layout>
+<@layout.layout
+title=title
+home=home
+create=create
+profile=profile
+logout=logout
+login=login
+register=register
+loggedInMessage=loggedInMessage
+roleMessage=roleMessage
+notLoggedInMessage=notLoggedInMessage
+availableActions=availableActions
+>
 <#--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
     <link rel="stylesheet" type="text/css" href="/static/css/vacancies_with_responses.css">
 

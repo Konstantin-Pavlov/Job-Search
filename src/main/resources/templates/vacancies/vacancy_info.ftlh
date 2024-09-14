@@ -1,14 +1,26 @@
-<#import "../layout.ftlh" as main>
-<@main.layout>
+<#import "../layout.ftlh" as layout>
+<@layout.layout
+         title=title
+         home=home
+         create=create
+         profile=profile
+         logout=logout
+         login=login
+         register=register
+         loggedInMessage=loggedInMessage
+         roleMessage=roleMessage
+         notLoggedInMessage=notLoggedInMessage
+         availableActions=availableActions
+>
     <body>
     <div class="container">
         <div class="card mb-3">
             <div class="card-body">
                 <h1 class="card-title">${vacancy.name}</h1>
 
-                <p class="card-text"><strong>Описание:</strong> ${vacancy.description}</p>
-                <p class="card-text"><strong>Категория:</strong> ${category.name}</p>
-                <p class="card-text"><strong>Зарплата:</strong> ${vacancy.salary}</p>
+                <p class="card-text"><strong>${vacancyDescription}:</strong> ${vacancy.description}</p>
+                <p class="card-text"><strong>${vacancyCategory}:</strong> ${category.name}</p>
+                <p class="card-text"><strong>${vacancySalary}:</strong> ${vacancy.salary}</p>
                 <p class="card-text">
                     <strong>Опыт работы:</strong> От ${vacancy.expFrom} до ${vacancy.expTo} лет</p>
                 <p class="card-text"><strong>Активно:</strong> ${vacancy.isActive?string('Да', 'Нет')}</p>
@@ -38,7 +50,7 @@
             </#if>
 
             <div class="col text-center">
-                <a href="/" class="btn btn-primary">Домой</a>
+                <a href="/" class="btn btn-primary">${home}</a>
             </div>
         </div>
     </div>
@@ -72,4 +84,4 @@
     </div>
 
     </body>
-</@main.layout>
+</@layout.layout>

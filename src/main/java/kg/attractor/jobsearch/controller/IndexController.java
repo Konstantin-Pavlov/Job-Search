@@ -18,7 +18,8 @@ public class IndexController {
     @GetMapping("/")
     public String welcome(Model model,
                           Authentication authentication,
-                          @SessionAttribute(name = "currentLocale", required = false) Locale locale) {
+                          @SessionAttribute(name = "currentLocale", required = false)
+                              Locale locale) {
         MvcControllersUtil.authCheck(
                 model,
                 authentication

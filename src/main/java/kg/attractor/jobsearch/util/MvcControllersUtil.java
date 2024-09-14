@@ -88,7 +88,7 @@ public class MvcControllersUtil {
 
     // Retrieve and add translations to the model for the layout.ftlh
     public static void setPropertiesForLayout(Model model, ResourceBundle bundle) {
-        model.addAttribute("home", bundle.getString("layout.home"));
+        model.addAttribute("home", bundle.getString("button.home"));
         model.addAttribute("create", bundle.getString("layout.create"));
         model.addAttribute("profile", bundle.getString("layout.profile"));
         model.addAttribute("logout", bundle.getString("layout.logout"));

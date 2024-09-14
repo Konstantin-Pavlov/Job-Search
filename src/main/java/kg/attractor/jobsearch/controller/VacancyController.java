@@ -16,6 +16,7 @@ import kg.attractor.jobsearch.util.MvcControllersUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,12 +26,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 @Slf4j
 @Controller
@@ -42,6 +46,42 @@ public class VacancyController {
     private final CategoriesService categoriesService;
     private final VacancyService vacancyService;
     private final RespondedApplicantService respondedApplicantService;
+
+    @ModelAttribute
+    public void addAttributes(Model model,
+                              CsrfToken csrfToken,
+                              @SessionAttribute(name = "currentLocale", required = false) Locale locale
+    ) {
+//        model.addAttribute("_csrf", csrfToken);
+
+        ResourceBundle bundle = MvcControllersUtil.getResourceBundleSetLocaleSetProperties(model, locale);
+
+        // Add vacancy-related properties to the model
+        model.addAttribute("vacanciesTitle", bundle.getString("vacancies.title"));
+        model.addAttribute("vacancyDescription", bundle.getString("vacancy.description"));
+        model.addAttribute("vacancyCategory", bundle.getString("vacancy.category"));
+        model.addAttribute("vacancySalary", bundle.getString("vacancy.salary"));
+        model.addAttribute("vacancyExperience", bundle.getString("vacancy.experience"));
+        model.addAttribute("vacancyExperienceFromTo", bundle.getString("vacancy.experience.fromTo"));
+        model.addAttribute("vacancyIsActive", bundle.getString("vacancy.isActive"));
+        model.addAttribute("vacancyActiveYes", bundle.getString("vacancy.activeYes"));
+        model.addAttribute("vacancyActiveNo", bundle.getString("vacancy.activeNo"));
+        model.addAttribute("vacancyCreatedDate", bundle.getString("vacancy.createdDate"));
+        model.addAttribute("vacancyUpdatedDate", bundle.getString("vacancy.updatedDate"));
+        model.addAttribute("vacancyDetails", bundle.getString("vacancy.details"));
+        model.addAttribute("vacancyEditTitle", bundle.getString("vacancy.edit.title"));
+        model.addAttribute("vacancyEditName", bundle.getString("vacancy.edit.name"));
+        model.addAttribute("vacancyEditDescription", bundle.getString("vacancy.edit.description"));
+        model.addAttribute("vacancyEditCategoryId", bundle.getString("vacancy.edit.categoryId"));
+        model.addAttribute("vacancyEditSalary", bundle.getString("vacancy.edit.salary"));
+        model.addAttribute("vacancyEditExpFrom", bundle.getString("vacancy.edit.expFrom"));
+        model.addAttribute("vacancyEditExpTo", bundle.getString("vacancy.edit.expTo"));
+        model.addAttribute("vacancyEditIsActive", bundle.getString("vacancy.edit.isActive"));
+        model.addAttribute("vacancyEditActiveYes", bundle.getString("vacancy.edit.activeYes"));
+        model.addAttribute("vacancyEditActiveNo", bundle.getString("vacancy.edit.activeNo"));
+        model.addAttribute("vacancyEditAuthorId", bundle.getString("vacancy.edit.authorId"));
+        model.addAttribute("vacancyEditSubmit", bundle.getString("vacancy.edit.submit"));
+    }
 
     @GetMapping()
     public String getVacancies(Model model, Authentication authentication) {

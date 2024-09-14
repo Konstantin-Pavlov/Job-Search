@@ -1,6 +1,17 @@
-<#import "../layout.ftlh" as main>
-<#--<@main.layout isAuthenticated=isAuthenticated username=username>-->
-<@main.layout>
+<#import "../layout.ftlh" as layout>
+<@layout.layout
+         title=title
+         home=home
+         create=create
+         profile=profile
+         logout=logout
+         login=login
+         register=register
+         loggedInMessage=loggedInMessage
+         roleMessage=roleMessage
+         notLoggedInMessage=notLoggedInMessage
+         availableActions=availableActions
+>
     <div class="container mt-4">
         <div class="row d-flex justify-content-between">
             <#list vacancies as vacancy>
@@ -11,6 +22,7 @@
                             <h5 class="card-title">${vacancy.name}</h5>
                             <p class="card-text text-muted mb-2">Description: ${vacancy.description}</p>
                             <p class="card-text mb-2"><strong>Salary:</strong> ${vacancy.salary}</p>
+<#--                            todo--> continue
                             <p class="card-text mb-2"><strong>Work experience:</strong> from ${vacancy.expFrom} to ${vacancy.expTo} years</p>
                             <p class="card-text mb-2"><strong>Active:</strong> ${vacancy.isActive?string('yes', 'no')}</p>
                             <a href="/vacancies/${vacancy.id}" class="btn btn-primary mt-auto">More Info</a>
@@ -22,8 +34,8 @@
         <!-- Centering the Home button -->
         <div class="row">
             <div class="col text-center"> <!-- This div centers the button -->
-                <a href="/" class="btn btn-primary">Home</a>
+                <a href="/" class="btn btn-primary">${home}</a>
             </div>
         </div>
     </div>
-</@main.layout>
+</@layout.layout>

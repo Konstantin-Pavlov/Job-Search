@@ -1,6 +1,18 @@
 <#import "../layout.ftlh" as layout>
 <#import "../modal.ftlh" as modalTemplates>
-<@layout.layout>
+<@layout.layout
+title=title
+home=home
+create=create
+profile=profile
+logout=logout
+login=login
+register=register
+loggedInMessage=loggedInMessage
+roleMessage=roleMessage
+notLoggedInMessage=notLoggedInMessage
+availableActions=availableActions
+>
 
     <#assign title = successMessage!"Default Title">
     <#assign name = vacancyDto.name!"Default Name">
