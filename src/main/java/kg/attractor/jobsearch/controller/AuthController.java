@@ -50,6 +50,11 @@ public class AuthController {
         model.addAttribute("_csrf", csrfToken);
 
         ResourceBundle bundle = MvcControllersUtil.getResourceBundleSetLocaleSetProperties(model, locale);
+
+        // Add login properties to the model
+        model.addAttribute("loginSignIn", bundle.getString("login.signIn"));
+        model.addAttribute("loginEmail", bundle.getString("login.email"));
+        model.addAttribute("loginPassword", bundle.getString("login.password"));
     }
 
     @GetMapping("login")

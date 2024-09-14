@@ -75,6 +75,7 @@ public class ResumeController {
         model.addAttribute("resumeLoggedInAs", bundle.getString("resume.loggedInAs"));
         model.addAttribute("resumeNotLoggedIn", bundle.getString("resume.notLoggedIn"));
         model.addAttribute("resumeDetails", bundle.getString("resume.details"));
+        model.addAttribute("resumeButtonBack", bundle.getString("resume.button.back"));
     }
 
     @GetMapping()

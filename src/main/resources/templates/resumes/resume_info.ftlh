@@ -30,7 +30,7 @@
         <div class="row">
             <div class="col text-center"> <!-- This div centers the button -->
                 <a href="/" class="btn btn-primary">${home}</a>
-                <a href="/resumes" class="btn btn-primary">back to resumes</a>
+                <a href="/resumes" class="btn btn-primary">${resumeButtonBack}</a>
             </div>
         </div>
     </div>

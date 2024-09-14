@@ -62,8 +62,10 @@ public class VacancyController {
         model.addAttribute("vacancyCategory", bundle.getString("vacancy.category"));
         model.addAttribute("vacancySalary", bundle.getString("vacancy.salary"));
         model.addAttribute("vacancyExperience", bundle.getString("vacancy.experience"));
-        model.addAttribute("vacancyExperienceFromTo", bundle.getString("vacancy.experience.fromTo"));
-        model.addAttribute("vacancyIsActive", bundle.getString("vacancy.isActive"));
+        model.addAttribute("vacancyExperience", bundle.getString("vacancy.experience"));
+        model.addAttribute("vacancyExperienceFrom", bundle.getString("vacancy.experience.from"));
+        model.addAttribute("vacancyExperienceTo", bundle.getString("vacancy.experience.to"));
+        model.addAttribute("vacancyExperienceYears", bundle.getString("vacancy.experience.years"));        model.addAttribute("vacancyIsActive", bundle.getString("vacancy.isActive"));
         model.addAttribute("vacancyActiveYes", bundle.getString("vacancy.activeYes"));
         model.addAttribute("vacancyActiveNo", bundle.getString("vacancy.activeNo"));
         model.addAttribute("vacancyCreatedDate", bundle.getString("vacancy.createdDate"));
@@ -81,6 +83,11 @@ public class VacancyController {
         model.addAttribute("vacancyEditActiveNo", bundle.getString("vacancy.edit.activeNo"));
         model.addAttribute("vacancyEditAuthorId", bundle.getString("vacancy.edit.authorId"));
         model.addAttribute("vacancyEditSubmit", bundle.getString("vacancy.edit.submit"));
+        model.addAttribute("vacancyAlreadyRespondedToVacancy", bundle.getString("vacancy.alreadyRespondedToVacancy"));
+        model.addAttribute("vacancyButtonApply", bundle.getString("vacancy.button.apply"));
+        model.addAttribute("vacancyButtonBack", bundle.getString("vacancy.button.back"));
+        model.addAttribute("vacancyButtonInfo", bundle.getString("vacancy.button.info"));
+        model.addAttribute("vacancyButtonClose", bundle.getString("vacancy.button.close"));
     }
 
     @GetMapping()

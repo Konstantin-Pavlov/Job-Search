@@ -1,4 +1,4 @@
-<#import "../layout.ftlh" as main>
+<#import "../layout.ftlh" as layout>
 <@layout.layout
 title=title
 home=home
@@ -50,4 +50,4 @@ availableActions=availableActions
             <a href="/" class="btn btn-secondary">Home</a>
         </div>
     </div>
-</@main.layout>
+</@layout.layout>

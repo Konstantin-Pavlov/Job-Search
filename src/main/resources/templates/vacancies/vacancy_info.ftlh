@@ -22,14 +22,15 @@ availableActions=availableActions
                 <p class="card-text"><strong>${vacancyCategory}:</strong> ${category.name}</p>
                 <p class="card-text"><strong>${vacancySalary}:</strong> ${vacancy.salary}</p>
                 <p class="card-text">
-                    <strong>Опыт работы:</strong> От ${vacancy.expFrom} до ${vacancy.expTo} лет</p>
+                    <strong>${vacancyExperience}:</strong>
+                    ${vacancyExperienceFrom} ${vacancy.expFrom} ${vacancyExperienceTo} ${vacancy.expTo} ${vacancyExperienceYears}
                 <p class="card-text"><strong>Активно:</strong> ${vacancy.isActive?string('Да', 'Нет')}</p>
                 <p class="card-text">
                     <strong>Компания:</strong>
                     <a href="/company/${user.email}">${user.email}</a>
                 </p>
-                <p class="card-text"><strong>Дата создания:</strong> ${vacancy.getFormattedCreatedDate()}</p>
-                <p class="card-text"><strong>Время обновления:</strong> ${vacancy.getFormattedUpdatedDate()}</p>
+                <p class="card-text"><strong>${vacancyCreatedDate}:</strong> ${vacancy.getFormattedCreatedDate()}</p>
+                <p class="card-text"><strong>${vacancyUpdatedDate}:</strong> ${vacancy.getFormattedUpdatedDate()}</p>
             </div>
         </div>
         <div class="row">
@@ -37,13 +38,13 @@ availableActions=availableActions
             <#if userResumes?? && user.accountType == "applicant">
                 <#if userRespondedToVacancy>
                     <div class="alert alert-warning text-center" role="alert">
-                        <strong>Вы уже откликнулись на эту вакансию</strong>
+                        <strong>${vacancyAlreadyRespondedToVacancy}</strong>
                     </div>
                 <#else>
                     <div class="col text-center">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#applyModal">
-                            Apply for Vacancy
+                            ${vacancyButtonApply}
                         </button>
                     </div>
                 </#if>
@@ -51,7 +52,7 @@ availableActions=availableActions
 
             <div class="col text-center">
                 <a href="/" class="btn btn-primary">${home}</a>
-                <a href="/vacancies" class="btn btn-primary">back to vacancies</a>
+                <a href="/vacancies" class="btn btn-primary">${vacancyButtonBack}</a>
             </div>
         </div>
     </div>
@@ -78,7 +79,7 @@ availableActions=availableActions
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Apply</button>
+                            <button type="submit" class="btn btn-primary">${vacancyButtonApply}</button>
                         </div>
                     </form>
                 </div>
