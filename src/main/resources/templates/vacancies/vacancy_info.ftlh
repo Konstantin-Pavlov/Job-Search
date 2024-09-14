@@ -51,6 +51,7 @@ availableActions=availableActions
 
             <div class="col text-center">
                 <a href="/" class="btn btn-primary">${home}</a>
+                <a href="/vacancies" class="btn btn-primary">back to vacancies</a>
             </div>
         </div>
     </div>
