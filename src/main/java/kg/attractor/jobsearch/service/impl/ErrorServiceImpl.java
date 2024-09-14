@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -24,31 +25,43 @@ public class ErrorServiceImpl implements ErrorService {
 
     @Override
     public ErrorResponseBody makeResponse(Exception exception) {
-        log.error(exception.getMessage());
+        log.error("Exception: {}", exception.getMessage(), exception);
+
 //        exception.printStackTrace();
         return switch (exception) {
             case ResourceNotFoundException resourceNotFoundException -> ErrorResponseBody.builder()
-                    .title("resource not found")
-                    .reasons(Map.of("error", List.of(exception.getMessage())))
+                    .error("resource not found")
+                    .reasons(Map.of(
+                            "message", List.of(exception.getMessage()),
+                            "stackTrace", getFilteredStackTrace(exception)
+                    ))
                     .build();
             case UserNotFoundException userNotFoundException -> ErrorResponseBody.builder()
-                    .title("user not found")
-                    .reasons(Map.of("error", List.of(exception.getMessage())))
+                    .error("user not found")
+                    .reasons(Map.of(
+                            "message", List.of(exception.getMessage()),
+                            "stackTrace", getFilteredStackTrace(exception)
+                    ))
                     .build();
             case SQLSyntaxErrorException throwables -> ErrorResponseBody.builder()
-                    .title("Database Syntax Error")
-                    .reasons(Map.of("error", List.of(exception.getMessage())))
+                    .error("Database Syntax Error")
+                    .reasons(Map.of(
+                            "message", List.of(exception.getMessage()),
+                            "stackTrace", getFilteredStackTrace(exception)
+                    ))
                     .build();
             case DuplicateKeyException duplicateKeyException -> ErrorResponseBody.builder()
-                    .title("Duplicate Entry Error")
+                    .error("Duplicate Entry Error")
                     .reasons(Map.of("error", List.of("A record with the same key already exists in the database. Please check your input and try again.")))
                     .build();
             default ->
-
                 // Handle other exceptions as needed
                     ErrorResponseBody.builder()
-                            .title("Error")
-                            .reasons(Map.of("error", List.of(exception.getMessage())))
+                            .error(exception.getMessage())
+                            .reasons(Map.of(
+                                    "message", List.of(exception.getMessage()),
+                                    "stackTrace", getFilteredStackTrace(exception)
+                            ))
                             .build();
         };
     }
@@ -70,9 +83,16 @@ public class ErrorServiceImpl implements ErrorService {
                     }
                 });
         return ErrorResponseBody.builder()
-                .title("Validation error")
+                .error("Validation error")
                 .reasons(reasons)
                 .build();
+    }
+
+    private List<String> getFilteredStackTrace(Throwable throwable) {
+        return Stream.of(throwable.getStackTrace())
+                .map(StackTraceElement::toString)
+                .limit(5) // Limit to the first 5 lines for brevity
+                .toList();
     }
 
 }

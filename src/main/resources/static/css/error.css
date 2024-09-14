@@ -35,6 +35,30 @@ body {
     height: 100vh;
 }
 
+.error_block .content pre {
+    max-height: 300px; /* Set a maximum height for the stack trace block */
+    overflow-y: auto; /* Enable vertical scrolling */
+    white-space: pre-wrap; /* Wrap long lines */
+    word-wrap: break-word; /* Break long words */
+    background-color: #f8f9fa; /* Light background for better readability */
+    padding: 10px; /* Padding for better spacing */
+    border: 1px solid #dee2e6; /* Border for better separation */
+    border-radius: 5px; /* Rounded corners */
+}
+
+.error_block .content {
+    word-wrap: break-word; /* Ensure long words are broken */
+    overflow-wrap: break-word; /* Ensure long words are broken */
+}
+
+.error_block .content ul {
+    padding-left: 20px; /* Add padding to nested lists */
+}
+
+.error_block .content li {
+    margin-bottom: 5px; /* Add some space between list items */
+}
+
 .main_block {
     width: 100%;
     max-width: 1140px;

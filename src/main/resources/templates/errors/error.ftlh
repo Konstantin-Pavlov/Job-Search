@@ -209,37 +209,48 @@
                 <h1>${status}</h1>
                 <h2><span>UH OH</span>! <span data-l10n>${reason}</span></h2>
                 <!--        <p data-l10n>{{ description></p>-->
+                <p>${message}</p>
 
                 <#if details??>
                     <ul class="details">
                         <#if details.serverName??>
-                            <li><span><span data-l10n>Host</span>:</span> <code
-                                        class="bold-yellow">${details.serverName}</code></li>
+                            <li><span><span data-l10n>Host</span>:</span> <code class="bold-yellow">${details.serverName}</code></li>
                         </#if>
                         <#if details.requestURL??>
-                            <li><span><span data-l10n>Original URI</span>:</span> <code
-                                        class="bold-yellow">${details.requestURL}</code>
-                            </li>
+                            <li><span><span data-l10n>Original URI</span>:</span> <code class="bold-yellow">${details.requestURL}</code></li>
                         </#if>
-                        <#--            <#if forwarded_for>-->
-                        <#--                <li><span><span data-l10n>Forwarded for</span>:</span> <code>{{ forwarded_for></code></li></#if>-->
-                        <#--            <#if namespace>-->
-                        <#--                <li><span><span data-l10n>Namespace</span>:</span> <code>{{ namespace></code></li></#if>-->
-                        <#--            <#if ingress_name>-->
-                        <#--                <li><span><span data-l10n>Ingress name</span>:</span> <code>{{ ingress_name></code></li></#if>-->
-                        <#--            <#if service_name>-->
-                        <#--                <li><span><span data-l10n>Service name</span>:</span> <code>{{ service_name></code></li></#if>-->
                         <#if details.serverPort??>
-                            <li><span><span data-l10n>Service port</span>:</span> <code
-                                        class="bold-yellow">${details.serverPort?c}</code>
-                            </li>
+                            <li><span><span data-l10n>Service port</span>:</span> <code class="bold-yellow">${details.serverPort?c}</code></li>
                         </#if>
                         <#if details.requestId??>
-                            <li><span><span data-l10n>Request ID</span>:</span> <code
-                                        class="bold-yellow">${details.requestId}</code></li>
+                            <li><span><span data-l10n>Request ID</span>:</span> <code class="bold-yellow">${details.requestId}</code></li>
                         </#if>
                         <li><span><span data-l10n>Timestamp</span>:</span> <code class="bold-yellow">${.now}</code></li>
                     </ul>
+                </#if>
+
+                <#if reasons??>
+                    <h3>Reasons:</h3>
+                    <ul>
+                        <#list reasons?keys as key>
+                            <li><strong>${key}:</strong>
+                                <ul>
+                                    <#list reasons[key] as reason>
+                                        <li>${reason}</li>
+                                    </#list>
+                                </ul>
+                            </li>
+                        </#list>
+                    </ul>
+                </#if>
+
+                <#if exceptionMessage??>
+                    <h3>Exception Message:</h3>
+                    <p>${exceptionMessage}</p>
+                </#if>
+                <#if stackTrace??>
+                    <h3>Stack Trace:</h3>
+                    <pre>${stackTrace}</pre>
                 </#if>
             </div>
         </div>
