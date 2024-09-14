@@ -1,16 +1,16 @@
 <#import "../layout.ftlh" as layout>
 <@layout.layout
-         title=title
-         home=home
-         create=create
-         profile=profile
-         logout=logout
-         login=login
-         register=register
-         loggedInMessage=loggedInMessage
-         roleMessage=roleMessage
-         notLoggedInMessage=notLoggedInMessage
-         availableActions=availableActions
+title=title
+home=home
+create=create
+profile=profile
+logout=logout
+login=login
+register=register
+loggedInMessage=loggedInMessage
+roleMessage=roleMessage
+notLoggedInMessage=notLoggedInMessage
+availableActions=availableActions
 >
     <body>
     <div class="container">
@@ -56,32 +56,34 @@
     </div>
 
     <!-- Apply Modal -->
-    <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form action="/vacancies/apply/${vacancy.id}" method="post">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="applyModalLabel">Apply for ${vacancy.name}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="resumeSelect" class="form-label">Select Resume</label>
-                            <select class="form-select" id="resumeSelect" name="resumeId" required>
-                                <#list userResumes as resume>
-                                    <option value="${resume.id}">${resume.name}</option>
-                                </#list>
-                            </select>
+    <#if isAuthenticated>
+        <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="/vacancies/apply/${vacancy.id}" method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="applyModalLabel">Apply for ${vacancy.name}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Apply</button>
-                    </div>
-                </form>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="resumeSelect" class="form-label">Select Resume</label>
+                                <select class="form-select" id="resumeSelect" name="resumeId" required>
+                                    <#list userResumes as resume>
+                                        <option value="${resume.id}">${resume.name}</option>
+                                    </#list>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Apply</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+    </#if>
 
     </body>
 </@layout.layout>
