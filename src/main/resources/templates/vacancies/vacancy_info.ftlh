@@ -27,7 +27,7 @@ availableActions=availableActions
                 <p class="card-text mb-2"><strong>${vacancyIsActive}:</strong>
                     ${vacancy.isActive?string('${vacancyActiveYes}', '${vacancyActiveNo}')}</p>
                 <p class="card-text">
-                    <strong>Компания:</strong>
+                    <strong>${vacancyCompany}:</strong>
                     <a href="/company/${user.email}">${user.email}</a>
                 </p>
                 <p class="card-text"><strong>${vacancyCreatedDate}:</strong> ${vacancy.getFormattedCreatedDate()}</p>

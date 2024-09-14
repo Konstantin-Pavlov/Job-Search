@@ -89,6 +89,11 @@ public class VacancyController {
         model.addAttribute("vacancyButtonInfo", bundle.getString("vacancy.button.info"));
         model.addAttribute("vacancyButtonClose", bundle.getString("vacancy.button.close"));
         model.addAttribute("vacancySelectResume", bundle.getString("vacancy.selectResume"));
+        model.addAttribute("vacancyCompany", bundle.getString("vacancy.company"));
+        model.addAttribute("vacancyBackToProfile", bundle.getString("vacancy.button.backToProfile"));
+        model.addAttribute("vacancyRespondedNoVacancies", bundle.getString("vacancies.user.responded.noVacancies"));
+        model.addAttribute("vacancyUserRespondedTo", bundle.getString("vacancies.user.responded.youHaveResponded"));
+        model.addAttribute("vacanciesVacancies", bundle.getString("vacancies.user.responded.vacancies"));
     }
 
     @GetMapping()
