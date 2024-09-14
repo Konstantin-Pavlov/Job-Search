@@ -11,6 +11,6 @@ import java.util.Map;
 @Setter
 @Builder
 public class ErrorResponseBody {
-    private String title;
+    private String error;
     private Map<String, List<String>> reasons;
 }

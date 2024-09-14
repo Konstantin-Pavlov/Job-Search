@@ -43,11 +43,11 @@ public class ResumeController {
 
     @GetMapping()
     public String getResumes(Model model, Authentication authentication) {
-        MvcControllersUtil.authCheckAndAddAttributes(
-                model,
-                authentication,
-                resumeService.getResumes(),
-                "resumes");
+//        MvcControllersUtil.authCheckAndAddAttributes(
+//                model,
+//                authentication,
+//                resumeService.getResumes(),
+//                "resumes");
         return "resumes/resumes";
     }
 
