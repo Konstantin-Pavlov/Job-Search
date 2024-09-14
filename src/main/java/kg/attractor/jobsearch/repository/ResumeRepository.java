@@ -15,7 +15,9 @@ public interface ResumeRepository extends JpaRepository<Resume, Integer> {
             "JOIN Vacancy v ON v.id = ra.vacancyId " +
             "JOIN User u ON u.id = v.authorId " +
             "WHERE u.id = :employerId")
-    List<Resume> findResumesRespondedToEmployerVacancies(@Param("employerId")Integer employerId);
+    List<Resume> findResumesRespondedToEmployerVacancies(@Param("employerId") Integer employerId);
+
     List<Resume> findByCategoryId(Integer categoryId);
+
     List<Resume> findByApplicantId(Integer userId);
 }
