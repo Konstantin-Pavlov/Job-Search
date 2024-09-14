@@ -88,6 +88,7 @@ public class VacancyController {
         model.addAttribute("vacancyButtonBack", bundle.getString("vacancy.button.back"));
         model.addAttribute("vacancyButtonInfo", bundle.getString("vacancy.button.info"));
         model.addAttribute("vacancyButtonClose", bundle.getString("vacancy.button.close"));
+        model.addAttribute("vacancySelectResume", bundle.getString("vacancy.selectResume"));
     }
 
     @GetMapping()

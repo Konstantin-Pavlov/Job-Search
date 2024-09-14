@@ -24,7 +24,8 @@ availableActions=availableActions
                 <p class="card-text">
                     <strong>${vacancyExperience}:</strong>
                     ${vacancyExperienceFrom} ${vacancy.expFrom} ${vacancyExperienceTo} ${vacancy.expTo} ${vacancyExperienceYears}
-                <p class="card-text"><strong>Активно:</strong> ${vacancy.isActive?string('Да', 'Нет')}</p>
+                <p class="card-text mb-2"><strong>${vacancyIsActive}:</strong>
+                    ${vacancy.isActive?string('${vacancyActiveYes}', '${vacancyActiveNo}')}</p>
                 <p class="card-text">
                     <strong>Компания:</strong>
                     <a href="/company/${user.email}">${user.email}</a>
@@ -64,12 +65,12 @@ availableActions=availableActions
                 <div class="modal-content">
                     <form action="/vacancies/apply/${vacancy.id}" method="post">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="applyModalLabel">Apply for ${vacancy.name}</h5>
+                            <h5 class="modal-title" id="applyModalLabel">${vacancyButtonApply} ${vacancy.name}</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label for="resumeSelect" class="form-label">Select Resume</label>
+                                <label for="resumeSelect" class="form-label">${vacancySelectResume}</label>
                                 <select class="form-select" id="resumeSelect" name="resumeId" required>
                                     <#list userResumes as resume>
                                         <option value="${resume.id}">${resume.name}</option>
@@ -78,7 +79,7 @@ availableActions=availableActions
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">${vacancyButtonClose}</button>
                             <button type="submit" class="btn btn-primary">${vacancyButtonApply}</button>
                         </div>
                     </form>
