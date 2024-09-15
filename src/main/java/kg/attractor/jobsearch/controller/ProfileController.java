@@ -46,6 +46,41 @@ public class ProfileController {
         model.addAttribute("_csrf", csrfToken);
 
         ResourceBundle bundle = MvcControllersUtil.getResourceBundleSetLocaleSetProperties(model, locale);
+
+        // Add profile-related properties to the model
+        model.addAttribute("profileUpdated", bundle.getString("profile.updated"));
+        model.addAttribute("profileYes", bundle.getString("profile.yes"));
+        model.addAttribute("profileNo", bundle.getString("profile.no"));
+        model.addAttribute("profileCompanyName", bundle.getString("profile.companyName"));
+        model.addAttribute("profileEdit", bundle.getString("profile.edit"));
+        model.addAttribute("profileAge", bundle.getString("profile.age"));
+        model.addAttribute("profileCreateVacancy", bundle.getString("profile.createVacancy"));
+        model.addAttribute("profileCreateResume", bundle.getString("profile.createResume"));
+        model.addAttribute("profileResponsesToVacancies", bundle.getString("profile.responsesToVacancies"));
+        model.addAttribute("profileVacancies", bundle.getString("profile.vacancies"));
+        model.addAttribute("profileResumes", bundle.getString("profile.resumes"));
+        model.addAttribute("profileNoVacancies", bundle.getString("profile.noVacancies"));
+        model.addAttribute("profileNoResumes", bundle.getString("profile.noResumes"));
+        model.addAttribute("profileUpdatedDate", bundle.getString("profile.updatedDate"));
+        model.addAttribute("profileUpdate", bundle.getString("profile.update"));
+        model.addAttribute("profileHome", bundle.getString("profile.home"));
+        model.addAttribute("profileEmployerDashboard", bundle.getString("profile.employerDashboard"));
+        model.addAttribute("profileApplicantDashboard", bundle.getString("profile.applicantDashboard"));
+        model.addAttribute("profileSuccessfullyUpdated", bundle.getString("profile.successfullyUpdated"));
+        model.addAttribute("profileEditProfile", bundle.getString("profile.editProfile"));
+        model.addAttribute("profileFixErrors", bundle.getString("profile.fixErrors"));
+        model.addAttribute("profileFieldName", bundle.getString("profile.fieldName"));
+        model.addAttribute("profileErrorDescription", bundle.getString("profile.errorDescription"));
+        model.addAttribute("profileName", bundle.getString("profile.name"));
+        model.addAttribute("profileTitle", bundle.getString("profile.title"));
+        model.addAttribute("profileEmail", bundle.getString("profile.email"));
+        model.addAttribute("profilePhoneNumber", bundle.getString("profile.phoneNumber"));
+        model.addAttribute("profileAccountType", bundle.getString("profile.accountType"));
+        model.addAttribute("profileApplicant", bundle.getString("profile.applicant"));
+        model.addAttribute("profileEmployer", bundle.getString("profile.employer"));
+        model.addAttribute("profileAvatar", bundle.getString("profile.avatar"));
+        model.addAttribute("profileSaveChanges", bundle.getString("profile.saveChanges"));
+
     }
 
     @GetMapping()

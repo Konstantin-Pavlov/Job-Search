@@ -16,42 +16,35 @@ availableActions=availableActions
     <!-- Link to the external CSS file -->
     <link rel="stylesheet" type="text/css" href="/static/css/profile.css" xmlns="http://www.w3.org/1999/html">
 
-    <#assign title = entityTitle!"Default Title">
-    <#assign name = entityName!"Default Name">
+    <#assign title = entityTitle!"${profileTitle}">
+    <#assign name = entityName!"${profileName}">
     <#assign updated = entityUpdated!false>
 
-    <p>updated: <#if updated>yes<#else>no</#if></p>
+    <p>${profileUpdated}: <#if updated>${profileYes}<#else>${profileNo}</#if></p>
 
     <!-- Include the modal template and pass variables -->
     <@modalTemplates.modal modalTitle=title modalName=name />
-
 
     <div class="profile-container">
         <h1 class="profile-header" id="profile-header"></h1>
 
         <div class="profile-section">
             <div class="profile-info">
-                <#--                <img id="profile-avatar"-->
-                <#--                     src="/avatars/${userDto.avatar}"-->
-                <#--                     alt="User Avatar"-->
-                <#--                     class="profile-avatar"-->
-                <#--                     onerror="this.onerror=null;this.src='/avatars/<#if userDto.accountType == 'employer'>default_company_avatar.png<#else>ava.png</#if>';">-->
-
                 <img id="profile-avatar"
                      src="/avatars/${userDto.avatar}"
-                     alt="User Avatar"
+                     alt="${profileAvatar}"
                      class="profile-avatar"
                      onerror="this.onerror=null; this.src='/avatars/<#if userDto.accountType == 'employer'>default_company_avatar.png<#else>default_user_avatar.png</#if>';
                              this.onerror=function(){ this.src='/static/images/avatars/<#if userDto.accountType == 'employer'>default_company_avatar.png<#else>default_user_avatar.png</#if>'; };">
 
                 <div id="profile-details">
                     <#if userDto.accountType == "employer">
-                        <p class="profile-name" id="profile-name">company name</p><br>
-                        <a href="/profile/edit" class="btn btn-primary edit-profile-btn">Редактировать</a>
+                        <p class="profile-name" id="profile-name">${profileCompanyName}</p><br>
+                        <a href="/profile/edit" class="btn btn-primary edit-profile-btn">${profileEdit}</a>
                     <#else>
                         <p class="profile-name" id="profile-name">${userDto.name}</p>
-                        <p class="profile-age" id="profile-age">Возраст: ${userDto.age}</p>
-                        <a href="/profile/edit" class="btn btn-primary edit-profile-btn">Редактировать</a>
+                        <p class="profile-age" id="profile-age">${profileAge}: ${userDto.age}</p>
+                        <a href="/profile/edit" class="btn btn-primary edit-profile-btn">${profileEdit}</a>
                     </#if>
                 </div>
             </div>
@@ -61,88 +54,75 @@ availableActions=availableActions
                     <#if userDto.accountType == "employer">
                         <form action="/vacancies/create" method="get">
                             <button class="create-btn" id="create-btn">
-                                Создать<br>вакансию
+                                ${profileCreateVacancy}
                             </button>
                         </form>
                     <#else>
                         <form action="/resumes/create" method="get">
                             <button type="submit" class="create-btn" id="create-btn">
-                                Создать<br>резюме
+                                ${profileCreateResume}
                             </button>
                         </form>
                     </#if>
                 </div>
 
                 <#if userDto.accountType == "employer">
-<#--                    <div class="responses">-->
-<#--                        <button class="create-btn">отклики на ваши вакансии: ${resumesRespondedToEmployerVacancies?size}</button>-->
-<#--                    </div>-->
                     <form action="/resumes/resumes-responded-to-employer-vacancies" method="get">
                         <button type="submit" class="create-btn" id="create-btn">
-                            отклики на ваши вакансии: ${resumesRespondedToEmployerVacancies?size}
+                            ${profileResponsesToVacancies}: ${resumesRespondedToEmployerVacancies?size}
                         </button>
                     </form>
-
                 <#else>
-
                     <form action="/vacancies/vacancies-user-responded" method="get">
                         <button type="submit" class="create-btn" id="create-btn">
-                            вы откликнулись на вакансии: ${vacanciesUserResponded?size}
+                            ${profileVacancies}: ${vacanciesUserResponded?size}
                         </button>
                     </form>
                 </#if>
-
             </div>
         </div>
 
         <div class="resume-section">
             <h2 id="resume-section-title">
                 <#if userDto.accountType == "employer">
-                    Вакансии:
+                    ${profileVacancies}:
                 <#else>
-                    Резюме:
+                    ${profileResumes}:
                 </#if>
             </h2>
             <div class="resume-list" id="resume-list">
                 <#if userDto.accountType == "employer">
                     <#if userVacancies?size == 0>
-                        <p class="no-resumes">No vacancies added yet</p>
+                        <p class="no-resumes">${profileNoVacancies}</p>
                     <#else>
                         <#list userVacancies as vacancy>
                             <div class="vacancy-or-resume-card">
                                 <p class="vacancy-or-resume-title">${vacancy.name}</p>
-                                <p class="vacancy-or-resume-title">${vacancy.id}</p>
-                                <p class="vacancy-or-resume-date">Дата
-                                    обновления: ${vacancy.getFormattedUpdatedDate()}</p>
+                                <p class="vacancy-or-resume-title">ID: ${vacancy.id}</p>
+                                <p class="vacancy-or-resume-date">${profileUpdatedDate}: ${vacancy.getFormattedUpdatedDate()}</p>
                                 <div class="vacancy-or-resume-actions">
-                                    <form action="/vacancies/update/${vacancy.id}" method="post"
-                                          style="display:inline;">
-                                        <button type="submit" class="update-vacancy-or-resume-btn">Обновить</button>
+                                    <form action="/vacancies/update/${vacancy.id}" method="post" style="display:inline;">
+                                        <button type="submit" class="update-vacancy-or-resume-btn">${profileUpdate}</button>
                                     </form>
-                                    <button class="edit-vacancy-or-resume-btn"
-                                            onclick="location.href='/vacancies/edit/${vacancy.id}'">Ред.
-                                    </button>
+                                    <button class="edit-vacancy-or-resume-btn" onclick="location.href='/vacancies/edit/${vacancy.id}'">${profileEdit}</button>
                                 </div>
                             </div>
                         </#list>
                     </#if>
                 <#else>
                     <#if userResumes?size == 0>
-                        <p class="no-resumes">No resume added yet</p>
+                        <p class="no-resumes">${profileNoResumes}</p>
                     <#else>
                         <#list userResumes as resume>
                             <div class="vacancy-or-resume-card">
                                 <p class="vacancy-or-resume-title">${resume.name}</p>
                                 <p class="vacancy-or-resume-title">${resume.id}</p>
-                                <p class="vacancy-or-resume-date">Дата
-                                    обновления: ${resume.getFormattedUpdatedDate()}</p>
+                                <p class="vacancy-or-resume-date">${profileUpdatedDate}: ${resume.getFormattedUpdatedDate()}</p>
                                 <div class="vacancy-or-resume-actions">
                                     <form action="/resumes/update/${resume.id}" method="post" style="display:inline;">
-                                        <button type="submit" class="update-vacancy-or-resume-btn">Обновить</button>
+                                        <button type="submit" class="update-vacancy-or-resume-btn">${profileUpdate}</button>
                                     </form>
-                                    <button class="edit-vacancy-or-resume-btn"
-                                            onclick="location.href='/resumes/edit/${resume.id}'">Ред.
-                                    </button>
+                                    <button class="edit-vacancy-or-resume-btn" onclick="location.href='/resumes/edit/${resume.id}'">${profileEdit}</button>
                                 </div>
                             </div>
                         </#list>
@@ -151,29 +131,9 @@ availableActions=availableActions
             </div>
         </div>
         <div class="home-btn-container">
-            <a href="/" class="home-btn">Home</a>
+            <a href="/" class="home-btn">${profileHome}</a>
         </div>
     </div>
-
-
-<#--    <!-- Modal &ndash;&gt;-->
-<#--    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">-->
-<#--        <div class="modal-dialog">-->
-<#--            <div class="modal-content">-->
-<#--                <div class="modal-header">-->
-<#--                    <h5 class="modal-title" id="successModalLabel">Success</h5>-->
-<#--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-<#--                </div>-->
-<#--                <div class="modal-body">-->
-<#--                    Test message-->
-<#--                </div>-->
-<#--                <div class="modal-footer">-->
-<#--                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
-<#--                </div>-->
-<#--            </div>-->
-<#--        </div>-->
-<#--    </div>-->
-
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -185,9 +145,9 @@ availableActions=availableActions
             // Set the header based on account type
             const profileHeader = document.getElementById("profile-header");
             if (accountType === "employer") {
-                profileHeader.textContent = "Личный кабинет работодателя";
+                profileHeader.textContent = "${profileEmployerDashboard}";
             } else {
-                profileHeader.textContent = "Личный кабинет Соискателя";
+                profileHeader.textContent = "${profileApplicantDashboard}";
             }
 
             <#assign updated = entityUpdated!false>
@@ -202,8 +162,8 @@ availableActions=availableActions
                 const successModalElement = document.getElementById('successModal');
 
                 // Set the modal title and body content
-                successModalElement.querySelector('.modal-title').textContent = `${title} updated`;
-                successModalElement.querySelector('.modal-body').textContent = `${title} ${name} successfully updated`;
+                successModalElement.querySelector('.modal-title').textContent = `${title} ${profileSuccessfullyUpdated}`;
+                successModalElement.querySelector('.modal-body').textContent = `${title} ${name} ${profileSuccessfullyUpdated}`;
 
                 // Initialize and show the modal
                 const successModal = new bootstrap.Modal(successModalElement);
