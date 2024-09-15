@@ -156,7 +156,7 @@ public class ResumeController {
             resumeDto.setUpdateTime(LocalDateTime.now());
             resumeService.addResume(resumeDto);
             model.addAttribute("successMessage", "Resume added successfully");
-            return "redirect:/auth/profile"; // Redirect to the profile
+            return "redirect:/profile"; // Redirect to the profile
         }
 
         return "redirect:/auth/login"; // Redirect to login if not authenticated
