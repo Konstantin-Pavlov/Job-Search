@@ -1,4 +1,4 @@
-<#import "../layout.ftlh" as main>
+<#import "../layout.ftlh" as layout>
 <@layout.layout
 title=title
 home=home
@@ -110,4 +110,4 @@ availableActions=availableActions
             }
         });
     </script>
-</@main.layout>
+</@layout.layout>
