@@ -218,7 +218,7 @@ public class ResumeController {
             resumeService.updateResume(resumeId);
 
             redirectAttributes.addFlashAttribute("ifEntityUpdated", true);
-            redirectAttributes.addFlashAttribute("entityTitle", "resumes");
+            redirectAttributes.addFlashAttribute("entityTitle", "resume");
             redirectAttributes.addFlashAttribute("entityName", resumeDto.getName());
             return "redirect:/profile";
         }
