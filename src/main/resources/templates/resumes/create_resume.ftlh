@@ -13,7 +13,7 @@ notLoggedInMessage=notLoggedInMessage
 availableActions=availableActions
 >
     <div class="container mt-4">
-        <h2>Create Resume</h2>
+        <h2>${resumeCreateTitle}</h2>
         <#if errorMessage??>
             <div class="alert alert-danger" role="alert">
                 ${errorMessage}
@@ -35,13 +35,13 @@ availableActions=availableActions
         <!-- Display the list of errors in a styled alert box with a title -->
         <#if bindingResult?has_content>
             <div class="alert alert-danger" role="alert">
-                <h4 class="alert-heading">Please correct the following errors:</h4>
+                <h4 class="alert-heading">${resumeDetails}</h4>
                 <hr>
                 <table class="table table-bordered table-hover">
                     <thead>
                     <tr>
-                        <th>Field Name</th>
-                        <th>Error Description</th>
+                        <th>${resumeTitle}</th>
+                        <th>${resumeCount}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -61,7 +61,7 @@ availableActions=availableActions
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             </#if>
             <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
+                <label for="name" class="form-label">${resumeName}</label>
                 <input type="text" class="form-control" id="name" name="name" value="${resumeDto.name!'Software Engineer'}" required>
                 <#if bindingResult?has_content && bindingResult.hasFieldErrors("name")>
                     <span class="error-message">${bindingResult.getFieldError("name").defaultMessage}</span>
@@ -69,7 +69,7 @@ availableActions=availableActions
             </div>
 
             <div class="mb-3">
-                <label for="category_id" class="form-label">Category</label>
+                <label for="category_id" class="form-label">${resumeCategory}</label>
                 <select class="form-select" id="category_id" name="categoryId" required>
                     <#list categories as category>
                         <option value="${category.id}" <#if resumeDto.categoryId?? && resumeDto.categoryId == category.id>selected</#if>>${category.name}</option>
@@ -81,7 +81,7 @@ availableActions=availableActions
             </div>
 
             <div class="mb-3">
-                <label for="salary" class="form-label">Salary</label>
+                <label for="salary" class="form-label">${resumeSalary}</label>
                 <input type="number" class="form-control" id="salary" name="salary" value="${resumeDto.salary?if_exists?string('42000')}" required>
                 <#if bindingResult?has_content && bindingResult.hasFieldErrors("salary")>
                     <span class="error-message">${bindingResult.getFieldError("salary").defaultMessage}</span>
@@ -89,12 +89,12 @@ availableActions=availableActions
             </div>
             <div class="mb-3 form-check form-switch">
                 <input type="checkbox" class="form-check-input" id="is_active" name="isActive" <#if resumeDto.isActive?? && resumeDto.isActive == true || !resumeDto.isActive??>checked</#if>>
-                <label class="form-check-label" for="is_active">Is Active</label>
+                <label class="form-check-label" for="is_active">${resumeIsActive}</label>
                 <#if bindingResult?has_content && bindingResult.hasFieldErrors("isActive")>
                     <span class="error-message">${bindingResult.getFieldError("isActive").defaultMessage}</span>
                 </#if>
             </div>
-            <button type="submit" class="btn btn-primary">Create Resume</button>
+            <button type="submit" class="btn btn-primary">${resumeCreateButton}</button>
         </form>
     </div>
 
