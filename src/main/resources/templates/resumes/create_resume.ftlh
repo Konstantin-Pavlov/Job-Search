@@ -97,7 +97,13 @@ availableActions=availableActions
                     <span class="error-message">${bindingResult.getFieldError("isActive").defaultMessage}</span>
                 </#if>
             </div>
-            <button type="submit" class="btn btn-primary">${resumeCreateButton}</button>
+
+            <div class="button-group">
+                <button type="submit" class="btn btn-primary">${resumeCreateButton}</button>
+                <a href="/profile" class="btn btn-secondary">Back to Profile</a>
+                <a href="/" class="btn btn-secondary">Home</a>
+            </div>
+
         </form>
     </div>
 
