@@ -67,9 +67,9 @@ availableActions=availableActions
         </div>
 
         <div class="button-group">
-            <button type="submit" class="btn btn-primary">Edit Resume</button>
-            <a href="/profile" class="btn btn-secondary">Back to Profile</a>
-            <a href="/" class="btn btn-secondary">Home</a>
+            <button type="submit" class="btn btn-primary">${resumeButtonEdit}</button>
+            <a href="/profile" class="btn btn-secondary">${resumeButtonBackToProfile}</a>
+            <a href="/" class="btn btn-secondary">${resumeButtonHome}</a>
         </div>
     </form>
 

@@ -76,6 +76,9 @@ public class ResumeController {
         model.addAttribute("resumeNotLoggedIn", bundle.getString("resume.notLoggedIn"));
         model.addAttribute("resumeDetails", bundle.getString("resume.details"));
         model.addAttribute("resumeButtonBack", bundle.getString("resume.button.back"));
+        model.addAttribute("resumeButtonBackToProfile", bundle.getString("resume.button.backToProfile"));
+        model.addAttribute("resumeButtonHome", bundle.getString("resume.button.home"));
+        model.addAttribute("resumeButtonEdit", bundle.getString("resume.button.edit"));
     }
 
     @GetMapping()

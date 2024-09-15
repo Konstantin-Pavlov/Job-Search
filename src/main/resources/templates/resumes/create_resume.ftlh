@@ -13,8 +13,6 @@ notLoggedInMessage=notLoggedInMessage
 availableActions=availableActions
 >
 
-    <h1>this remains!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</h1>
-
     <div class="container mt-4">
         <h2>${resumeCreateTitle}</h2>
         <#if errorMessage??>
@@ -100,8 +98,8 @@ availableActions=availableActions
 
             <div class="button-group">
                 <button type="submit" class="btn btn-primary">${resumeCreateButton}</button>
-                <a href="/profile" class="btn btn-secondary">Back to Profile</a>
-                <a href="/" class="btn btn-secondary">Home</a>
+                <a href="/profile" class="btn btn-secondary">${resumeButtonBackToProfile}</a>
+                <a href="/" class="btn btn-secondary">${resumeButtonHome}</a>
             </div>
 
         </form>
