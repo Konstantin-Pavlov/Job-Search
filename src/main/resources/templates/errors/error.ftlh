@@ -1,4 +1,4 @@
-<#import "../layout.ftlh" as main>
+<#import "../layout.ftlh" as layout>
 <@layout.layout
 title=title
 home=home
@@ -269,4 +269,4 @@ availableActions=availableActions
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script src="/static/js/error.js"></script>
-</@main.layout>
+</@layout.layout>

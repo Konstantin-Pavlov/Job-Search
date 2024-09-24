@@ -80,6 +80,17 @@ public class ProfileController {
         model.addAttribute("profileEmployer", bundle.getString("profile.employer"));
         model.addAttribute("profileAvatar", bundle.getString("profile.avatar"));
         model.addAttribute("profileSaveChanges", bundle.getString("profile.saveChanges"));
+        model.addAttribute("homeButton", bundle.getString("button.home"));
+        model.addAttribute("profileButton", bundle.getString("button.backToProfile"));
+
+        // Add edit profile-related properties to the model
+        model.addAttribute("profileEditCorrectErrors", bundle.getString("profile.edit.correctErrors"));
+        model.addAttribute("profileEditName", bundle.getString("profile.edit.name"));
+        model.addAttribute("profileEditAge", bundle.getString("profile.edit.age"));
+        model.addAttribute("profileEditEmail", bundle.getString("profile.edit.email"));
+        model.addAttribute("profileEditPhoneNumber", bundle.getString("profile.edit.phone"));
+        model.addAttribute("profileEditAccountType", bundle.getString("profile.edit.accountType"));
+        model.addAttribute("profileEditAvatar", bundle.getString("profile.edit.avatar"));
 
     }
 
