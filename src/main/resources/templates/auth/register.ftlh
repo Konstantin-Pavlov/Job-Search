@@ -1,6 +1,18 @@
 <#import "../layout.ftlh" as main>
 <#import "../modal.ftlh" as modalTemplates>
-<@main.layout>
+<@layout.layout
+title=title
+home=home
+create=create
+profile=profile
+logout=logout
+login=login
+register=register
+loggedInMessage=loggedInMessage
+roleMessage=roleMessage
+notLoggedInMessage=notLoggedInMessage
+availableActions=availableActions
+>
 
     <#assign title = successMessage!"Default Title">
     <#assign name = entityName!"Default Name">
