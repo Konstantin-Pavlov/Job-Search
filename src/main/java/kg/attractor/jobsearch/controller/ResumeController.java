@@ -11,7 +11,6 @@ import kg.attractor.jobsearch.service.RespondedApplicantService;
 import kg.attractor.jobsearch.service.ResumeService;
 import kg.attractor.jobsearch.service.UserService;
 import kg.attractor.jobsearch.service.VacancyService;
-import kg.attractor.jobsearch.service.impl.VacancyServiceImpl;
 import kg.attractor.jobsearch.util.MvcControllersUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -88,6 +87,10 @@ public class ResumeController {
         model.addAttribute("resumesRespondedCardMoreInfo", bundle.getString("resumes.responded.card.moreInfo"));
         model.addAttribute("resumesRespondedButtonBackToProfile", bundle.getString("resumes.responded.button.backToProfile"));
         model.addAttribute("resumesRespondedButtonHome", bundle.getString("resumes.responded.button.home"));
+
+        model.addAttribute("resumeEditPopupTitle", bundle.getString("resume.edit.popup.title"));
+        model.addAttribute("resumeEditPopupMessage1", bundle.getString("resume.edit.popup.message1"));
+        model.addAttribute("resumeEditPopupMessage2", bundle.getString("resume.edit.popup.message2"));
     }
 
     @GetMapping()
@@ -210,7 +213,6 @@ public class ResumeController {
             resumeDto.setApplicantId(userDto.getId());
             resumeDto.setId(resumeId);
             resumeService.editResume(resumeDto);
-            model.addAttribute("successMessage", "Resume edited successfully");
             model.addAttribute("entityUpdated", true);
 //            return "redirect:/profile"; // Redirect to the profile
             return "resumes/edit_resume";
