@@ -19,7 +19,7 @@ public class IndexController {
     public String welcome(Model model,
                           Authentication authentication,
                           @SessionAttribute(name = "currentLocale", required = false)
-                              Locale locale) {
+                          Locale locale) {
         MvcControllersUtil.authCheck(
                 model,
                 authentication
