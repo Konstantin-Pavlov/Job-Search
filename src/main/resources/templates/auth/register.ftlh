@@ -1,4 +1,4 @@
-<#import "../layout.ftlh" as main>
+<#import "../layout.ftlh" as layout>
 <#import "../modal.ftlh" as modalTemplates>
 <@layout.layout
 title=title
@@ -156,4 +156,4 @@ availableActions=availableActions
             }
         });
     </script>
-</@main.layout>
+</@layout.layout>
