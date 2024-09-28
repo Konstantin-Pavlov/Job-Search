@@ -14,7 +14,7 @@ notLoggedInMessage=notLoggedInMessage
 availableActions=availableActions
 >
 
-    <#assign title = successMessage!"Default Title">
+    <#assign title = resumeEditPopupTitle!"Default Title">
     <#assign name = resumeDto.name!"Default Name">
     <#assign updated = entityUpdated!false>
 
@@ -91,7 +91,7 @@ availableActions=availableActions
 
                 // Set the modal title and body content
                 successModalElement.querySelector('.modal-title').textContent = "${title}";
-                successModalElement.querySelector('.modal-body').textContent = `Resume ${name} successfully edited`;
+                successModalElement.querySelector('.modal-body').textContent = `${resumeEditPopupMessage1} ${name} ${resumeEditPopupMessage2}`;
 
                 // Initialize and show the modal
                 const successModal = new bootstrap.Modal(successModalElement);

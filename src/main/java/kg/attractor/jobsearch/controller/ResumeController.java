@@ -87,6 +87,10 @@ public class ResumeController {
         model.addAttribute("resumesRespondedCardMoreInfo", bundle.getString("resumes.responded.card.moreInfo"));
         model.addAttribute("resumesRespondedButtonBackToProfile", bundle.getString("resumes.responded.button.backToProfile"));
         model.addAttribute("resumesRespondedButtonHome", bundle.getString("resumes.responded.button.home"));
+
+        model.addAttribute("resumeEditPopupTitle", bundle.getString("resume.edit.popup.title"));
+        model.addAttribute("resumeEditPopupMessage1", bundle.getString("resume.edit.popup.message1"));
+        model.addAttribute("resumeEditPopupMessage2", bundle.getString("resume.edit.popup.message2"));
     }
 
     @GetMapping()
@@ -208,7 +212,6 @@ public class ResumeController {
             resumeDto.setApplicantId(userDto.getId());
             resumeDto.setId(resumeId);
             resumeService.editResume(resumeDto);
-            model.addAttribute("successMessage", "Resume edited successfully");
             model.addAttribute("entityUpdated", true);
 //            return "redirect:/profile"; // Redirect to the profile
             return "resumes/edit_resume";
