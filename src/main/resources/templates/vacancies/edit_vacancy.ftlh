@@ -100,6 +100,7 @@ availableActions=availableActions
             <a href="/profile" class="btn btn-secondary">${backToProfile}</a>
             <a href="/" class="btn btn-secondary">${home}</a>
         </div>
+
     </form>
 
     <script>

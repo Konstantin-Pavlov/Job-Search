@@ -1,4 +1,4 @@
-<#import "../layout.ftlh" as main>
+<#import "../layout.ftlh" as layout>
 <#import "../modal.ftlh" as modalTemplates>
 <@layout.layout
 title=title
@@ -30,18 +30,7 @@ availableActions=availableActions
                 ${errorMessage}
             </div>
         </#if>
-<#--        <#if successMessage??>-->
-<#--            <div class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive"-->
-<#--                 aria-atomic="true" id="successToast">-->
-<#--                <div class="d-flex">-->
-<#--                    <div class="toast-body">-->
-<#--                        ${successMessage}-->
-<#--                    </div>-->
-<#--                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"-->
-<#--                            aria-label="Close"></button>-->
-<#--                </div>-->
-<#--            </div>-->
-<#--        </#if>-->
+
 
         <!-- Display the list of errors in a styled alert box with a title -->
         <#if bindingResult?has_content>
@@ -136,7 +125,12 @@ availableActions=availableActions
                     <span class="error-message">${bindingResult.getFieldError("isActive").defaultMessage}</span>
                 </#if>
             </div>
-            <button type="submit" class="btn btn-primary">Create Vacancy</button>
+
+            <div class="button-group">
+                <button type="submit" class="btn btn-primary">${vacancyButtonCreate}</button>
+                <a href="/profile" class="btn btn-secondary">${backToProfile}</a>
+                <a href="/" class="btn btn-secondary">${home}</a>
+            </div>
         </form>
     </div>
 
@@ -173,4 +167,4 @@ availableActions=availableActions
 
         });
     </script>
-</@main.layout>
+</@layout.layout>
