@@ -65,7 +65,8 @@ public class VacancyController {
         model.addAttribute("vacancyExperience", bundle.getString("vacancy.experience"));
         model.addAttribute("vacancyExperienceFrom", bundle.getString("vacancy.experience.from"));
         model.addAttribute("vacancyExperienceTo", bundle.getString("vacancy.experience.to"));
-        model.addAttribute("vacancyExperienceYears", bundle.getString("vacancy.experience.years"));        model.addAttribute("vacancyIsActive", bundle.getString("vacancy.isActive"));
+        model.addAttribute("vacancyExperienceYears", bundle.getString("vacancy.experience.years"));
+        model.addAttribute("vacancyIsActive", bundle.getString("vacancy.isActive"));
         model.addAttribute("vacancyActiveYes", bundle.getString("vacancy.activeYes"));
         model.addAttribute("vacancyActiveNo", bundle.getString("vacancy.activeNo"));
         model.addAttribute("vacancyCreatedDate", bundle.getString("vacancy.createdDate"));

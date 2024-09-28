@@ -5,12 +5,15 @@ import kg.attractor.jobsearch.exception.CategoryNotFoundException;
 import kg.attractor.jobsearch.exception.UserNotFoundException;
 import kg.attractor.jobsearch.exception.VacancyNotFoundException;
 import kg.attractor.jobsearch.service.ErrorService;
+import kg.attractor.jobsearch.util.MvcControllersUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.util.Locale;
 import java.util.NoSuchElementException;
 
 @ControllerAdvice
@@ -18,6 +21,11 @@ import java.util.NoSuchElementException;
 public class GlobalMvcControllerAdvice {
 
     private final ErrorService errorService;
+
+    @ModelAttribute
+    public void addCommonAttributes(Model model, Locale locale) {
+        MvcControllersUtil.getResourceBundleSetLocaleSetProperties(model, locale);
+    }
 
     @ExceptionHandler(NoSuchElementException.class)
     public String notFound(HttpServletRequest request, Model model) {
