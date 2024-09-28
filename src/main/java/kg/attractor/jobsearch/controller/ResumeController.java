@@ -75,10 +75,19 @@ public class ResumeController {
         model.addAttribute("resumeLoggedInAs", bundle.getString("resume.loggedInAs"));
         model.addAttribute("resumeNotLoggedIn", bundle.getString("resume.notLoggedIn"));
         model.addAttribute("resumeDetails", bundle.getString("resume.details"));
+
         model.addAttribute("resumeButtonBack", bundle.getString("resume.button.back"));
         model.addAttribute("resumeButtonBackToProfile", bundle.getString("resume.button.backToProfile"));
         model.addAttribute("resumeButtonHome", bundle.getString("resume.button.home"));
         model.addAttribute("resumeButtonEdit", bundle.getString("resume.button.edit"));
+
+        model.addAttribute("resumesRespondedNoResponses", bundle.getString("resumes.responded.noResponses"));
+        model.addAttribute("resumesRespondedTitlePart1", bundle.getString("resumes.responded.title.part1"));
+        model.addAttribute("resumesRespondedTitlePart2", bundle.getString("resumes.responded.title.part2"));
+        model.addAttribute("resumesRespondedCardSalary", bundle.getString("resumes.responded.card.salary"));
+        model.addAttribute("resumesRespondedCardMoreInfo", bundle.getString("resumes.responded.card.moreInfo"));
+        model.addAttribute("resumesRespondedButtonBackToProfile", bundle.getString("resumes.responded.button.backToProfile"));
+        model.addAttribute("resumesRespondedButtonHome", bundle.getString("resumes.responded.button.home"));
     }
 
     @GetMapping()
