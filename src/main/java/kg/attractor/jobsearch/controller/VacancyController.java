@@ -76,6 +76,7 @@ public class VacancyController {
         model.addAttribute("vacancyEditName", bundle.getString("vacancy.edit.name"));
         model.addAttribute("vacancyEditDescription", bundle.getString("vacancy.edit.description"));
         model.addAttribute("vacancyEditCategoryId", bundle.getString("vacancy.edit.categoryId"));
+        model.addAttribute("vacancyEditCategory", bundle.getString("vacancy.edit.category"));
         model.addAttribute("vacancyEditSalary", bundle.getString("vacancy.edit.salary"));
         model.addAttribute("vacancyEditExpFrom", bundle.getString("vacancy.edit.expFrom"));
         model.addAttribute("vacancyEditExpTo", bundle.getString("vacancy.edit.expTo"));
@@ -84,11 +85,15 @@ public class VacancyController {
         model.addAttribute("vacancyEditActiveNo", bundle.getString("vacancy.edit.activeNo"));
         model.addAttribute("vacancyEditAuthorId", bundle.getString("vacancy.edit.authorId"));
         model.addAttribute("vacancyEditSubmit", bundle.getString("vacancy.edit.submit"));
+        model.addAttribute("vacancyPopUpSuccessTitle", bundle.getString("vacancy.edit.popup.successTitle"));
+        model.addAttribute("vacancyPopUpVacancy", bundle.getString("vacancy.edit.popup.vacancy"));
+        model.addAttribute("vacancyPopUpSuccessfullyEdited", bundle.getString("vacancy.edit.popup.successfullyEdited"));
         model.addAttribute("vacancyAlreadyRespondedToVacancy", bundle.getString("vacancy.alreadyRespondedToVacancy"));
         model.addAttribute("vacancyButtonApply", bundle.getString("vacancy.button.apply"));
         model.addAttribute("vacancyButtonBack", bundle.getString("vacancy.button.back"));
         model.addAttribute("vacancyButtonInfo", bundle.getString("vacancy.button.info"));
         model.addAttribute("vacancyButtonClose", bundle.getString("vacancy.button.close"));
+        model.addAttribute("vacancyButtonConfirmChanges", bundle.getString("vacancy.button.confirmChanges"));
         model.addAttribute("vacancySelectResume", bundle.getString("vacancy.selectResume"));
         model.addAttribute("vacancyCompany", bundle.getString("vacancy.company"));
         model.addAttribute("vacancyBackToProfile", bundle.getString("vacancy.button.backToProfile"));
@@ -215,7 +220,6 @@ public class VacancyController {
             vacancyDto.setAuthorId(userDto.getId());
             vacancyDto.setId(vacancyId);
             vacancyService.editVacancy(vacancyDto);
-            model.addAttribute("successMessage", "vacancy edited successfully");
             model.addAttribute("entityUpdated", true);
 //            return "redirect:/profile"; // Redirect to the profile
             return "vacancies/edit_vacancy";
@@ -229,7 +233,6 @@ public class VacancyController {
             Authentication authentication,
             Model model,
             RedirectAttributes redirectAttributes) {
-
         if (authentication != null && authentication.isAuthenticated()) {
             VacancyDto vacancyDto = vacancyService.getVacancyById(vacancyId);
             vacancyService.updateVacancy(vacancyId);
