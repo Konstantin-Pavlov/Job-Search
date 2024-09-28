@@ -14,7 +14,7 @@ notLoggedInMessage=notLoggedInMessage
 availableActions=availableActions
 >
 
-    <#assign title = successMessage!"Default Title">
+    <#assign title = '${profileEditPopupTitle}'!"Default Title">
     <#assign name = entityName!"Default Name">
     <#assign updated = hasUpdated!false>
     <p>updated: <#if hasUpdated??>yes<#else>no</#if></p>
@@ -29,18 +29,18 @@ availableActions=availableActions
                 ${errorMessage}
             </div>
         </#if>
-        <#if successMessage??>
-            <div class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive"
-                 aria-atomic="true" id="successToast">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        ${successMessage}
-                    </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                            aria-label="Close"></button>
-                </div>
-            </div>
-        </#if>
+<#--        <#if successMessage??>-->
+<#--            <div class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive"-->
+<#--                 aria-atomic="true" id="successToast">-->
+<#--                <div class="d-flex">-->
+<#--                    <div class="toast-body">-->
+<#--                        ${successMessage}-->
+<#--                    </div>-->
+<#--                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"-->
+<#--                            aria-label="Close"></button>-->
+<#--                </div>-->
+<#--            </div>-->
+<#--        </#if>-->
 
         <!-- Display the list of errors in a styled alert box with a title -->
         <#if bindingResult?has_content>
@@ -131,7 +131,7 @@ availableActions=availableActions
 
                 // Set the modal title and body content
                 successModalElement.querySelector('.modal-title').textContent = `${title}`;
-                successModalElement.querySelector('.modal-body').textContent = `${user.name!"no name"} (${user.email!"no email"}) successfully updated their profile`;
+                successModalElement.querySelector('.modal-body').textContent = `${user.name!"no name"} (${user.email!"no email"}) ${profileEditPopupMessage}`;
 
                 // Initialize and show the modal
                 const successModal = new bootstrap.Modal(successModalElement);

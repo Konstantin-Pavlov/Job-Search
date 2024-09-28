@@ -92,6 +92,8 @@ public class ProfileController {
         model.addAttribute("profileEditAccountType", bundle.getString("profile.edit.accountType"));
         model.addAttribute("profileEditAvatar", bundle.getString("profile.edit.avatar"));
 
+        model.addAttribute("profileEditPopupTitle", bundle.getString("profile.edit.popup.title"));
+        model.addAttribute("profileEditPopupMessage", bundle.getString("profile.edit.popup.message"));
     }
 
     @GetMapping()
@@ -168,7 +170,6 @@ public class ProfileController {
             userWithAvatarFileDto.setEnabled(userDto.isEnabled());
             userWithAvatarFileDto.setId(userDto.getId());
             userService.updateUser(userWithAvatarFileDto);
-            model.addAttribute("successMessage", "Profile updated successfully");
             model.addAttribute("hasUpdated", true);
             model.addAttribute("entityName", userDto.getName());
 //            return "redirect:/profile"; // Redirect to the profile
