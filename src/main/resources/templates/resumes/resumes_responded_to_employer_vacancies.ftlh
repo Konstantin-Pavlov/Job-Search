@@ -15,7 +15,7 @@ availableActions=availableActions
     <div class="container mt-4">
         <#if resumesRespondedToEmployerVacancies?size == 0>
             <div class="alert alert-info text-center" role="alert">
-                <h2>You haven't added any vacancies yet</h2>
+                <h2>You haven't got any responses yet</h2>
             </div>
         <#else>
             <div class="alert alert-info text-center" role="alert">
@@ -25,7 +25,7 @@ availableActions=availableActions
                 <#list resumesRespondedToEmployerVacancies as resume>
                     <div class="col-md-6 col-lg-4 mb-4">
                         <div class="card h-100 shadow-sm">
-                            <img src="/static/images/default_image.jpg" class="card-img-top" alt="No image available">
+<#--                            <img src="/static/images/default_image.jpg" class="card-img-top" alt="No image available">-->
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title">${resume.name}</h5>
                                 <p class="card-text mb-2"><strong>Salary:</strong> ${resume.getFormattedCreatedDate()}</p>
@@ -39,8 +39,8 @@ availableActions=availableActions
         </#if>
 
         <div class="button-group">
-            <a href="/profile" class="btn btn-secondary">Back to Profile</a>
-            <a href="/" class="btn btn-secondary">Home</a>
+            <a href="/profile" class="btn btn-secondary">${backToProfile}</a>
+            <a href="/" class="btn btn-secondary">${home}</a>
         </div>
     </div>
 </@layout.layout>
