@@ -1,5 +1,17 @@
 <#import "../layout.ftlh" as layout>
-<@layout.layout>
+<@layout.layout
+title=title
+home=home
+create=create
+profile=profile
+logout=logout
+login=login
+register=register
+loggedInMessage=loggedInMessage
+roleMessage=roleMessage
+notLoggedInMessage=notLoggedInMessage
+availableActions=availableActions
+>
     <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
     <link rel="dns-prefetch" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito+Sans" rel="stylesheet">

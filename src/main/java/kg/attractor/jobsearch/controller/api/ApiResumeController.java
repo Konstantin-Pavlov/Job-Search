@@ -30,7 +30,7 @@ public class ApiResumeController {
     public ResponseEntity<?> getResumeById(@PathVariable Integer id) {
         ResumeDto resume = resumeService.getResumeById(id);
         if (resume == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("resume with id %d not found", id));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("resumes with id %d not found", id));
         }
         return ResponseEntity.ok(resume);
     }
@@ -40,7 +40,7 @@ public class ApiResumeController {
     public ResponseEntity<?> getResumesByCategoryId(@PathVariable Integer category_id) {
         List<ResumeDto> resumes = resumeService.getResumesByCategoryId(category_id);
         if (resumes == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("resume with category_id %d not found", category_id));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("resumes with category_id %d not found", category_id));
         }
         return ResponseEntity.ok(resumes);
     }
@@ -58,7 +58,7 @@ public class ApiResumeController {
     @PostMapping("add")
     public ResponseEntity<?> add(@Valid @RequestBody ResumeDto resumeDto) {
         resumeService.addResume(resumeDto);
-        return ResponseEntity.ok("resume is valid");
+        return ResponseEntity.ok("resumes is valid");
     }
 
     @DeleteMapping("{id}")

@@ -13,12 +13,13 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 @Slf4j
 public class MvcControllersUtil {
-    RespondedApplicantRepository respondedApplicantRepository;
 
     private MvcControllersUtil() {
     }
@@ -68,6 +69,39 @@ public class MvcControllersUtil {
         return map;
     }
 
+    // todo - add to context?
+    public static ResourceBundle getResourceBundleSetLocaleSetProperties(Model model, Locale locale) {
+        // If locale is null, set it to English
+//        MvcControllersUtil.setLocale(locale);
+
+        if (locale == null) {
+            locale = Locale.ENGLISH; // Default to English if no locale is set
+        }
+
+        // Load the resource bundle based on the current locale
+//        ResourceBundle bundle = MvcControllersUtil.getResourceBundle(locale);
+        ResourceBundle bundle = ResourceBundle.getBundle("resource", locale);
+        // Retrieve and add translations to the model for the layout.ftlh
+        MvcControllersUtil.setPropertiesForLayout(model, bundle);
+        return bundle;
+    }
+
+    // Retrieve and add translations to the model for the layout.ftlh
+    public static void setPropertiesForLayout(Model model, ResourceBundle bundle) {
+        model.addAttribute("home", bundle.getString("button.home"));
+        model.addAttribute("backToProfile", bundle.getString("button.backToProfile"));
+        model.addAttribute("create", bundle.getString("layout.create"));
+        model.addAttribute("profile", bundle.getString("layout.profile"));
+        model.addAttribute("logout", bundle.getString("layout.logout"));
+        model.addAttribute("login", bundle.getString("layout.login"));
+        model.addAttribute("register", bundle.getString("layout.register"));
+        model.addAttribute("loggedInMessage", bundle.getString("layout.logged.in"));
+        model.addAttribute("roleMessage", bundle.getString("layout.roles"));
+        model.addAttribute("notLoggedInMessage", bundle.getString("layout.not.logged.in"));
+        model.addAttribute("availableActions", bundle.getString("layout.actions.available"));
+        model.addAttribute("title", bundle.getString("layout.title"));
+    }
+
     private static <T> Optional<T> getById(List<T> tList, Integer id) {
         if (tList == null || id == null) {
             return Optional.empty();
@@ -86,5 +120,6 @@ public class MvcControllersUtil {
         }
         return Optional.empty();
     }
+
 
 }
