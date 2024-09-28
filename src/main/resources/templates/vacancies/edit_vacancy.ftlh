@@ -14,7 +14,7 @@ notLoggedInMessage=notLoggedInMessage
 availableActions=availableActions
 >
 
-    <#assign title = vacancyPopUpSuccessTitle!"Default Title">
+    <#assign title = vacancyEditPopUpSuccessTitle!"Default Title">
     <#assign name = vacancyDto.name!"Default Name">
     <#assign updated = entityUpdated!false>
 
@@ -120,7 +120,7 @@ availableActions=availableActions
 
                 // Set the modal title and body content
                 successModalElement.querySelector('.modal-title').textContent = "${title}";
-                successModalElement.querySelector('.modal-body').textContent = `${vacancyPopUpVacancy} ${name} ${vacancyPopUpSuccessfullyEdited}`;
+                successModalElement.querySelector('.modal-body').textContent = `${vacancyEditPopUpVacancy} ${name} ${vacancyEditPopUpSuccessfullyEdited}`;
 
                 // Initialize and show the modal
                 const successModal = new bootstrap.Modal(successModalElement);

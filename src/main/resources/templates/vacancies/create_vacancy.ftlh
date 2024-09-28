@@ -14,7 +14,7 @@ notLoggedInMessage=notLoggedInMessage
 availableActions=availableActions
 >
 
-    <#assign title = successMessage!"Default Title">
+    <#assign title = '${vacancyCreatePopupSuccessMessage}'!"Default Title">
     <#assign name = vacancyDto.name!"Default Name">
     <#assign updated = entityUpdated!false>
 
@@ -24,18 +24,17 @@ availableActions=availableActions
     <@modalTemplates.modal modalTitle=title modalName=name />
 
     <div class="container mt-4">
-        <h2>Create Vacancy</h2>
+        <h2>${vacancyCreateTitle}</h2>
         <#if errorMessage??>
             <div class="alert alert-danger" role="alert">
                 ${errorMessage}
             </div>
         </#if>
 
-
         <!-- Display the list of errors in a styled alert box with a title -->
         <#if bindingResult?has_content>
             <div class="alert alert-danger" role="alert">
-                <h4 class="alert-heading">Please correct the following errors:</h4>
+                <h4 class="alert-heading">${vacancyCreateErrorMessage}</h4>
                 <hr>
                 <table class="table table-bordered table-hover">
                     <thead>
@@ -61,7 +60,7 @@ availableActions=availableActions
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
             </#if>
             <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
+                <label for="name" class="form-label">${vacancyCreateLabelName}</label>
                 <input type="text" class="form-control" id="name" name="name"
                        value="${vacancyDto.name!'Software Engineer'}" required>
                 <#if bindingResult?has_content && bindingResult.hasFieldErrors("name")>
@@ -70,7 +69,7 @@ availableActions=availableActions
             </div>
 
             <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
+                <label for="description" class="form-label">${vacancyCreateLabelDescription}</label>
                 <input type="text" class="form-control" id="description" name="description"
                        value="${vacancyDto.name!'Exciting opportunity for a skilled software engineer'}" required>
                 <#if bindingResult?has_content && bindingResult.hasFieldErrors("name")>
@@ -79,7 +78,7 @@ availableActions=availableActions
             </div>
 
             <div class="mb-3">
-                <label for="category_id" class="form-label">Category</label>
+                <label for="category_id" class="form-label">${vacancyCreateLabelCategory}</label>
                 <select class="form-select" id="category_id" name="categoryId" required>
                     <#list categories as category>
                         <option value="${category.id}"
@@ -92,7 +91,7 @@ availableActions=availableActions
             </div>
 
             <div class="mb-3">
-                <label for="salary" class="form-label">Salary</label>
+                <label for="salary" class="form-label">${vacancyCreateLabelSalary}</label>
                 <input type="number" class="form-control" id="salary" name="salary" value="${vacancyDto.salary!'42000'}" required>
                 <#if bindingResult?has_content && bindingResult.hasFieldErrors("salary")>
                     <span class="error-message">${bindingResult.getFieldError("salary").defaultMessage}</span>
@@ -100,7 +99,7 @@ availableActions=availableActions
             </div>
 
             <div class="mb-3">
-                <label for="expFrom" class="form-label">Experience From</label>
+                <label for="expFrom" class="form-label">${vacancyCreateLabelExpFrom}</label>
                 <input type="number" class="form-control" id="expFrom" name="expFrom"
                        value="${vacancyDto.expFrom!0}" required>
                 <#if bindingResult?has_content && bindingResult.hasFieldErrors("expFrom")>
@@ -109,7 +108,7 @@ availableActions=availableActions
             </div>
 
             <div class="mb-3">
-                <label for="expTo" class="form-label">Experience To</label>
+                <label for="expTo" class="form-label">${vacancyCreateLabelExpTo}</label>
                 <input type="number" class="form-control" id="expTo" name="expTo"
                        value="${vacancyDto.expTo!1}" required>
                 <#if bindingResult?has_content && bindingResult.hasFieldErrors("expTo")>
@@ -120,7 +119,7 @@ availableActions=availableActions
             <div class="mb-3 form-check form-switch">
                 <input type="checkbox" class="form-check-input custom-switch-green" id="is_active" name="isActive"
                        <#if vacancyDto.isActive?? && vacancyDto.isActive == true || !vacancyDto.isActive??>checked</#if>>
-                <label class="form-check-label" for="is_active">Is Active</label>
+                <label class="form-check-label" for="is_active">${vacancyCreateLabelIsActive}</label>
                 <#if bindingResult?has_content && bindingResult.hasFieldErrors("isActive")>
                     <span class="error-message">${bindingResult.getFieldError("isActive").defaultMessage}</span>
                 </#if>
@@ -151,7 +150,7 @@ availableActions=availableActions
 
                 // Set the modal title and body content
                 successModalElement.querySelector('.modal-title').textContent = `${title}`;
-                successModalElement.querySelector('.modal-body').textContent = `Vacancy ${name} successfully created`;
+                successModalElement.querySelector('.modal-body').textContent = `${vacancyCreatePopupVacancy} ${name} ${vacancyCreatePopupSuccessfullyCreated}`;
 
                 // Initialize and show the modal
                 const successModal = new bootstrap.Modal(successModalElement);

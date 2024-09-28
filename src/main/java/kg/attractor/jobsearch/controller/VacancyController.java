@@ -72,6 +72,38 @@ public class VacancyController {
         model.addAttribute("vacancyCreatedDate", bundle.getString("vacancy.createdDate"));
         model.addAttribute("vacancyUpdatedDate", bundle.getString("vacancy.updatedDate"));
         model.addAttribute("vacancyDetails", bundle.getString("vacancy.details"));
+        model.addAttribute("vacancyAlreadyRespondedToVacancy", bundle.getString("vacancy.alreadyRespondedToVacancy"));
+        model.addAttribute("vacancySelectResume", bundle.getString("vacancy.selectResume"));
+        model.addAttribute("vacancyCompany", bundle.getString("vacancy.company"));
+        model.addAttribute("vacancyBackToProfile", bundle.getString("vacancy.button.backToProfile"));
+        model.addAttribute("vacancyRespondedNoVacancies", bundle.getString("vacancies.user.responded.noVacancies"));
+        model.addAttribute("vacancyUserRespondedTo", bundle.getString("vacancies.user.responded.youHaveResponded"));
+        model.addAttribute("vacanciesVacancies", bundle.getString("vacancies.user.responded.vacancies"));
+
+        model.addAttribute("vacancyCreateTitle", bundle.getString("vacancy.create.title"));
+        model.addAttribute("vacancyCreateErrorMessage", bundle.getString("vacancy.create.errorMessage"));
+        model.addAttribute("vacancyCreateUpdatedMessage", bundle.getString("vacancy.create.updatedMessage"));
+        model.addAttribute("vacancyCreateUpdatedYes", bundle.getString("vacancy.create.updatedYes"));
+        model.addAttribute("vacancyCreateUpdatedNo", bundle.getString("vacancy.create.updatedNo"));
+        model.addAttribute("vacancyCreateLabelName", bundle.getString("vacancy.create.label.name"));
+        model.addAttribute("vacancyCreateLabelDescription", bundle.getString("vacancy.create.label.description"));
+        model.addAttribute("vacancyCreateLabelCategory", bundle.getString("vacancy.create.label.category"));
+        model.addAttribute("vacancyCreateLabelSalary", bundle.getString("vacancy.create.label.salary"));
+        model.addAttribute("vacancyCreateLabelExpFrom", bundle.getString("vacancy.create.label.expFrom"));
+        model.addAttribute("vacancyCreateLabelExpTo", bundle.getString("vacancy.create.label.expTo"));
+        model.addAttribute("vacancyCreateLabelIsActive", bundle.getString("vacancy.create.label.isActive"));
+        model.addAttribute("vacancyCreateErrorName", bundle.getString("vacancy.create.error.name"));
+        model.addAttribute("vacancyCreateErrorDescription", bundle.getString("vacancy.create.error.description"));
+        model.addAttribute("vacancyCreateErrorCategory", bundle.getString("vacancy.create.error.category"));
+        model.addAttribute("vacancyCreateErrorSalary", bundle.getString("vacancy.create.error.salary"));
+        model.addAttribute("vacancyCreateErrorExpFrom", bundle.getString("vacancy.create.error.expFrom"));
+        model.addAttribute("vacancyCreateErrorExpTo", bundle.getString("vacancy.create.error.expTo"));
+        model.addAttribute("vacancyCreateErrorIsActive", bundle.getString("vacancy.create.error.isActive"));
+        model.addAttribute("vacancyCreatePopupSuccessMessage", bundle.getString("vacancy.create.popup.successTitle"));
+        model.addAttribute("vacancyCreatePopupVacancy", bundle.getString("vacancy.create.popup.vacancy"));
+        model.addAttribute("vacancyCreatePopupSuccessfullyCreated", bundle.getString("vacancy.create.popup.successfullyCreated"));
+
+
         model.addAttribute("vacancyEditTitle", bundle.getString("vacancy.edit.title"));
         model.addAttribute("vacancyEditName", bundle.getString("vacancy.edit.name"));
         model.addAttribute("vacancyEditDescription", bundle.getString("vacancy.edit.description"));
@@ -85,21 +117,17 @@ public class VacancyController {
         model.addAttribute("vacancyEditActiveNo", bundle.getString("vacancy.edit.activeNo"));
         model.addAttribute("vacancyEditAuthorId", bundle.getString("vacancy.edit.authorId"));
         model.addAttribute("vacancyEditSubmit", bundle.getString("vacancy.edit.submit"));
-        model.addAttribute("vacancyPopUpSuccessTitle", bundle.getString("vacancy.edit.popup.successTitle"));
-        model.addAttribute("vacancyPopUpVacancy", bundle.getString("vacancy.edit.popup.vacancy"));
-        model.addAttribute("vacancyPopUpSuccessfullyEdited", bundle.getString("vacancy.edit.popup.successfullyEdited"));
-        model.addAttribute("vacancyAlreadyRespondedToVacancy", bundle.getString("vacancy.alreadyRespondedToVacancy"));
+        model.addAttribute("vacancyEditPopUpSuccessTitle", bundle.getString("vacancy.edit.popup.successTitle"));
+        model.addAttribute("vacancyEditPopUpVacancy", bundle.getString("vacancy.edit.popup.vacancy"));
+        model.addAttribute("vacancyEditPopUpSuccessfullyEdited", bundle.getString("vacancy.edit.popup.successfullyEdited"));
+
         model.addAttribute("vacancyButtonApply", bundle.getString("vacancy.button.apply"));
         model.addAttribute("vacancyButtonBack", bundle.getString("vacancy.button.back"));
         model.addAttribute("vacancyButtonInfo", bundle.getString("vacancy.button.info"));
         model.addAttribute("vacancyButtonClose", bundle.getString("vacancy.button.close"));
         model.addAttribute("vacancyButtonConfirmChanges", bundle.getString("vacancy.button.confirmChanges"));
-        model.addAttribute("vacancySelectResume", bundle.getString("vacancy.selectResume"));
-        model.addAttribute("vacancyCompany", bundle.getString("vacancy.company"));
-        model.addAttribute("vacancyBackToProfile", bundle.getString("vacancy.button.backToProfile"));
-        model.addAttribute("vacancyRespondedNoVacancies", bundle.getString("vacancies.user.responded.noVacancies"));
-        model.addAttribute("vacancyUserRespondedTo", bundle.getString("vacancies.user.responded.youHaveResponded"));
-        model.addAttribute("vacanciesVacancies", bundle.getString("vacancies.user.responded.vacancies"));
+        model.addAttribute("vacancyButtonCreate", bundle.getString("vacancy.button.createVacancy"));
+
     }
 
     @GetMapping()
@@ -175,7 +203,7 @@ public class VacancyController {
             vacancyDto.setCreatedDate(LocalDateTime.now());
             vacancyDto.setUpdateTime(LocalDateTime.now());
             vacancyService.createVacancy(vacancyDto);
-            model.addAttribute("successMessage", "vacancy added successfully");
+//            model.addAttribute("successMessage", "vacancy added successfully");
             model.addAttribute("entityUpdated", true);
 //            return "redirect:/profile"; // Redirect to the profile
             return "vacancies/create_vacancy";
