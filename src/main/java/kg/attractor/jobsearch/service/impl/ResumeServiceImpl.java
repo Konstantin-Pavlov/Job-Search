@@ -8,6 +8,9 @@ import kg.attractor.jobsearch.repository.ResumeRepository;
 import kg.attractor.jobsearch.service.ResumeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -42,6 +45,16 @@ public class ResumeServiceImpl implements ResumeService {
                 .build()
         ));
         return dtos;
+    }
+
+    @Override
+    public Page<ResumeDto> getResumes(Pageable pageable) {
+        Page<Resume> resumes = resumeRepository.findAll(pageable);
+        List<ResumeDto> resumeDtos = resumes.stream()
+                .map(resumeMapper::toResumeDto)
+                .toList();
+        return new PageImpl<>(resumeDtos, pageable, resumes.getTotalElements());
+
     }
 
     @Override

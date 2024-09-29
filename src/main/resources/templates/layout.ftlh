@@ -1,6 +1,7 @@
 <#import "spring.ftl" as spring>
 <#macro layout title home create profile logout login register
-        loggedInMessage roleMessage notLoggedInMessage availableActions>
+loggedInMessage roleMessage notLoggedInMessage availableActions
+>
 
     <!doctype html>
     <html lang="en">
@@ -28,38 +29,38 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-2 fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">${title}</a>
-<#--            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"-->
-<#--                    data-bs-target="#navbarSupportedContent"-->
-<#--                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
-<#--                <span class="navbar-toggler-icon"></span>-->
-<#--            </button>-->
-<#--            <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
-<#--                <ul class="navbar-nav me-auto mb-2 mb-lg-0">-->
-<#--                    <li class="nav-item">-->
-<#--                        <a class="nav-link active" aria-current="page" href="/">Home</a>-->
-<#--                    </li>-->
-<#--                    <li class="nav-item">-->
-<#--                        <a class="nav-link" href="/create">Create</a>-->
-<#--                    </li>-->
-<#--                    <li class="nav-item dropdown">-->
-<#--                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"-->
-<#--                           data-bs-toggle="dropdown" aria-expanded="false">-->
-<#--                            Dropdown-->
-<#--                        </a>-->
-<#--                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">-->
-<#--                            <li><a class="dropdown-item" href="#">Action</a></li>-->
-<#--                            <li><a class="dropdown-item" href="#">Another action</a></li>-->
-<#--                            <li>-->
-<#--                                <hr class="dropdown-divider">-->
-<#--                            </li>-->
-<#--                            <li><a class="dropdown-item" href="#">Something else here</a></li>-->
-<#--                        </ul>-->
-<#--                    </li>-->
-<#--                    <li class="nav-item">-->
-<#--                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
-<#--                    </li>-->
-<#--                </ul>-->
-<#--            </div>-->
+            <#--            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"-->
+            <#--                    data-bs-target="#navbarSupportedContent"-->
+            <#--                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
+            <#--                <span class="navbar-toggler-icon"></span>-->
+            <#--            </button>-->
+            <#--            <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
+            <#--                <ul class="navbar-nav me-auto mb-2 mb-lg-0">-->
+            <#--                    <li class="nav-item">-->
+            <#--                        <a class="nav-link active" aria-current="page" href="/">Home</a>-->
+            <#--                    </li>-->
+            <#--                    <li class="nav-item">-->
+            <#--                        <a class="nav-link" href="/create">Create</a>-->
+            <#--                    </li>-->
+            <#--                    <li class="nav-item dropdown">-->
+            <#--                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"-->
+            <#--                           data-bs-toggle="dropdown" aria-expanded="false">-->
+            <#--                            Dropdown-->
+            <#--                        </a>-->
+            <#--                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">-->
+            <#--                            <li><a class="dropdown-item" href="#">Action</a></li>-->
+            <#--                            <li><a class="dropdown-item" href="#">Another action</a></li>-->
+            <#--                            <li>-->
+            <#--                                <hr class="dropdown-divider">-->
+            <#--                            </li>-->
+            <#--                            <li><a class="dropdown-item" href="#">Something else here</a></li>-->
+            <#--                        </ul>-->
+            <#--                    </li>-->
+            <#--                    <li class="nav-item">-->
+            <#--                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
+            <#--                    </li>-->
+            <#--                </ul>-->
+            <#--            </div>-->
 
             <#assign known =  SPRING_SECURITY_CONTEXT??>
             <#if known>
@@ -67,8 +68,8 @@
                 user = SPRING_SECURITY_CONTEXT.authentication.principal
                 name = user.getUsername()
                 >
-            <div class="navbar-text">
-<#--                <a href="/profile/${name}" class="text-light m-2 m-sm-0"> link to the profile by email-->
+                <div class="navbar-text">
+                    <#--                <a href="/profile/${name}" class="text-light m-2 m-sm-0"> link to the profile by email-->
                     <span class="navbar-text">${loggedInMessage} ${name}!</span>
                     <#list user.authorities as auth>
                         <span class=navbar-text">${roleMessage} ${auth}</span>
@@ -76,8 +77,8 @@
                             /
                         </#if>
                     </#list>
-<#--                </a>-->
-            </div>
+                    <#--                </a>-->
+                </div>
                 <a href="/profile" class="btn btn-outline-info ms-2">${profile}</a>
                 <a href="/logout" class="btn btn-outline-info m-2" id="logout">${logout}</a>
 
