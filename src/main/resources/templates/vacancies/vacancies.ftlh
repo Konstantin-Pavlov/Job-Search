@@ -39,7 +39,7 @@
                 <ul class="pagination">
                     <#if currentPage?is_number && (currentPage > 0)>
                         <li class="page-item">
-                            <a class="page-link" href="/vacancies?page=${currentPage - 1}&size=${pageSize}">Previous</a>
+                            <a class="page-link" href="/vacancies?page=${currentPage - 1}&size=${pageSize}">${paginationButtonPrevious}</a>
                         </li>
                     </#if>
                     <#if totalPages?is_number>
@@ -51,7 +51,7 @@
                     </#if>
                     <#if currentPage?is_number && (currentPage < (totalPages - 1))>
                         <li class="page-item">
-                            <a class="page-link" href="/vacancies?page=${currentPage + 1}&size=${pageSize}">Next</a>
+                            <a class="page-link" href="/vacancies?page=${currentPage + 1}&size=${pageSize}">${paginationButtonNext}</a>
                         </li>
                     </#if>
                 </ul>

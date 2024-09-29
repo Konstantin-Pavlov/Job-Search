@@ -3,7 +3,6 @@ package kg.attractor.jobsearch.util;
 import kg.attractor.jobsearch.dto.RespondedApplicantDto;
 import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.VacancyDto;
-import kg.attractor.jobsearch.repository.RespondedApplicantRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -100,6 +99,10 @@ public class MvcControllersUtil {
         model.addAttribute("notLoggedInMessage", bundle.getString("layout.not.logged.in"));
         model.addAttribute("availableActions", bundle.getString("layout.actions.available"));
         model.addAttribute("title", bundle.getString("layout.title"));
+
+
+        model.addAttribute("paginationButtonPrevious", bundle.getString("pagination.button.previous"));
+        model.addAttribute("paginationButtonNext", bundle.getString("pagination.button.next"));
     }
 
     private static <T> Optional<T> getById(List<T> tList, Integer id) {
