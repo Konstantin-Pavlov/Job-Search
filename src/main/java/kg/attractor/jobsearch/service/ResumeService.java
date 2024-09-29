@@ -1,11 +1,15 @@
 package kg.attractor.jobsearch.service;
 
 import kg.attractor.jobsearch.dto.ResumeDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface ResumeService {
     List<ResumeDto> getResumes();
+
+    Page<ResumeDto> getResumes(Pageable pageable);
 
     ResumeDto getResumeById(Integer id);
 
@@ -26,4 +30,5 @@ public interface ResumeService {
     void editResume(ResumeDto resumeDto);
 
     void updateResume(Integer resumeId);
+
 }

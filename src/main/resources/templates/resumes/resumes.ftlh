@@ -13,11 +13,11 @@
          availableActions=availableActions
 >
     <div class="container mt-4">
-        <div class="row d-flex justify-content-between">
-            <#list resumes as resume>
-                <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card h-100 shadow-sm">
-                        <img src="/static/images/default_image.jpg" class="card-img-top" alt="No image available">
+        <div class="row">
+            <#list resumes.content as resume>
+                <div class="col-6 col-md-4 mb-4 d-flex">
+                    <div class="card h-100 shadow-sm w-100">
+<#--                        <img src="/static/images/default_image.jpg" class="card-img-top" alt="No image available">-->
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">${resume.name}</h5>
                             <p class="card-text mb-2"><strong>${resumeSalary}:</strong> ${resume.getFormattedCreatedDate()}</p>
@@ -27,6 +27,31 @@
                 </div>
             </#list>
         </div>
+
+        <div class="pagination-container">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <#if currentPage?is_number && (currentPage > 0)>
+                        <li class="page-item">
+                            <a class="page-link" href="/resumes?page=${currentPage - 1}&size=${pageSize}">Previous</a>
+                        </li>
+                    </#if>
+                    <#if totalPages?is_number>
+                        <#list 0..totalPages - 1 as page>
+                            <li class="page-item <#if page == currentPage>active</#if>">
+                                <a class="page-link" href="/resumes?page=${page}&size=${pageSize}">${page + 1}</a>
+                            </li>
+                        </#list>
+                    </#if>
+                    <#if currentPage?is_number && (currentPage < (totalPages - 1))>
+                        <li class="page-item">
+                            <a class="page-link" href="/resumes?page=${currentPage + 1}&size=${pageSize}">Next</a>
+                        </li>
+                    </#if>
+                </ul>
+            </nav>
+        </div>
+
         <!-- Centering the Home button -->
         <div class="row">
             <div class="col text-center"> <!-- This div centers the button -->
