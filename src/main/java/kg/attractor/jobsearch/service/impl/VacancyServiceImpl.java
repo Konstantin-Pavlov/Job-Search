@@ -1,7 +1,5 @@
 package kg.attractor.jobsearch.service.impl;
 
-import kg.attractor.jobsearch.dao.VacancyDao;
-import kg.attractor.jobsearch.dto.ResumeDto;
 import kg.attractor.jobsearch.dto.VacancyDto;
 import kg.attractor.jobsearch.exception.CategoryNotFoundException;
 import kg.attractor.jobsearch.exception.VacancyNotFoundException;
@@ -10,11 +8,13 @@ import kg.attractor.jobsearch.mapper.VacancyMapper;
 import kg.attractor.jobsearch.model.Category;
 import kg.attractor.jobsearch.model.Vacancy;
 import kg.attractor.jobsearch.repository.CategoryRepository;
-import kg.attractor.jobsearch.repository.RespondedApplicantRepository;
 import kg.attractor.jobsearch.repository.VacancyRepository;
 import kg.attractor.jobsearch.service.VacancyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -25,7 +25,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class VacancyServiceImpl implements VacancyService {
-    private final VacancyDao vacancyDao;
 
     private final VacancyRepository vacancyRepository;
     private final CategoryRepository categoryRepository;
@@ -42,6 +41,15 @@ public class VacancyServiceImpl implements VacancyService {
 //                .map(vacancyMapper::toVacancyDto)
                 .map(CustomVacancyMapper::toVacancyDto)
                 .toList();
+    }
+
+    @Override
+    public Page<VacancyDto> getVacancies(Pageable pageable) {
+        Page<Vacancy> vacancies = vacancyRepository.findAll(pageable);
+        List<VacancyDto> vacancyDtos = vacancies.stream()
+                .map(vacancyMapper::toVacancyDto)
+                .toList();
+        return new PageImpl<>(vacancyDtos, pageable, vacancies.getTotalElements());
     }
 
     @Override
