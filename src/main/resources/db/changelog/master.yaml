@@ -35,7 +35,7 @@ databaseChangeLog:
 
   # inserts
   - include:
-      file: /db/changelog/initial/data/18-03-2024--6-insert_users.sql
+      file: db/changelog/initial/data/18-03-2024--8-insert_users.sql
   - include:
       file: /db/changelog/initial/data/26-03-2024--01-insert_authorities.sql
   - include:
