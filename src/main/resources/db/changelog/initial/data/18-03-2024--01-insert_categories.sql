@@ -1,4 +1,4 @@
-INSERT INTO categories (NAME, PARENT_ID)
+INSERT INTO CATEGORIES (NAME, PARENT_ID)
 VALUES ('Engineering', 2),
        ('Software Development', 1),
        ('Mechanical Engineering', 1),

@@ -1,5 +1,6 @@
 package kg.attractor.jobsearch.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,8 +31,13 @@ public class Vacancy {
     private String description;
     private Integer categoryId;
     private Integer salary;
+
+    @Column(name = "exp_from")
     private Integer expFrom;
+
+    @Column(name = "exp_to")
     private Integer expTo;
+
     private Boolean isActive;
     private Integer authorId;
     private LocalDateTime createdDate;

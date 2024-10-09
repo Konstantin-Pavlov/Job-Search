@@ -1,4 +1,4 @@
-INSERT INTO vacancies (NAME, DESCRIPTION, CATEGORY_ID, SALARY, EXP_FROM, EXP_TO, IS_ACTIVE, AUTHOR_ID, CREATED_DATE, UPDATE_TIME)
+INSERT INTO VACANCIES (NAME, DESCRIPTION, CATEGORY_ID, SALARY, EXP_FROM, EXP_TO, IS_ACTIVE, AUTHOR_ID, CREATED_DATE, UPDATE_TIME)
 VALUES
     ('Software Engineer', 'Exciting opportunity for a skilled software engineer', 8, 95000.00, 1, 3, true, 3, '2024-03-12', '2024-03-12'),
     ('Marketing Specialist', 'Seeking a creative marketing specialist to join our team', 4, 80000.00, 0, 1, true, 5, '2024-03-12', '2024-03-12'),
