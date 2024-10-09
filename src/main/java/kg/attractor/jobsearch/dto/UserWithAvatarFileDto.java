@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,12 +34,12 @@ public class UserWithAvatarFileDto {
     @Email
     String email;
 
-//    @Pattern(regexp = "^(?=.\\d)(?=.[a-z])(?=.[A-Z])(?=.[a-zA-Z]).+$", message = "Should contain at least one uppercase letter, one number")
+    //    @Pattern(regexp = "^(?=.\\d)(?=.[a-z])(?=.[A-Z])(?=.[a-zA-Z]).+$", message = "Should contain at least one uppercase letter, one number")
 //    @NotBlank(message = "Password must not be blank")
 //    @Size(min = 3, max = 60, message = "Password length must be from {min} to {max} characters")
     String password;
 
-    @Pattern(regexp = "^\\+996\\d{7}$", message = "phone number is invalid. Valid phone number format example: +9961112222")
+    @Pattern(regexp = "^\\+996\\d{9}$", message = "phone number is invalid. Valid phone number format example: +996123456789")
     @JsonProperty("phone_number")
     String phoneNumber;
     MultipartFile avatar;
