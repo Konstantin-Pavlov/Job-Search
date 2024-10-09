@@ -68,7 +68,6 @@ public class MvcControllersUtil {
         return map;
     }
 
-    // todo - add to context?
     public static ResourceBundle getResourceBundleSetLocaleSetProperties(Model model, Locale locale) {
         // If locale is null, set it to English
 //        MvcControllersUtil.setLocale(locale);
